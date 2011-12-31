@@ -7,6 +7,7 @@
   <name>Husio Home Automation </name>
   <modules>
   	<module>weather</module>
+  	<module>config</module>
   </modules>
   <repositories>
     <repository>
