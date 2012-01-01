@@ -5,9 +5,21 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Husio Home Automation </name>
+  <dependencies>
+  	<dependency>
+  		<groupId>org.testng</groupId>
+  		<artifactId>testng</artifactId>
+  		<version>6.0.1</version>
+  		<type>jar</type>
+  		<scope>compile</scope>
+  	</dependency>
+  </dependencies>
   <modules>
   	<module>weather</module>
   	<module>config</module>
+  	<module>wh1080</module>
+  	<module>usb</module>
+  	<module>simulator</module>
   </modules>
   <repositories>
     <repository>
