@@ -18,10 +18,13 @@ public class WeatherApplication {
      * @throws IOException 
      */
     public static void main(String[] args) throws IOException {
-	PropertyConfigurator.configure(configuration);
+	setupLogSystem();
 	log.info("Husio home weather station starting...");
     }
     
+    public static void setupLogSystem(){
+	PropertyConfigurator.configure(configuration);
+    }
 
     /**
      * Composes the configuration properties by merging User Properties with System Properties and Default Properties.

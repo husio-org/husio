@@ -43,13 +43,11 @@ public class WeatherUnitTest {
 	assert(windSpeed.doubleValue(WeatherUnits.KILOMETERS_PER_HOUR)==36);
 	
 	// check m/h
-	log.debug(windSpeed.toSI()+" equals "+lf.format(windSpeed.to(WeatherUnits.MILES_PER_HOUR)));
+	log.debug(windSpeed.toSI()+" equals "+windSpeed.to(WeatherUnits.MILES_PER_HOUR));
 	
 	// check Knots
 	log.debug(windSpeed.toSI()+" equals "+windSpeed.to(WeatherUnits.KNOT));
-
-
-
+	
     }
     
     
