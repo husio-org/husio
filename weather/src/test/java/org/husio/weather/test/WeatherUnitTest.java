@@ -21,7 +21,7 @@ import org.testng.annotations.Test;
  */
 public class WeatherUnitTest {
     
-    private static final Logger log = LoggerFactory.getLogger(WeatherApplication.class);
+    private static final Logger log = LoggerFactory.getLogger(WeatherUnitTest.class);
     
     @BeforeTest
     public void init(){

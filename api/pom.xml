@@ -7,20 +7,14 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<groupId>org.husio</groupId>
-	<artifactId>wh1080</artifactId>
+	<artifactId>api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Fine Offset Electronics WH1080 Weather Station </name>
 	<dependencies>
 		<dependency>
-			<groupId>org.husio</groupId>
-			<artifactId>usb</artifactId>
-			<version>${project.version}</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.husio</groupId>
-			<artifactId>api</artifactId>
-			<version>${project.version}</version>
+			<groupId>javax.measure</groupId>
+			<artifactId>jsr-275</artifactId>
+			<version>1.0.0</version>
+			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
