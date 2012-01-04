@@ -6,6 +6,7 @@ import javax.measure.Measure;
 import javax.measure.quantity.Velocity;
 import javax.measure.unit.format.LocalFormat;
 
+import org.husio.Configuration;
 import org.husio.weather.WeatherApplication;
 import org.husio.weather.WeatherUnits;
 import org.slf4j.Logger;
@@ -25,9 +26,8 @@ public class WeatherUnitTest {
     
     @BeforeTest
     public void init(){
-	WeatherApplication.setupLogSystem();
+	Configuration.setupLogSystem();
     }
-    
     
     @Test
     public void windUnitConversionTest(){

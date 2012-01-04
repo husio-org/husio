@@ -12,6 +12,12 @@
 	<name>USB Core </name>
 	<dependencies>
 		<dependency>
+			<groupId>org.husio</groupId>
+			<artifactId>config</artifactId>
+			<version>${project.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
 			<groupId>javax.usb</groupId>
 			<artifactId>jsr80</artifactId>
 			<version>1.0.1</version>
