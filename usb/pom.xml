@@ -13,9 +13,22 @@
 	<dependencies>
 		<dependency>
 			<groupId>javax.usb</groupId>
-			<artifactId>jsr-80</artifactId>
+			<artifactId>jsr80</artifactId>
 			<version>1.0.1</version>
 			<scope>compile</scope>
+		</dependency>
+			<dependency>
+			<groupId>javax.usb</groupId>
+			<artifactId>jsr80_ri</artifactId>
+			<version>1.0.1</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.usb</groupId>
+			<artifactId>jsr80_linux</artifactId>
+			<version>1.0.1</version>
+			<scope>compile</scope>
+			<classifier>linux</classifier>
 		</dependency>
 	</dependencies>
 </project>

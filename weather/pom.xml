@@ -43,6 +43,18 @@
   		<scope>compile</scope>
   	</dependency>
   	<dependency>
+  		<groupId>org.husio</groupId>
+  		<artifactId>wh1080</artifactId>
+  		<version>${project.version}</version>
+  		<scope>compile</scope>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.husio</groupId>
+  		<artifactId>simulator</artifactId>
+  		<version>${project.version}</version>
+  		<scope>compile</scope>
+  	</dependency>
+  	<dependency>
   		<groupId>javax.measure</groupId>
   		<artifactId>jsr-275</artifactId>
   		<version>1.0.0</version>

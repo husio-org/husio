@@ -12,7 +12,7 @@
 			<artifactId>testng</artifactId>
 			<version>6.0.1</version>
 			<type>jar</type>
-			<scope>compile</scope>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	<modules>
@@ -45,7 +45,7 @@
 					<artifactItems>
 						<artifactItem>
 							<groupId>javax.usb</groupId>
-							<artifactId>jsr-80</artifactId>
+							<artifactId>jsr80</artifactId>
 							<version>1.0.1</version>
 							<packaging>jar</packaging>
 							<downloadUrl>http://downloads.sourceforge.net/project/javax-usb/javax.usb%20API/{version}/jsr80-{version}.jar</downloadUrl>
@@ -53,12 +53,31 @@
 						</artifactItem>
 						<artifactItem>
 							<groupId>javax.usb</groupId>
-							<artifactId>linux-ri</artifactId>
-							<version>1.0.2</version>
-							<packaging>zip</packaging>
-							<downloadUrl>http://downloads.sourceforge.net/project/javax-usb/javax.usb%20RI%20for%20Linux/{version}/javax-usb-ri-linux_{version}.zip</downloadUrl>							
-							<checksum>fcbbd829f0637098a79a6afff3d91fce</checksum>
-						</artifactItem>						
+							<artifactId>jsr80_ri</artifactId>
+							<version>1.0.1</version>
+							<packaging>jar</packaging>
+							<downloadUrl>http://downloads.sourceforge.net/project/javax-usb/javax.usb%20RI%20%28OS-Independent%29/{version}/jsr80_ri-{version}.jar</downloadUrl>
+							<checksum>55ec34fbe446648237f0d51b6194c208f200fd30</checksum>
+						</artifactItem>
+						<artifactItem>
+							<groupId>javax.usb</groupId>
+							<artifactId>jsr80_linux</artifactId>
+							<version>1.0.1</version>
+							<packaging>jar</packaging>
+							<classifier>linux</classifier>
+							<downloadUrl>http://downloads.sourceforge.net/project/javax-usb/javax.usb%20RI%20for%20Linux/{version}/jsr80_linux-{version}.jar</downloadUrl>
+							<checksum>bddb78c7ee3df78fc596466382b4d67b9baebe0b</checksum>
+						</artifactItem>
+						<artifactItem>
+							<groupId>javax.usb</groupId>
+							<artifactId>libJavaxUsb</artifactId>
+							<version>1.0.1</version>
+							<packaging>so</packaging>
+							<classifier>linux</classifier>
+							<downloadUrl>http://downloads.sourceforge.net/project/javax-usb/javax.usb%20RI%20for%20Linux/{version}/libJavaxUsb.so.{version}</downloadUrl>
+							<checksum>28610bd4d120870d5461ae1645794c5383834580</checksum>
+							<install>false</install>
+						</artifactItem>
 					</artifactItems>
 				</configuration>
 				<executions>
