@@ -28,8 +28,10 @@ public class UsbTest {
 	log.debug("Opening USB driver");
 	UsbServices services = UsbHostManager.getUsbServices();
 	UsbHub root=services.getRootUsbHub();
-	List <UsbDevice> devices=root.getAttachedUsbDevices();
+	List devices=root.getAttachedUsbDevices();
+	List ports=root.getUsbPorts();
 	log.debug("The number of devices connected is:"+devices.size());
+	log.debug("The number of ports is:"+ports.size());
     }
 
 }
