@@ -1,5 +1,7 @@
 package org.husio.test.wh1080;
 
+import java.util.List;
+
 import javax.usb.UsbDevice;
 
 import org.husio.Configuration;
@@ -25,6 +27,16 @@ public class WH1080Test {
 	UsbDevice device=UsbUtils.findDevice(WH1080.USB_VENDOR_ID, WH1080.USB_PRODUCT_ID);
 	if(device!=null) log.debug("The device was found!!");
 	else log.debug("The device was not found");
+    }
+    
+    @Test(enabled=true)
+    public void findStationDeviceInfo() throws Exception{
+	log.debug("Finding Information about Station WH1080");
+	UsbDevice device=UsbUtils.findDevice(WH1080.USB_VENDOR_ID, WH1080.USB_PRODUCT_ID);
+	assert device!=null : "Device not found";
+	log.debug("Device configured:"+device.isConfigured());
+	List confs=device.getUsbConfigurations();
+	log.debug("Number of configurations active:"+confs.size());
     }
     
 }
