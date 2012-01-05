@@ -48,14 +48,15 @@ public class UsbUtils {
 	} else {
 	    /* We know it's a hub, so cast it. */
 	    usbHub = (UsbHub) usbDevice;
+	    
+	    List attachedUsbDevices = usbHub.getAttachedUsbDevices();
+	    for (int i = 0; i < attachedUsbDevices.size(); i++) {
+		UsbDevice device = (UsbDevice) attachedUsbDevices.get(i);
+		UsbDevice found= searchDeviceFrom(device, vendor,product );
+		if (found!=null) return found;
+	    }	
+	    log.warn("The requested device could not be found");
 	}
-
-	List attachedUsbDevices = usbHub.getAttachedUsbDevices();
-	for (int i = 0; i < attachedUsbDevices.size(); i++) {
-	    UsbDevice device = (UsbDevice) attachedUsbDevices.get(i);
-	    searchDeviceFrom(device, vendor,product );
-	}	
-	log.warn("The requested device could not be found");
 	return null;
     }
 
