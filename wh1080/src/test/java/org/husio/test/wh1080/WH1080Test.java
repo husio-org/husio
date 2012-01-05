@@ -2,6 +2,7 @@ package org.husio.test.wh1080;
 
 import java.util.List;
 
+import javax.usb.UsbConfiguration;
 import javax.usb.UsbDevice;
 
 import org.husio.Configuration;
@@ -37,6 +38,9 @@ public class WH1080Test {
 	log.debug("Device configured:"+device.isConfigured());
 	List confs=device.getUsbConfigurations();
 	log.debug("Number of configurations active:"+confs.size());
+	UsbConfiguration conf=device.getActiveUsbConfiguration();
+	List interfaces=conf.getUsbInterfaces();
+	log.debug("Number of interfaces in active configuration:"+interfaces.size());
     }
     
 }
