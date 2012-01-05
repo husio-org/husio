@@ -48,6 +48,10 @@ public class WH1080Test {
 	log.debug("The Interface is active:"+ui.isActive());
 	log.debug("The Interface is claimed:"+ui.isClaimed());
 	log.debug("The Interface has num settings:"+ui.getNumSettings());
+	log.debug("The Interface class:"+ui.getUsbInterfaceDescriptor().bInterfaceClass());
+	log.debug("The Interface sub-class:"+ui.getUsbInterfaceDescriptor().bInterfaceSubClass());
+	log.debug("The Interface sub-class:"+ui.getUsbInterfaceDescriptor().bInterfaceProtocol());
+
 
 	List endpoints=ui.getUsbEndpoints();
 	log.debug("Number of endpoints are:"+endpoints.size());
@@ -55,6 +59,7 @@ public class WH1080Test {
 	log.debug("The enpoint type is:"+uep.getType());
 	log.debug("The enpoint direction is:"+uep.getDirection());
 	log.debug("The enpoint max packet size is:"+uep.getUsbEndpointDescriptor().wMaxPacketSize());
+
 	UsbPipe pipe=uep.getUsbPipe();
 	log.debug("The pipe is open:" +pipe.isOpen());
 	log.debug("The pipe is active:"+pipe.isActive());
