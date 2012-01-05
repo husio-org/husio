@@ -14,6 +14,11 @@ import org.slf4j.LoggerFactory;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+/**
+ * Usb subsystem tests. This includes javax-usb and native bindings.
+ * @author rafael
+ *
+ */
 public class UsbTest {
 
     private static final Logger log = LoggerFactory.getLogger(UsbTest.class);
@@ -51,12 +56,17 @@ public class UsbTest {
 	this.processUsingGetAttachedUsbDevices(root, "");
     }
     
+    /**
+     * Test helper, recursive function, based on ShowTopology.java javax-usb example
+     * @param usbDevice
+     * @param prefix
+     */
     private void processUsingGetAttachedUsbDevices(UsbDevice usbDevice, String prefix) {
 	UsbHub usbHub = null;
 
 	/* If this is not a UsbHub, just display device and return. */
 	if (!usbDevice.isUsbHub()) {
-	    System.out.println(prefix + "Device");
+	    log.debug(prefix + "Device");
 	    return;
 	} else {
 	    /* We know it's a hub, so cast it. */
@@ -65,10 +75,10 @@ public class UsbTest {
 
 	if (usbHub.isRootUsbHub()) {
 	    /* This is the virtual root UsbHub. */
-	    System.out.println(prefix + "Virtual root UsbHub");
+	    log.debug(prefix + "Virtual root UsbHub");
 	} else {
 	    /* This is not the virtual root UsbHub. */
-	    System.out.println(prefix + "UsbHub");
+	    log.debug(prefix + "UsbHub");
 	}
 
 	/* Now let's process each of this hub's devices. */
@@ -86,6 +96,11 @@ public class UsbTest {
 	}
     }
 
+    /**
+     * Test helper, recursive function, based on ShowTopology.java javax-usb example
+     * @param usbDevice
+     * @param prefix
+     */
     private void processUsingGetUsbPorts(UsbDevice usbDevice, String prefix) {
 	UsbHub usbHub = null;
 
