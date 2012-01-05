@@ -3,9 +3,11 @@ package org.husio.test.wh1080;
 import java.util.List;
 
 import javax.usb.UsbConfiguration;
+import javax.usb.UsbConst;
 import javax.usb.UsbDevice;
 import javax.usb.UsbEndpoint;
 import javax.usb.UsbInterface;
+import javax.usb.UsbPipe;
 
 import org.husio.Configuration;
 import org.husio.usb.UsbUtils;
@@ -48,9 +50,10 @@ public class WH1080Test {
 	log.debug("Number of endpoints are:"+endpoints.size());
 	UsbEndpoint uep=(UsbEndpoint) endpoints.get(0);
 	log.debug("The enpoint type is:"+uep.getType());
-
-
-	
+	log.debug("The enpoint direction is:"+uep.getDirection());
+	UsbPipe pipe=uep.getUsbPipe();
+	log.debug("The pipe is open:" +pipe.isOpen());
+	log.debug("The pipe is active:"+pipe.isActive());
     }
     
 }
