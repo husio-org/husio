@@ -8,7 +8,9 @@
 	</parent>
 	<groupId>org.husio</groupId>
 	<artifactId>api</artifactId>
+	<name>Husio System APIs</name>
 	<version>0.0.1-SNAPSHOT</version>
+	<description>Husio Home Automation Apis</description>
 	<dependencies>
 		<dependency>
 			<groupId>javax.measure</groupId>
