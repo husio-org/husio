@@ -8,6 +8,8 @@ import javax.usb.UsbException;
 import javax.usb.UsbInterface;
 import javax.usb.UsbNotActiveException;
 import javax.usb.UsbPipe;
+import javax.usb.util.DefaultUsbIrp;
+import javax.usb.util.UsbUtil;
 
 import org.husio.usb.UsbUtils;
 import org.slf4j.Logger;
@@ -25,6 +27,10 @@ public class WH1080 {
     private UsbPipe usbPipe;
     private UsbInterface usbInterface;
     private UsbEndpoint usbEndpoint;
+    private byte[] buffer ;
+ 
+    //= new byte[UsbUtil.unsignedInt(usbPipe.getUsbEndpoint().getUsbEndpointDescriptor().wMaxPacketSize())];
+
 
     public WH1080() throws Exception{
 	log.debug("Starting WH1080 Driver");
@@ -32,8 +38,13 @@ public class WH1080 {
 	usbInterface=(UsbInterface) usbDevice.getActiveUsbConfiguration().getUsbInterfaces().get(0);
 	usbEndpoint=(UsbEndpoint) usbInterface.getUsbEndpoints().get(0);
 	usbPipe=usbEndpoint.getUsbPipe();
+	
+	// Init the buffer for communication
+	buffer=new byte[UsbUtil.unsignedInt(usbPipe.getUsbEndpoint().getUsbEndpointDescriptor().wMaxPacketSize())];
+	
 	log.debug("Claiming the USB Interface");
 	this.connect();
+	this.readConfig();
     }
     
     private void connect() throws Exception{
@@ -46,7 +57,16 @@ public class WH1080 {
 	    if(usbPipe.isOpen()) usbPipe.close();
 	    usbInterface.release();
 	}
+    }
 
+    private void readConfig() throws Exception{
+	DefaultUsbIrp irp=new DefaultUsbIrp(buffer);
+	log.debug("Submiting sync packet");
+	log.debug("Data is:"+UsbUtil.toHexString(" ", buffer));
+	usbPipe.syncSubmit(irp);
+	log.debug("Got Packet");
+	log.debug("Is complete"+irp.isComplete());
+	log.debug("Data is:"+UsbUtil.toHexString(" ", buffer));
     }
 
 
