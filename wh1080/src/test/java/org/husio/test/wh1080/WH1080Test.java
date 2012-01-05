@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.usb.UsbConfiguration;
 import javax.usb.UsbDevice;
+import javax.usb.UsbEndpoint;
 import javax.usb.UsbInterface;
 
 import org.husio.Configuration;
@@ -45,6 +46,11 @@ public class WH1080Test {
 	UsbInterface ui=(UsbInterface) interfaces.get(0);
 	List endpoints=ui.getUsbEndpoints();
 	log.debug("Number of endpoints are:"+endpoints.size());
+	UsbEndpoint uep=(UsbEndpoint) endpoints.get(0);
+	log.debug("The enpoint type is:"+uep.getType());
+
+
+	
     }
     
 }
