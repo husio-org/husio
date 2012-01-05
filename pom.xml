@@ -91,7 +91,6 @@
 							<classifier>linux</classifier>
 							<downloadUrl>http://downloads.sourceforge.net/project/javax-usb/javax.usb%20RI%20for%20Linux/{version}/libJavaxUsb.so.{version}</downloadUrl>
 							<checksum>28610bd4d120870d5461ae1645794c5383834580</checksum>
-							<install>false</install>
 						</artifactItem>
 					</artifactItems>
 				</configuration>
