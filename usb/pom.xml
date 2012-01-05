@@ -37,34 +37,4 @@
 			<classifier>linux</classifier>
 		</dependency>
 	</dependencies>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>unpack</id>
-						<phase>compile</phase>
-						<goals>
-							<goal>unpack</goal>
-						</goals>
-						<configuration>
-							<artifactItems>
-								<artifactItem>
-									<groupId>javax.usb</groupId>
-									<artifactId>jsr80_linux</artifactId>
-									<version>1.0.1</version>
-									<classifier>linux</classifier>
-									<type>so</type>
-									<overWrite>true</overWrite>
-									<outputDirectory>${project.build.directory}/lib</outputDirectory>
-								</artifactItem>
-							</artifactItems>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
 </project>
