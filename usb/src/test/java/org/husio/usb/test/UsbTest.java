@@ -1,8 +1,11 @@
 package org.husio.usb.test;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.usb.UsbDevice;
+import javax.usb.UsbDisconnectedException;
+import javax.usb.UsbException;
 import javax.usb.UsbHostManager;
 import javax.usb.UsbHub;
 import javax.usb.UsbPort;
@@ -30,7 +33,7 @@ public class UsbTest {
 
     @Test
     public void usbServicesTest() throws Exception {
-	log.debug("Opening USB driver");
+	log.debug("Services Test: Opening USB driver");
 	UsbServices services = UsbHostManager.getUsbServices();
 	UsbHub root = services.getRootUsbHub();
 	List devices = root.getAttachedUsbDevices();
@@ -41,7 +44,7 @@ public class UsbTest {
 
     @Test
     public void usbTreeDisplayPorts() throws Exception {
-	log.debug("Opening USB driver");
+	log.debug("Display Ports: Opening USB driver");
 	UsbServices services = UsbHostManager.getUsbServices();
 	UsbHub root = services.getRootUsbHub();
 	this.processUsingGetUsbPorts(root, "");
@@ -50,7 +53,7 @@ public class UsbTest {
     
     @Test
     public void usbTreeDisplayDevices() throws Exception {
-	log.debug("Opening USB driver");
+	log.debug("Display Devices: Opening USB driver");
 	UsbServices services = UsbHostManager.getUsbServices();
 	UsbHub root = services.getRootUsbHub();
 	this.processUsingGetAttachedUsbDevices(root, "");
@@ -60,13 +63,14 @@ public class UsbTest {
      * Test helper, recursive function, based on ShowTopology.java javax-usb example
      * @param usbDevice
      * @param prefix
+     * @throws Exception 
      */
-    private void processUsingGetAttachedUsbDevices(UsbDevice usbDevice, String prefix) {
+    private void processUsingGetAttachedUsbDevices(UsbDevice usbDevice, String prefix) throws  Exception {
 	UsbHub usbHub = null;
 
 	/* If this is not a UsbHub, just display device and return. */
 	if (!usbDevice.isUsbHub()) {
-	    log.debug(prefix + "Device");
+	    log.debug(prefix + "Device "+usbDevice.getManufacturerString()+":"+usbDevice.getProductString());
 	    return;
 	} else {
 	    /* We know it's a hub, so cast it. */
@@ -101,11 +105,11 @@ public class UsbTest {
      * @param usbDevice
      * @param prefix
      */
-    private void processUsingGetUsbPorts(UsbDevice usbDevice, String prefix) {
+    private void processUsingGetUsbPorts(UsbDevice usbDevice, String prefix) throws Exception{
 	UsbHub usbHub = null;
 
 	if (!usbDevice.isUsbHub()) {
-	    log.debug(prefix + "Device");
+	    log.debug(prefix + "Device "+usbDevice.getManufacturerString()+":"+usbDevice.getProductString());
 	    return;
 	} else {
 	    /* We know it's a hub, so cast it. */
