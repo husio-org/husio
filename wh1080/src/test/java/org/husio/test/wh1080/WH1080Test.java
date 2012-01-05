@@ -47,6 +47,8 @@ public class WH1080Test {
 	UsbInterface ui=(UsbInterface) interfaces.get(0);
 	log.debug("The Interface is active:"+ui.isActive());
 	log.debug("The Interface is claimed:"+ui.isClaimed());
+	log.debug("The Interface has num settings:"+ui.getNumSettings());
+
 	List endpoints=ui.getUsbEndpoints();
 	log.debug("Number of endpoints are:"+endpoints.size());
 	UsbEndpoint uep=(UsbEndpoint) endpoints.get(0);
