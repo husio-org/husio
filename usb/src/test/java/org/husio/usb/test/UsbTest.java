@@ -35,11 +35,55 @@ public class UsbTest {
     }
 
     @Test
-    public void usbTreeDisplay() throws Exception {
+    public void usbTreeDisplayPorts() throws Exception {
 	log.debug("Opening USB driver");
 	UsbServices services = UsbHostManager.getUsbServices();
 	UsbHub root = services.getRootUsbHub();
 	this.processUsingGetUsbPorts(root, "");
+    }
+
+    
+    @Test
+    public void usbTreeDisplayDevices() throws Exception {
+	log.debug("Opening USB driver");
+	UsbServices services = UsbHostManager.getUsbServices();
+	UsbHub root = services.getRootUsbHub();
+	this.processUsingGetAttachedUsbDevices(root, "");
+    }
+    
+    private void processUsingGetAttachedUsbDevices(UsbDevice usbDevice, String prefix) {
+	UsbHub usbHub = null;
+
+	/* If this is not a UsbHub, just display device and return. */
+	if (!usbDevice.isUsbHub()) {
+	    System.out.println(prefix + "Device");
+	    return;
+	} else {
+	    /* We know it's a hub, so cast it. */
+	    usbHub = (UsbHub) usbDevice;
+	}
+
+	if (usbHub.isRootUsbHub()) {
+	    /* This is the virtual root UsbHub. */
+	    System.out.println(prefix + "Virtual root UsbHub");
+	} else {
+	    /* This is not the virtual root UsbHub. */
+	    System.out.println(prefix + "UsbHub");
+	}
+
+	/* Now let's process each of this hub's devices. */
+	List attachedUsbDevices = usbHub.getAttachedUsbDevices();
+
+	for (int i = 0; i < attachedUsbDevices.size(); i++) {
+	    /*
+	     * We know all objects in the list are UsbDevice objects; casting is
+	     * safe.
+	     */
+	    UsbDevice device = (UsbDevice) attachedUsbDevices.get(i);
+
+	    /* Recursively handle this device. */
+	    processUsingGetAttachedUsbDevices(device, prefix );
+	}
     }
 
     private void processUsingGetUsbPorts(UsbDevice usbDevice, String prefix) {
