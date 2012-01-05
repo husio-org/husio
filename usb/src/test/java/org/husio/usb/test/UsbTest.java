@@ -148,7 +148,10 @@ public class UsbTest {
 	UsbDeviceDescriptor dd=d.getUsbDeviceDescriptor();
 	String vendor=UsbUtil.toHexString(dd.idVendor());
 	String product=UsbUtil.toHexString(dd.idProduct());
-	return "["+vendor+":"+product+"] "+d.getManufacturerString()+" - "+d.getProductString();
+	String manufacturer=d.getManufacturerString()!=null? d.getManufacturerString() : "Unknown"; 
+	String productDesc=d.getProductString()!=null? d.getProductString() : "Unknown";
+	String serial=d.getSerialNumberString()!=null? d.getSerialNumberString() : "Unknown";
+	return "["+vendor+":"+product+"] "+manufacturer+" - "+productDesc+ " - S/N "+serial;
     }
 
 }
