@@ -1,11 +1,9 @@
 package org.husio.usb.test;
 
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.usb.UsbDevice;
-import javax.usb.UsbDisconnectedException;
-import javax.usb.UsbException;
+import javax.usb.UsbDeviceDescriptor;
 import javax.usb.UsbHostManager;
 import javax.usb.UsbHub;
 import javax.usb.UsbPort;
@@ -70,7 +68,7 @@ public class UsbTest {
 
 	/* If this is not a UsbHub, just display device and return. */
 	if (!usbDevice.isUsbHub()) {
-	    log.debug(prefix + "Device "+usbDevice.getManufacturerString()+":"+usbDevice.getProductString());
+	    log.debug(prefix + "Device "+this.describeUsb(usbDevice));
 	    return;
 	} else {
 	    /* We know it's a hub, so cast it. */
@@ -109,7 +107,7 @@ public class UsbTest {
 	UsbHub usbHub = null;
 
 	if (!usbDevice.isUsbHub()) {
-	    log.debug(prefix + "Device "+usbDevice.getManufacturerString()+":"+usbDevice.getProductString());
+	    log.debug(prefix + "Device "+this.describeUsb(usbDevice));
 	    return;
 	} else {
 	    /* We know it's a hub, so cast it. */
@@ -143,6 +141,13 @@ public class UsbTest {
 		processUsingGetUsbPorts(port.getUsbDevice(), prefix);
 	    }
 	}
+    }
+    
+    private String describeUsb(UsbDevice d) throws Exception{
+	UsbDeviceDescriptor dd=d.getUsbDeviceDescriptor();
+	String vendor=Integer.toHexString(dd.idVendor());
+	String product=Integer.toHexString(dd.idProduct());
+	return "["+vendor+":"+product+"] "+d.getManufacturerString()+" - "+d.getProductString();
     }
 
 }
