@@ -8,6 +8,7 @@ import javax.usb.UsbHostManager;
 import javax.usb.UsbHub;
 import javax.usb.UsbPort;
 import javax.usb.UsbServices;
+import javax.usb.util.UsbUtil;
 
 import org.husio.Configuration;
 import org.slf4j.Logger;
@@ -145,8 +146,8 @@ public class UsbTest {
     
     private String describeUsb(UsbDevice d) throws Exception{
 	UsbDeviceDescriptor dd=d.getUsbDeviceDescriptor();
-	String vendor=Integer.toHexString(dd.idVendor());
-	String product=Integer.toHexString(dd.idProduct());
+	String vendor=UsbUtil.toHexString(dd.idVendor());
+	String product=UsbUtil.toHexString(dd.idProduct());
 	return "["+vendor+":"+product+"] "+d.getManufacturerString()+" - "+d.getProductString();
     }
 
