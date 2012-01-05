@@ -53,6 +53,8 @@ public class WH1080Test {
 	UsbEndpoint uep=(UsbEndpoint) endpoints.get(0);
 	log.debug("The enpoint type is:"+uep.getType());
 	log.debug("The enpoint direction is:"+uep.getDirection());
+	log.debug("The enpoint max packet size is:"+uep.getUsbEndpointDescriptor().wMaxPacketSize());
+
 	UsbPipe pipe=uep.getUsbPipe();
 	log.debug("The pipe is open:" +pipe.isOpen());
 	log.debug("The pipe is active:"+pipe.isActive());
