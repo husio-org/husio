@@ -1,4 +1,4 @@
-package org.husio.weather.test;
+package org.husio.test.weather;
 
 import java.util.Locale;
 

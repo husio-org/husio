@@ -1,4 +1,4 @@
-package org.husio.usb.test;
+package org.husio.test.usb;
 
 import java.util.List;
 
