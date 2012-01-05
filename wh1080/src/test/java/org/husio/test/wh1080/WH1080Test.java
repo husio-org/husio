@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.usb.UsbConfiguration;
 import javax.usb.UsbDevice;
+import javax.usb.UsbInterface;
 
 import org.husio.Configuration;
 import org.husio.usb.UsbUtils;
@@ -41,6 +42,9 @@ public class WH1080Test {
 	UsbConfiguration conf=device.getActiveUsbConfiguration();
 	List interfaces=conf.getUsbInterfaces();
 	log.debug("Number of interfaces in active configuration:"+interfaces.size());
+	UsbInterface ui=(UsbInterface) interfaces.get(0);
+	List endpoints=ui.getUsbEndpoints();
+	log.debug("Number of endpoints are:"+endpoints.size());
     }
     
 }
