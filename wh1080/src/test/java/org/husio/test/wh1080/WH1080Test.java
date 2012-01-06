@@ -25,7 +25,7 @@ public class WH1080Test {
 	Configuration.setupLogSystem();
     }
     
-    @Test
+    @Test(enabled=false)
     public void findStationDevice() throws Exception{
 	log.debug("Finding Station WH1080 in virtual USB device hub");
 	UsbDevice device=UsbUtils.findDevice(WH1080.USB_VENDOR_ID, WH1080.USB_PRODUCT_ID);
@@ -33,7 +33,7 @@ public class WH1080Test {
 	else log.debug("The device was not found");
     }
     
-    @Test(enabled=true)
+    @Test(enabled=false)
     public void findStationDeviceInfo() throws Exception{
 	log.debug("Finding Information about Station WH1080");
 	UsbDevice device=UsbUtils.findDevice(WH1080.USB_VENDOR_ID, WH1080.USB_PRODUCT_ID);
@@ -64,9 +64,12 @@ public class WH1080Test {
 	log.debug("The pipe is active:"+pipe.isActive());
     }
     
-    @Test
+    @Test(enabled=true)
     public void readDevideData() throws Exception{
-	WH1080 hw1080=new WH1080();
+	WH1080 station=new WH1080();
+	station.start();
+	for (int i=0; i<4; i++) station.readConfig(i);
+	station.stop();
     }
     
 }

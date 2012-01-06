@@ -11,10 +11,11 @@ import javax.usb.UsbPipe;
 import javax.usb.util.UsbUtil;
 
 import org.husio.usb.UsbUtils;
+import org.husio.weather.api.WeatherStation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class WH1080 {
+public class WH1080 implements WeatherStation{
     
     public static final short USB_VENDOR_ID=(short) 0x1941;
     
@@ -37,14 +38,12 @@ public class WH1080 {
 	usbPipe=usbEndpoint.getUsbPipe();
 	
 	// Init the buffer for communication
-	dataBuffer=new byte[UsbUtil.unsignedInt(usbPipe.getUsbEndpoint().getUsbEndpointDescriptor().wMaxPacketSize())];
-	
-	log.debug("Claiming the USB Interface");
-	this.connect();
-	this.readConfig();
+	dataBuffer=new byte[32];
     }
     
-    private void connect() throws Exception{
+    public void start() throws Exception{
+	log.debug("Starting the Weather Station Interface");
+
 	try {
 	    usbInterface.claim();
 	    usbPipe.open();
@@ -56,19 +55,18 @@ public class WH1080 {
 	}
     }
 
-    private void readConfig() throws Exception{
-	log.debug("Preparing command packet");
-	
-	int offset=0;
+    public void readAddress(int address) throws Exception{
+
+	// prepare a control packet to request the read
 	
 	byte[] command={
 		(byte) 0xa1, //command
-		(byte) (offset/256), //address high
-		(byte) (offset%256), //address low
+		(byte) (address/256), //address high
+		(byte) (address%256), //address low
 		(byte) 0x20, // end mark
 		(byte) 0xa1, //command
-		(byte) (offset/256), //address high
-		(byte) (offset%256), //address low
+		(byte) (address/256), //address high
+		(byte) (address%256), //address low
 		(byte) 0x20, // end mark
 	};
 		
@@ -81,18 +79,26 @@ public class WH1080 {
 	
 	cirp.setData(command);
 	
-	log.debug("Sending command packet");
-
+	// send the command
 	usbDevice.syncSubmit(cirp);
 	
-	log.debug("Receiving 4 data backets");
+	// read 32 bytes in 4 8 bytes packets from the station
 	for(int i=0;i<4;i++){
 		UsbIrp irp= usbPipe.createUsbIrp();
 		irp.setData(dataBuffer);
+		irp.setLength(8);
+		irp.setOffset(8*i);
 		usbPipe.syncSubmit(irp);
 		assert irp.isComplete():"Irp is not complete!";
-		log.debug("Data block "+i+" is: "+UsbUtil.toHexString(" 0x", dataBuffer));	    
 	}
+	
+	log.debug("Read Address "+UsbUtil.toHexString(address)+": "+UsbUtil.toHexString(" 0x", dataBuffer));
+    }
+
+    @Override
+    public void stop() throws Exception {
+	if(this.usbPipe.isOpen()) this.usbPipe.close();
+	this.usbInterface.release();
     }
     
 
