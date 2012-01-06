@@ -45,7 +45,7 @@ public class UsbUtils {
 	    // this is not a Hub, then check if it is the one we are looking for!
 	    UsbDeviceDescriptor dd=usbDevice.getUsbDeviceDescriptor();
 	    if(dd.idProduct()==product && dd.idVendor()==vendor) return usbDevice;
-	    log.debug("Skiping found device "+UsbUtil.toHexString(dd.idVendor())+":"+UsbUtil.toHexString(dd.idProduct()));
+	    log.trace("Skiping found device "+UsbUtil.toHexString(dd.idVendor())+":"+UsbUtil.toHexString(dd.idProduct()));
 	} else {
 	    /* We know it's a hub, so cast it. */
 	    usbHub = (UsbHub) usbDevice;

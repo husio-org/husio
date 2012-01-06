@@ -73,10 +73,11 @@ public class WH1080 {
 	};
 		
 	UsbControlIrp cirp=this.usbDevice.createUsbControlIrp(
-		(byte) (UsbConst.REQUESTTYPE_DIRECTION_OUT & UsbConst.REQUESTTYPE_TYPE_CLASS & UsbConst.REQUESTTYPE_RECIPIENT_INTERFACE ), 
+		 //(byte) (UsbConst.REQUESTTYPE_DIRECTION_OUT & UsbConst.REQUESTTYPE_TYPE_CLASS & UsbConst.REQUESTTYPE_RECIPIENT_INTERFACE ), 
+		(byte) 0x21,
 		UsbConst.REQUEST_SET_CONFIGURATION, 
-		(short) 0x200, 	//value 
-		(short) 0	//Index ??
+		UsbConst.REQUESTTYPE_RECIPIENT_ENDPOINT, 	//value 
+		(short) 1//Index ??
 	);
 	
 	cirp.setData(command);
