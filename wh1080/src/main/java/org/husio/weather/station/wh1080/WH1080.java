@@ -15,10 +15,23 @@ import org.husio.weather.api.WeatherStation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 
+ * This is the WH1080 weather station interface. Handles data mapping, representation, etc.
+ * 
+ * @author rafael
+ *
+ */
 public class WH1080 implements WeatherStation{
     
+    /**
+     * USB vendor id for locating the station.
+     */
     public static final short USB_VENDOR_ID=(short) 0x1941;
     
+    /**
+     * USB proudct id for locating the station.
+     */
     public static final short USB_PRODUCT_ID=(short) 0x8021;
 
     private static final Logger log = LoggerFactory.getLogger(WH1080.class);
@@ -27,9 +40,11 @@ public class WH1080 implements WeatherStation{
     private UsbPipe usbPipe;
     private UsbInterface usbInterface;
     private UsbEndpoint usbEndpoint;
-    private byte[] dataBuffer ;
  
-
+    /**
+     * Will find the station in the USB bus.
+     * @throws Exception
+     */
     public WH1080() throws Exception{
 	log.debug("Starting WH1080 Driver");
 	usbDevice=UsbUtils.findDevice(WH1080.USB_VENDOR_ID, WH1080.USB_PRODUCT_ID);
@@ -37,10 +52,11 @@ public class WH1080 implements WeatherStation{
 	usbEndpoint=(UsbEndpoint) usbInterface.getUsbEndpoints().get(0);
 	usbPipe=usbEndpoint.getUsbPipe();
 	
-	// Init the buffer for communication
-	dataBuffer=new byte[32];
     }
     
+    /**
+     * starts and connects to the USB device
+     */
     public void start() throws Exception{
 	log.debug("Starting the Weather Station Interface");
 
@@ -55,7 +71,16 @@ public class WH1080 implements WeatherStation{
 	}
     }
 
-    public void readAddress(int address) throws Exception{
+    /**
+     * Reads 32 bytes of data from the given address, and writes them to the given buffer,
+     * at the given offset.
+     * 
+     * @param address the address of the EEPROM memory to read from
+     * @param dataButter the buffer to write the bytes to
+     * @param offset where to place the 32 read bytes at.
+     * @throws Exception in case something goes wrong at the USB protocol level.
+     */
+    public void readAddress(int address, byte[] dataBuffer, int offset) throws Exception{
 
 	// prepare a control packet to request the read
 	
@@ -87,13 +112,24 @@ public class WH1080 implements WeatherStation{
 		UsbIrp irp= usbPipe.createUsbIrp();
 		irp.setData(dataBuffer);
 		irp.setLength(8);
-		irp.setOffset(8*i);
+		irp.setOffset(offset+8*i);
 		usbPipe.syncSubmit(irp);
 		assert irp.isComplete():"Irp is not complete!";
 	}
 	
 	log.debug("Read Address "+UsbUtil.toHexString(address)+": "+UsbUtil.toHexString(" 0x", dataBuffer));
     }
+    
+    public HistoryDataEntry readHistoryDataEntry(int address) throws Exception{
+	log.debug("Reading history data entry at address:"+UsbUtil.toHexString(address));
+	return new HistoryDataEntry(address, this);
+    }
+    
+    public FixedMemoryBlock readFixedMemoryBlock() throws Exception{
+	log.debug("Reading fixed memory block");
+	return new FixedMemoryBlock(this);
+    }
+
 
     @Override
     public void stop() throws Exception {
