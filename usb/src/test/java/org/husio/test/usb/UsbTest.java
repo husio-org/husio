@@ -24,6 +24,11 @@ import org.testng.annotations.Test;
 public class UsbTest {
 
     private static final Logger log = LoggerFactory.getLogger(UsbTest.class);
+    
+    @BeforeTest
+    public void init() {
+	Configuration.setupLogSystem();
+    }
 
     @Test
     public void usbServicesTest() throws Exception {
