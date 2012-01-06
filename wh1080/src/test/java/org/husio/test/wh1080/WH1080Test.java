@@ -68,7 +68,7 @@ public class WH1080Test {
     public void readDevideData() throws Exception{
 	WH1080 station=new WH1080();
 	station.start();
-	for (int i=0; i<4; i++) station.readConfig(i);
+	for (int i=0; i<4; i++) station.readAddress(i);
 	station.stop();
     }
     
