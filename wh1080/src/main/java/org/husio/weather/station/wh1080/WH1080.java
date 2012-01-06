@@ -24,6 +24,12 @@ import org.slf4j.LoggerFactory;
  */
 public class WH1080 implements WeatherStation{
     
+    private static final byte WRITE_COMMAND = (byte) 0xA0;
+    private static final byte END_MARK = (byte) 0x20;
+    private static final byte READ_COMMAND = (byte) 0xA1;
+    private static final byte WRITE_COMMAND_WORD = (byte) 0xA2;
+
+    
     /**
      * USB vendor id for locating the station.
      */
@@ -86,14 +92,14 @@ public class WH1080 implements WeatherStation{
 	// prepare a control packet to request the read
 	
 	byte[] command={
-		(byte) 0xa1, //command
+		READ_COMMAND, //command
 		(byte) (address/256), //address high
 		(byte) (address%256), //address low
-		(byte) 0x20, // end mark
-		(byte) 0xa1, //command
-		(byte) (address/256), //address high
-		(byte) (address%256), //address low
-		(byte) 0x20, // end mark
+		END_MARK, // end mark
+		READ_COMMAND, //command
+		0, //address high
+		0, //address low
+		END_MARK, // end mark
 	};
 		
 	UsbControlIrp cirp=this.usbDevice.createUsbControlIrp(
