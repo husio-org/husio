@@ -117,7 +117,7 @@ public class WH1080 implements WeatherStation{
 		assert irp.isComplete():"Irp is not complete!";
 	}
 	
-	log.debug("Read Address "+UsbUtil.toHexString(address)+": "+UsbUtil.toHexString(" 0x", dataBuffer));
+	log.debug("Read Address "+UsbUtil.toHexString(address)+": "+UsbUtils.toHexString(dataBuffer, offset,32));
     }
     
     public HistoryDataEntry readHistoryDataEntry(int address) throws Exception{
@@ -133,6 +133,7 @@ public class WH1080 implements WeatherStation{
 
     @Override
     public void stop() throws Exception {
+	this.usbPipe.abortAllSubmissions();
 	if(this.usbPipe.isOpen()) this.usbPipe.close();
 	this.usbInterface.release();
     }

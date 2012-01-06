@@ -61,4 +61,12 @@ public class UsbUtils {
     }
 
 
+    public static String toHexString(byte[] data,int offset, int len){
+	String ret="";
+	for(int i=0;i<len;i++){
+	    ret+=" "+UsbUtil.toHexString(data[offset+i]);
+	}
+	return ret;
+    }
+    
 }
