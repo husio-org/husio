@@ -1,17 +1,13 @@
 package org.husio.weather.station.wh1080;
 
-import javax.usb.UsbClaimException;
 import javax.usb.UsbConst;
 import javax.usb.UsbControlIrp;
 import javax.usb.UsbDevice;
-import javax.usb.UsbDisconnectedException;
 import javax.usb.UsbEndpoint;
 import javax.usb.UsbException;
 import javax.usb.UsbInterface;
 import javax.usb.UsbIrp;
-import javax.usb.UsbNotActiveException;
 import javax.usb.UsbPipe;
-import javax.usb.util.DefaultUsbIrp;
 import javax.usb.util.UsbUtil;
 
 import org.husio.usb.UsbUtils;
