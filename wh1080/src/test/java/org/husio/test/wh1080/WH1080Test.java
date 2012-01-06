@@ -10,6 +10,7 @@ import javax.usb.UsbPipe;
 
 import org.husio.Configuration;
 import org.husio.usb.UsbUtils;
+import org.husio.weather.station.wh1080.HistoryDataEntry;
 import org.husio.weather.station.wh1080.WH1080;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,8 +69,9 @@ public class WH1080Test {
     public void readDevideData() throws Exception{
 	WH1080 station=new WH1080();
 	station.start();
-	station.readFixedMemoryBlock();
-	station.readHistoryDataEntry(0x100);
+	HistoryDataEntry data=station.readLastDataEntry();
+	log.debug("The read indoor temperature is: "+data.getIndoorTemperature());
+	log.debug("The read outdoor temperature is: "+data.getOutdoorTemperature());
 	station.stop();
     }
     

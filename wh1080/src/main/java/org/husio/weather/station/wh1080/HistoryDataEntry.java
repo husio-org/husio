@@ -1,5 +1,8 @@
 package org.husio.weather.station.wh1080;
 
+import javax.measure.Measure;
+import javax.measure.quantity.Temperature;
+
 
 /**
  * WH1080 EEPROM DATA DEFINITION
@@ -28,7 +31,7 @@ package org.husio.weather.station.wh1080;
  * @author rafael
  *
  */
-public class HistoryDataEntry {
+public class HistoryDataEntry extends WH1080Types {
     
     /**
      * The actual data as stores in the station. 16 byte block. 
@@ -60,4 +63,33 @@ public class HistoryDataEntry {
 	s.readAddress(address, data, 0);
     }
 
+    @Override
+    protected byte[] data() {
+	return data;
+    }
+    
+    /**
+     * Returns the stored indoor temperature.
+     * @return
+     */
+    public Measure<Temperature> getIndoorTemperature(){
+	int value=this.readShort(0x1);
+	return Measure.valueOf(value, fmb().getIndoorTemperatureUnit());
+    }
+    
+    /**
+     * Returns the stored indoor temperature.
+     * @return
+     */
+    public Measure<Temperature> getOutdoorTemperature(){
+	int value=this.readShort(0x6);
+	return Measure.valueOf(value, fmb().getIndoorTemperatureUnit());
+    }
+    
+    /**
+     * helper method to get the fixed memory block
+     */
+    private FixedMemoryBlock fmb(){
+	return this.station.fmb();
+    }
 }

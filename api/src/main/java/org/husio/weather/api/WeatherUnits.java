@@ -1,6 +1,7 @@
 package org.husio.weather.api;
 
 
+import javax.measure.quantity.Temperature;
 import javax.measure.quantity.Velocity;
 import javax.measure.unit.SI;
 import javax.measure.unit.NonSI;
@@ -14,6 +15,10 @@ import javax.measure.unit.Unit;
  *
  */
 public class WeatherUnits {
+    
+   public static final Unit<Temperature> CELSIUS = SI.CELSIUS;
+   
+   public static final Unit<Temperature> FAHRENHEIT=NonSI.FAHRENHEIT;
   
    /** Wind: Meters per second */
    public static final Unit<Velocity> METERS_PER_SECOND = SI.METRES_PER_SECOND;

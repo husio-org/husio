@@ -30,7 +30,7 @@ public class WH1080 implements WeatherStation{
     public static final short USB_VENDOR_ID=(short) 0x1941;
     
     /**
-     * USB proudct id for locating the station.
+     * USB product id for locating the station.
      */
     public static final short USB_PRODUCT_ID=(short) 0x8021;
 
@@ -40,6 +40,8 @@ public class WH1080 implements WeatherStation{
     private UsbPipe usbPipe;
     private UsbInterface usbInterface;
     private UsbEndpoint usbEndpoint;
+    
+    private FixedMemoryBlock fmb;
  
     /**
      * Will find the station in the USB bus.
@@ -51,7 +53,6 @@ public class WH1080 implements WeatherStation{
 	usbInterface=(UsbInterface) usbDevice.getActiveUsbConfiguration().getUsbInterfaces().get(0);
 	usbEndpoint=(UsbEndpoint) usbInterface.getUsbEndpoints().get(0);
 	usbPipe=usbEndpoint.getUsbPipe();
-	
     }
     
     /**
@@ -117,17 +118,26 @@ public class WH1080 implements WeatherStation{
 		assert irp.isComplete():"Irp is not complete!";
 	}
 	
-	log.debug("Read Address "+UsbUtil.toHexString(address)+": "+UsbUtils.toHexString(dataBuffer, offset,32));
+	log.debug("Read Address "+UsbUtil.toHexString(address)+":"+UsbUtils.toHexString(dataBuffer, offset,32));
     }
     
     public HistoryDataEntry readHistoryDataEntry(int address) throws Exception{
-	log.debug("Reading history data entry at address:"+UsbUtil.toHexString(address));
+	log.debug("Reading history data entry at address: "+UsbUtil.toHexString(address));
 	return new HistoryDataEntry(address, this);
     }
     
     public FixedMemoryBlock readFixedMemoryBlock() throws Exception{
 	log.debug("Reading fixed memory block");
-	return new FixedMemoryBlock(this);
+	return this.fmb=new FixedMemoryBlock(this);
+    }
+    
+    public HistoryDataEntry readLastDataEntry() throws Exception{
+	this.readFixedMemoryBlock();
+	return this.readHistoryDataEntry(fmb.lastReadAddress());
+    }
+    
+    public FixedMemoryBlock fmb(){
+	return fmb;
     }
 
 
@@ -137,7 +147,5 @@ public class WH1080 implements WeatherStation{
 	if(this.usbPipe.isOpen()) this.usbPipe.close();
 	this.usbInterface.release();
     }
-    
-
 
 }
