@@ -37,7 +37,7 @@ public class WH1080 {
 	usbPipe=usbEndpoint.getUsbPipe();
 	
 	// Init the buffer for communication
-	dataBuffer=new byte[32];
+	dataBuffer=new byte[UsbUtil.unsignedInt(usbPipe.getUsbEndpoint().getUsbEndpointDescriptor().wMaxPacketSize())];
 	
 	log.debug("Claiming the USB Interface");
 	this.connect();
@@ -85,13 +85,14 @@ public class WH1080 {
 
 	usbDevice.syncSubmit(cirp);
 	
-	log.debug("Data is:"+UsbUtil.toHexString(" 0x", dataBuffer));
-	UsbIrp irp= usbPipe.createUsbIrp();
-	irp.setData(dataBuffer);
-	usbPipe.syncSubmit(irp);
-	log.debug("Got Packet");
-	log.debug("Is complete"+irp.isComplete());
-	log.debug("Data is:"+UsbUtil.toHexString(" 0x", dataBuffer));
+	log.debug("Receiving 4 data backets");
+	for(int i=0;i<4;i++){
+		UsbIrp irp= usbPipe.createUsbIrp();
+		irp.setData(dataBuffer);
+		usbPipe.syncSubmit(irp);
+		assert irp.isComplete():"Irp is not complete!";
+		log.debug("Data block "+i+" is: "+UsbUtil.toHexString(" 0x", dataBuffer));	    
+	}
     }
     
 
