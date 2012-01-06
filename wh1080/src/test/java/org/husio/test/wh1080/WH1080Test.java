@@ -50,8 +50,7 @@ public class WH1080Test {
 	log.debug("The Interface has num settings:"+ui.getNumSettings());
 	log.debug("The Interface class:"+ui.getUsbInterfaceDescriptor().bInterfaceClass());
 	log.debug("The Interface sub-class:"+ui.getUsbInterfaceDescriptor().bInterfaceSubClass());
-	log.debug("The Interface sub-class:"+ui.getUsbInterfaceDescriptor().bInterfaceProtocol());
-
+	log.debug("The Interface protocol:"+ui.getUsbInterfaceDescriptor().bInterfaceProtocol());
 
 	List endpoints=ui.getUsbEndpoints();
 	log.debug("Number of endpoints are:"+endpoints.size());

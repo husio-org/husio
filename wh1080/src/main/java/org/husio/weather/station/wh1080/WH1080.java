@@ -1,11 +1,14 @@
 package org.husio.weather.station.wh1080;
 
 import javax.usb.UsbClaimException;
+import javax.usb.UsbConst;
+import javax.usb.UsbControlIrp;
 import javax.usb.UsbDevice;
 import javax.usb.UsbDisconnectedException;
 import javax.usb.UsbEndpoint;
 import javax.usb.UsbException;
 import javax.usb.UsbInterface;
+import javax.usb.UsbIrp;
 import javax.usb.UsbNotActiveException;
 import javax.usb.UsbPipe;
 import javax.usb.util.DefaultUsbIrp;
@@ -27,10 +30,8 @@ public class WH1080 {
     private UsbPipe usbPipe;
     private UsbInterface usbInterface;
     private UsbEndpoint usbEndpoint;
-    private byte[] buffer ;
+    private byte[] dataBuffer ;
  
-    //= new byte[UsbUtil.unsignedInt(usbPipe.getUsbEndpoint().getUsbEndpointDescriptor().wMaxPacketSize())];
-
 
     public WH1080() throws Exception{
 	log.debug("Starting WH1080 Driver");
@@ -40,7 +41,7 @@ public class WH1080 {
 	usbPipe=usbEndpoint.getUsbPipe();
 	
 	// Init the buffer for communication
-	buffer=new byte[UsbUtil.unsignedInt(usbPipe.getUsbEndpoint().getUsbEndpointDescriptor().wMaxPacketSize())];
+	dataBuffer=new byte[UsbUtil.unsignedInt(usbPipe.getUsbEndpoint().getUsbEndpointDescriptor().wMaxPacketSize())];
 	
 	log.debug("Claiming the USB Interface");
 	this.connect();
@@ -60,14 +61,43 @@ public class WH1080 {
     }
 
     private void readConfig() throws Exception{
-	DefaultUsbIrp irp=new DefaultUsbIrp(buffer);
-	log.debug("Submiting sync packet");
-	log.debug("Data is:"+UsbUtil.toHexString(" ", buffer));
+	log.debug("Preparing command packet");
+	
+	int offset=0;
+	
+	byte[] command={
+		(byte) 0xa1, //command
+		(byte) (offset/256), //address high
+		(byte) (offset%256), //address low
+		(byte) 0x20, // end mark
+		(byte) 0xa1, //command
+		(byte) (offset/256), //address high
+		(byte) (offset%256), //address low
+		(byte) 0x20, // end mark
+	};
+		
+	UsbControlIrp cirp=this.usbDevice.createUsbControlIrp(
+		(byte) (UsbConst.REQUESTTYPE_DIRECTION_OUT & UsbConst.REQUESTTYPE_TYPE_CLASS & UsbConst.REQUESTTYPE_RECIPIENT_INTERFACE ), 
+		UsbConst.REQUEST_SET_CONFIGURATION, 
+		(short) 0x200, 	//value 
+		(short) 0	//Index ??
+	);
+	
+	cirp.setData(command);
+	
+	log.debug("Sending command packet");
+
+	usbDevice.syncSubmit(cirp);
+	
+	log.debug("Data is:"+UsbUtil.toHexString(" ", dataBuffer));
+	UsbIrp irp= usbPipe.createUsbIrp();
+	irp.setData(dataBuffer);
 	usbPipe.syncSubmit(irp);
 	log.debug("Got Packet");
 	log.debug("Is complete"+irp.isComplete());
-	log.debug("Data is:"+UsbUtil.toHexString(" ", buffer));
+	log.debug("Data is:"+UsbUtil.toHexString(" ", dataBuffer));
     }
+    
 
 
 }
