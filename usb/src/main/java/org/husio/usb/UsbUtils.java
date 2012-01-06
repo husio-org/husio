@@ -56,7 +56,6 @@ public class UsbUtils {
 		UsbDevice found= searchDeviceFrom(device, vendor,product );
 		if (found!=null) return found;
 	    }	
-	    log.warn("The requested device could not be found");
 	}
 	return null;
     }
