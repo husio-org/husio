@@ -15,6 +15,7 @@ import org.husio.usb.UsbUtils;
 import org.husio.weather.api.WeatherUnits;
 import org.husio.weather.station.wh1080.HistoryDataEntry;
 import org.husio.weather.station.wh1080.WH1080;
+import org.husio.weather.station.wh1080.WH1080Types;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.BeforeTest;
@@ -68,7 +69,7 @@ public class WH1080Test {
 	log.debug("The pipe is active:"+pipe.isActive());
     }
     
-    @Test(enabled=false)
+    @Test(enabled=true)
     public void readDevideData() throws Exception{
 	WH1080 station=new WH1080();
 	station.start();
@@ -78,36 +79,70 @@ public class WH1080Test {
 	station.stop();
     }
     
-    /**
-     * Not that type conversion will break, but this is test driven development ;)
-     */
     @Test(enabled=true)
-    public void typeUnsignedShortConversionTest(){
-	log.debug("Testing type conversion");
-	// sample data
+    public void testSignedShortTypeCoversion(){
 	byte[] data={
-		(byte) 0xec,
-		(byte) 0x00
+		(byte) 0xFF,
+		(byte) 0xFF
 	};
-	short val=EndianUtils.readSwappedUnsignedShort(data, 0);
-	log.debug("The value of "+UsbUtil.toHexString(" 0x", data)+" decoded as: "+val);
-	assert val==236: "conversion failed";	
+	int val=WH1080Types.readSignedShort(data, 0);
+	log.debug("The value for signed short "+UsbUtil.toHexString(" 0x", data)+" is: "+val);
+	assert val==-32767:"Conversion Failed";
     }
-    
-    /**
-     * Not that type conversion will break, but this is test driven development ;)
-     */
+
     @Test(enabled=true)
-    public void typeSignedShortConversionTest(){
-	log.debug("Testing type conversion");
-	// sample data
+    public void testSignedShortTypeCoversion2(){
 	byte[] data={
-		(byte) 0x17,
+		(byte) 0xFF,
+		(byte) 0x7F
+	};
+	int val=WH1080Types.readSignedShort(data, 0);
+	log.debug("The value for signed short "+UsbUtil.toHexString(" 0x", data)+" is: "+val);
+	assert val==32767:"Conversion Failed";
+    }
+
+    @Test(enabled=true)
+    public void testSignedShortTypeCoversion3(){
+	byte[] data={
+		(byte) 0x01,
 		(byte) 0x80
 	};
-	short val=EndianUtils.readSwappedShort(data, 0);
-	log.debug("The value of "+UsbUtil.toHexString(" 0x", data)+" decoded as: "+val);
-	assert val==236: "conversion failed";	
+	int val=WH1080Types.readSignedShort(data, 0);
+	log.debug("The value for signed short "+UsbUtil.toHexString(" 0x", data)+" is: "+val);
+	assert val==-1:"Conversion Failed";
     }
+    
+    @Test(enabled=true)
+    public void testUnignedShortTypeCoversion(){
+	byte[] data={
+		(byte) 0xFF,
+		(byte) 0xFF
+	};
+	int val=WH1080Types.readUnsignedShort(data, 0);
+	log.debug("The value for unsigned short "+UsbUtil.toHexString(" 0x", data)+" is: "+val);
+	assert val==65535:"Conversion Failed";
+    }    
+    
+    @Test(enabled=true)
+    public void testUnignedShortTypeCoversion2(){
+	byte[] data={
+		(byte) 0x01,
+		(byte) 0x00
+	};
+	int val=WH1080Types.readUnsignedShort(data, 0);
+	log.debug("The value for unsigned short "+UsbUtil.toHexString(" 0x", data)+" is: "+val);
+	assert val==1:"Conversion Failed";
+    }    
+    
+    @Test(enabled=true)
+    public void testUnignedShortTypeCoversion3(){
+	byte[] data={
+		(byte) 0x00,
+		(byte) 0x80
+	};
+	int val=WH1080Types.readUnsignedShort(data, 0);
+	log.debug("The value for unsigned short "+UsbUtil.toHexString(" 0x", data)+" is: "+val);
+	assert val==32768:"Conversion Failed";
+    }    
     
 }
