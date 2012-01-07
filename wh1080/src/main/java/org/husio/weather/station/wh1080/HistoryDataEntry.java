@@ -59,7 +59,7 @@ public class HistoryDataEntry extends WH1080Types {
      * @return
      */
     public Measure<Temperature> getIndoorTemperature(){
-	int value=this.readSignedShort(0x1);
+	int value=this.readSignedShort(0x2);
 	log.debug("Temperature value is:"+value);
 	return Measure.valueOf(value, fmb().getIndoorTemperatureUnit());
     }
@@ -69,7 +69,7 @@ public class HistoryDataEntry extends WH1080Types {
      * @return
      */
     public Measure<Temperature> getOutdoorTemperature(){
-	int value=this.readSignedShort(0x6);
+	int value=this.readSignedShort(0x5);
 	return Measure.valueOf(value, fmb().getIndoorTemperatureUnit());
     }
     
