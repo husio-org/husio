@@ -1,6 +1,7 @@
 package org.husio.weather.api;
 
 
+import javax.measure.quantity.Pressure;
 import javax.measure.quantity.Temperature;
 import javax.measure.quantity.Velocity;
 import javax.measure.unit.SI;
@@ -8,7 +9,7 @@ import javax.measure.unit.NonSI;
 import javax.measure.unit.Unit;
 
 /**
- * This class contains a shortcut to the units used for weather plus some definitions.
+ * This class contains a shortcut to SI and NonSI of the units used for weather plus some extra definitions.
  * JSR 275 is used as the API.
  * 
  * @author rafael
@@ -16,8 +17,10 @@ import javax.measure.unit.Unit;
  */
 public class WeatherUnits {
     
+   /** Temperature: expressed in Celsius */ 
    public static final Unit<Temperature> CELSIUS = SI.CELSIUS;
    
+   /** Temperature: expressed in Fahrenheit */
    public static final Unit<Temperature> FAHRENHEIT=NonSI.FAHRENHEIT;
   
    /** Wind: Meters per second */
@@ -30,6 +33,21 @@ public class WeatherUnits {
    public static final Unit<Velocity> MILES_PER_HOUR = NonSI.MILES_PER_HOUR;
    
    /** Wind: Knots */
-   public static final Unit<Velocity> KNOT=NonSI.NAUTICAL_MILE.divide(NonSI.HOUR).asType(Velocity.class);
+   public static final Unit<Velocity> KNOT=NonSI.KNOT;
+   
+   /** Absolute Pressure: hpa*/
+   public static Unit<Pressure> HECTO_PASCAL=NonSI.ATMOSPHERE.divide(1013.25);
+   
+   /** Absolute Pressure: Milliliters of mercury */
+   public static Unit<Pressure> MILLIMETER_OF_MERCURY=NonSI.MILLIMETER_OF_MERCURY;
+   
+   /** Absolute Pressure: Inches of mercury */
+   public static Unit<Pressure> INCH_OF_MERCURY=NonSI.INCH_OF_MERCURY;
+   
+   /** Humidity: Inches of mercury */
+   public static Unit<Humidity> PERCENT_WATER=Humidity.UNIT;
+
+
+   
 
 }

@@ -75,6 +75,12 @@ public class WH1080Test {
 	HistoryDataEntry data=station.readLastDataEntry();
 	log.debug("The read indoor temperature is: "+data.getIndoorTemperature().to(WeatherUnits.CELSIUS));
 	log.debug("The read outdoor temperature is: "+data.getOutdoorTemperature().to(WeatherUnits.CELSIUS));
+	log.debug("The read indoor relative humidity is"+data.getIndoorRelativeHumidity().to(WeatherUnits.PERCENT_WATER));
+	log.debug("The read outdoor relative humidity is"+data.getOutdoorRelativeHumidity().to(WeatherUnits.PERCENT_WATER));
+	log.debug("The read absolute pressure is"+data.getAbsolutePressure().to(WeatherUnits.HECTO_PASCAL));
+	log.debug("The read average wind is"+data.getAverageWind().to(WeatherUnits.METERS_PER_SECOND));
+	log.debug("The read high wind is"+data.getWindHigh().to(WeatherUnits.METERS_PER_SECOND));
+	log.debug("The read wind gust is"+data.getWindGust().to(WeatherUnits.METERS_PER_SECOND));
 	station.stop();
     }
     

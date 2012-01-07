@@ -4,6 +4,8 @@ import javax.measure.quantity.Temperature;
 import javax.measure.unit.Unit;
 
 import org.husio.weather.api.WeatherUnits;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The fixed memory block. 256 bytes with station settings and pointer to current record.
@@ -12,6 +14,19 @@ import org.husio.weather.api.WeatherUnits;
  *
  */
 public class FixedMemoryBlock extends WH1080Types{
+    
+    /**
+     * The logger
+     */
+    private static final Logger log = LoggerFactory.getLogger(FixedMemoryBlock.class);
+    
+    // We are mainly interested in setting
+    // We are not interested in historic measures (min/max),
+    // As those we will build in an station independent way.
+    
+    private static final int SAMPLING_INTERVAL_SETTIING_ADDRESS=0x10;
+    private static final int CURRENT_HISTORY_ENTRY_POINTER_ADDRESS=0x1E;
+
     
     /**
      * the actual memory as mapped from the station
@@ -36,21 +51,6 @@ public class FixedMemoryBlock extends WH1080Types{
 	}
     }
     
-    /**
-     * Returns the Unit format of indoor temperature
-     */
-    Unit<Temperature> getIndoorTemperatureUnit(){
-	// the factor 0.1 has been preserved to match station especificacionts. other expressions are possible.
-	return isBitSet(0x11,0) ?  WeatherUnits.FAHRENHEIT.times(0.1) : WeatherUnits.CELSIUS.times(0.1);
-    }
-    
-    /**
-     * Returns the Unit format of outdoor temperature
-     */
-    Unit<Temperature> getOutdoorTemperatureUnit(){
-	return isBitSet(0x11,1) ?  WeatherUnits.FAHRENHEIT.times(0.1) : WeatherUnits.CELSIUS.times(0.1);
-    }
-    
     
     /**
      * Last memory block completed by the station. Notes that it is a cycling memory,
@@ -59,12 +59,12 @@ public class FixedMemoryBlock extends WH1080Types{
      * @return
      */
     public int lastReadAddress(){
-	int currentAddress=readUnsignedShort(0x1e);
+	int currentAddress=readUnsignedShort(CURRENT_HISTORY_ENTRY_POINTER_ADDRESS);
 	return currentAddress==256 ? 65520: currentAddress-16;
     }
 
     /**
-     * Returns the data block for helper rutines to work.
+     * Returns the data block for helper functions to work.
      */
     @Override
     protected byte[] data() {
