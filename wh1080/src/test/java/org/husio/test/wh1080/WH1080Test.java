@@ -9,7 +9,6 @@ import javax.usb.UsbInterface;
 import javax.usb.UsbPipe;
 import javax.usb.util.UsbUtil;
 
-import org.apache.commons.io.EndianUtils;
 import org.husio.Configuration;
 import org.husio.usb.UsbUtils;
 import org.husio.weather.api.WeatherUnits;
