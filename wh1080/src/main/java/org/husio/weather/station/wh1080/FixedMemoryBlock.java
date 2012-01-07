@@ -40,14 +40,15 @@ public class FixedMemoryBlock extends WH1080Types{
      * Returns the Unit format of indoor temperature
      */
     Unit<Temperature> getIndoorTemperatureUnit(){
-	return isBitSet(0x11,0) ?  WeatherUnits.FAHRENHEIT.times(10) : WeatherUnits.CELSIUS.times(10);
+	// the factor 0.1 has been preserved to match station especificacionts. other expressions are possible.
+	return isBitSet(0x11,0) ?  WeatherUnits.FAHRENHEIT.times(0.1) : WeatherUnits.CELSIUS.times(0.1);
     }
     
     /**
      * Returns the Unit format of outdoor temperature
      */
     Unit<Temperature> getOutdoorTemperatureUnit(){
-	return isBitSet(0x11,1) ?  WeatherUnits.FAHRENHEIT.times(10) : WeatherUnits.CELSIUS.times(10);
+	return isBitSet(0x11,1) ?  WeatherUnits.FAHRENHEIT.times(0.1) : WeatherUnits.CELSIUS.times(0.1);
     }
     
     

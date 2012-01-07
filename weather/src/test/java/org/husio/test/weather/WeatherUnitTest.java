@@ -3,7 +3,9 @@ package org.husio.test.weather;
 import java.util.Locale;
 
 import javax.measure.Measure;
+import javax.measure.quantity.Temperature;
 import javax.measure.quantity.Velocity;
+import javax.measure.unit.Unit;
 import javax.measure.unit.format.LocalFormat;
 
 import org.husio.Configuration;
@@ -47,7 +49,15 @@ public class WeatherUnitTest {
 	
 	// check Knots
 	log.debug(windSpeed.toSI()+" equals "+windSpeed.to(WeatherUnits.KNOT));
-	
+    }
+    
+    @Test 
+    public void fractinalUnitConversionTest(){
+	log.debug("Testing unit conversion and representation");
+	Unit<Temperature>  tu=WeatherUnits.CELSIUS.times(0.1);
+	short value=50;
+	Measure<Temperature> m=Measure.valueOf(value,tu);
+	log.debug("The following should be 5C: "+m.to(WeatherUnits.CELSIUS));
     }
     
     

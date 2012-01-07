@@ -43,8 +43,11 @@ public abstract class WH1080Types {
 	return hi*256+lo;
     }
     
-    protected int readShort(int address){
-	return UsbUtil.toShort(data()[address], data()[address+1]);
+    protected int readSignedShort(int address){
+	int sign=(data()[address+1] & 0x80)>0? -1:1; 
+	int lo=UsbUtil.unsignedInt(data()[address]);
+	int hi=UsbUtil.unsignedInt((byte) (data()[address+1] & 0x7F));
+	return (hi*256+lo)*sign;
     }
 
     /**
