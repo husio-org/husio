@@ -3,6 +3,9 @@ package org.husio.weather.station.wh1080;
 import javax.measure.Measure;
 import javax.measure.quantity.Temperature;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * WH1080 EEPROM DATA DEFINITION
@@ -32,6 +35,8 @@ import javax.measure.quantity.Temperature;
  *
  */
 public class HistoryDataEntry extends WH1080Types {
+    
+    private static final Logger log = LoggerFactory.getLogger(HistoryDataEntry.class);
     
     /**
      * The actual data as stores in the station. 16 byte block. 
@@ -74,6 +79,7 @@ public class HistoryDataEntry extends WH1080Types {
      */
     public Measure<Temperature> getIndoorTemperature(){
 	int value=this.readShort(0x1);
+	log.debug("Temperature value is:"+value);
 	return Measure.valueOf(value, fmb().getIndoorTemperatureUnit());
     }
     
