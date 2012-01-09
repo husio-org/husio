@@ -1,4 +1,4 @@
-package org.husio.weather.api;
+package org.husio.api.weather;
 
 import javax.measure.quantity.Quantity;
 import javax.measure.unit.BaseUnit;

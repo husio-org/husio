@@ -1,6 +1,7 @@
-package org.husio.weather.api;
+package org.husio.api.weather;
 
 
+import javax.measure.quantity.Duration;
 import javax.measure.quantity.Pressure;
 import javax.measure.quantity.Temperature;
 import javax.measure.quantity.Velocity;
@@ -16,6 +17,9 @@ import javax.measure.unit.Unit;
  *
  */
 public class WeatherUnits {
+   
+    /** Duration for samples */
+   public static final Unit<Duration> SECOND= SI.SECOND;
     
    /** Temperature: expressed in Celsius */ 
    public static final Unit<Temperature> CELSIUS = SI.CELSIUS;
@@ -35,6 +39,8 @@ public class WeatherUnits {
    /** Wind: Knots */
    public static final Unit<Velocity> KNOT=NonSI.KNOT;
    
+   /** Wind Direction: Nautical Degrees */
+   
    /** Absolute Pressure: hpa*/
    public static Unit<Pressure> HECTO_PASCAL=NonSI.ATMOSPHERE.divide(1013.25);
    
@@ -46,8 +52,5 @@ public class WeatherUnits {
    
    /** Humidity: Inches of mercury */
    public static Unit<Humidity> PERCENT_WATER=Humidity.UNIT;
-
-
-   
 
 }

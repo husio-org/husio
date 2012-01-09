@@ -1,5 +1,7 @@
 package org.husio.weather.station.wh1080;
 
+import javax.measure.Measure;
+import javax.measure.quantity.Duration;
 import javax.usb.UsbConst;
 import javax.usb.UsbControlIrp;
 import javax.usb.UsbDevice;
@@ -10,8 +12,8 @@ import javax.usb.UsbIrp;
 import javax.usb.UsbPipe;
 import javax.usb.util.UsbUtil;
 
+import org.husio.api.weather.WeatherStation;
 import org.husio.usb.UsbUtils;
-import org.husio.weather.api.WeatherStation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,6 +30,8 @@ public class WH1080 implements WeatherStation{
     private static final byte END_MARK = (byte) 0x20;
     private static final byte READ_COMMAND = (byte) 0xA1;
     private static final byte WRITE_COMMAND_WORD = (byte) 0xA2;
+    
+    private STATUS status=STATUS.STOPPED;
 
     
     /**
@@ -70,6 +74,7 @@ public class WH1080 implements WeatherStation{
 	try {
 	    usbInterface.claim();
 	    usbPipe.open();
+	    this.status=STATUS.RUNNING;
 
 	} catch (UsbException e) {
 	    log.error("Could not connect with WH1080, is it been used?",e);
@@ -152,6 +157,17 @@ public class WH1080 implements WeatherStation{
 	this.usbPipe.abortAllSubmissions();
 	if(this.usbPipe.isOpen()) this.usbPipe.close();
 	this.usbInterface.release();
+    }
+
+    @Override
+    public STATUS getStatus() {
+	return status;
+    }
+
+    @Override
+    public Measure<Duration> getPoolingInverval() {
+	// TODO Auto-generated method stub
+	return null;
     }
 
 }

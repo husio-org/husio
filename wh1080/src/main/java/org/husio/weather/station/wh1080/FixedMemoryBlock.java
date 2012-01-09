@@ -3,7 +3,7 @@ package org.husio.weather.station.wh1080;
 import javax.measure.quantity.Temperature;
 import javax.measure.unit.Unit;
 
-import org.husio.weather.api.WeatherUnits;
+import org.husio.api.weather.WeatherUnits;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

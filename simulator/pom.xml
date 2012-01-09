@@ -9,5 +9,5 @@
   <artifactId>simulator</artifactId>
   <name>Weather Station Simulator</name>
   <version>0.0.1-SNAPSHOT</version>
-  <description>A simulator to make development easier</description>
+  <description>A Weather Station Simulator to make development and quality assurance easier</description>
 </project>

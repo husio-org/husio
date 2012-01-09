@@ -10,7 +10,7 @@
 	<artifactId>api</artifactId>
 	<name>Husio System APIs</name>
 	<version>0.0.1-SNAPSHOT</version>
-	<description>Husio Home Automation Apis</description>
+	<description>Husio Home Automation Apis. All required APIs to implement Husio Modules. Standard/Optional APIs including  JSR 275.</description>
 	<dependencies>
 		<dependency>
 			<groupId>javax.measure</groupId>

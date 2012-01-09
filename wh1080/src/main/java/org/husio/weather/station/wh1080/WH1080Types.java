@@ -1,13 +1,14 @@
 package org.husio.weather.station.wh1080;
 
+import javax.measure.quantity.Duration;
 import javax.measure.quantity.Pressure;
 import javax.measure.quantity.Temperature;
 import javax.measure.quantity.Velocity;
 import javax.measure.unit.Unit;
 import javax.usb.util.UsbUtil;
 
-import org.husio.weather.api.Humidity;
-import org.husio.weather.api.WeatherUnits;
+import org.husio.api.weather.Humidity;
+import org.husio.api.weather.WeatherUnits;
 
 /**
  * Utility base class that maps primitive types from WH 1080 to Java and
@@ -22,6 +23,8 @@ import org.husio.weather.api.WeatherUnits;
 // that should make it easy to generate ports for other stations.
 public abstract class WH1080Types {
     
+    /** Measurement duration as stored by the station */
+    public static final Unit<Duration> DURATION_UNIT=WeatherUnits.SECOND.times(60);
     /** Temperature unit as stored in the station records*/
     public static final Unit<Temperature> TEMPERATURE_UNIT=WeatherUnits.CELSIUS.times(0.1);
     /** Wind speed unit as store in the station records */
@@ -129,9 +132,7 @@ public abstract class WH1080Types {
      */
     public boolean isValidShortMetric(int address){
 	return isValidByteMetric(address) && isValidByteMetric(address+1);
-    }
-
-    
+    }    
 
     /**
      * Enables access to WH1080 memory chunk

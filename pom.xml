@@ -36,6 +36,10 @@
 		<module>usb</module>
 		<module>simulator</module>
 		<module>api</module>
+		<module>core</module>
+		<module>web</module>
+		<module>mobile</module>
+		<module>pkg</module>
 	</modules>
 	<build>
 		<plugins>
@@ -91,6 +95,15 @@
 							<classifier>linux</classifier>
 							<downloadUrl>http://downloads.sourceforge.net/project/javax-usb/javax.usb%20RI%20for%20Linux/{version}/libJavaxUsb.so.{version}</downloadUrl>
 							<checksum>28610bd4d120870d5461ae1645794c5383834580</checksum>
+						</artifactItem>
+						<artifactItem>
+							<groupId>com.adamtaft</groupId>
+							<artifactId>simpleeventbus</artifactId>
+							<version>1.2</version>
+							<packaging>jar</packaging>
+							<downloadUrl>http://simpleeventbus.googlecode.com/files/simpleeventbus-{version}.zip</downloadUrl>
+							<checksum>1c6a199449ff43c27a57d5b19811c01ae20e87b9</checksum>
+							<extractFile>simpleeventbus-1.x.jar</extractFile>
 						</artifactItem>
 					</artifactItems>
 				</configuration>

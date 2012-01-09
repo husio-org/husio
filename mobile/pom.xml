@@ -6,16 +6,8 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <groupId>org.husio</groupId>
-  <artifactId>weather</artifactId>
+  <artifactId>mobile</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>weather</name>
-  <description>Logs, displays and shares home weather station data</description>
-  <dependencies>
-  	<dependency>
-  		<groupId>org.husio</groupId>
-  		<artifactId>core</artifactId>
-  		<version>${project.version}</version>
-  		<scope>compile</scope>
-  	</dependency>
-  </dependencies>
+  <name>Husio Mobile and Touch frontend</name>
+  <description>Ajax based frontend for Mobile and Touch Devices.</description>
 </project>

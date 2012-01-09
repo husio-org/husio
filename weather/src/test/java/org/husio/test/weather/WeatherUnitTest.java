@@ -9,8 +9,7 @@ import javax.measure.unit.Unit;
 import javax.measure.unit.format.LocalFormat;
 
 import org.husio.Configuration;
-import org.husio.weather.WeatherApplication;
-import org.husio.weather.api.WeatherUnits;
+import org.husio.api.weather.WeatherUnits;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.BeforeTest;
@@ -60,6 +59,11 @@ public class WeatherUnitTest {
 	log.debug("The following should be 5C: "+m.to(WeatherUnits.CELSIUS));
     }
     
+    
+    @Test
+    public void customUnitTest(){
+	log.debug("");
+    }
     
     
 }

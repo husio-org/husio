@@ -7,21 +7,27 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<groupId>org.husio</groupId>
-	<artifactId>wh1080</artifactId>
+	<artifactId>core</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Fine Offset Electronics WH1080 Weather Station </name>
+	<name>Husio Core</name>
+	<description>Main Application Module, EventBus Core.</description>
 	<dependencies>
 		<dependency>
 			<groupId>org.husio</groupId>
-			<artifactId>usb</artifactId>
+			<artifactId>config</artifactId>
 			<version>${project.version}</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.husio</groupId>
-			<artifactId>weather</artifactId>
+			<artifactId>api</artifactId>
 			<version>${project.version}</version>
 			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.adamtaft</groupId>
+			<artifactId>simpleeventbus</artifactId>
+			<version>1.2</version>
 		</dependency>
 	</dependencies>
 </project>

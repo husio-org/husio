@@ -1,0 +1,56 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>husio</artifactId>
+		<groupId>org.husio</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<groupId>org.husio</groupId>
+	<artifactId>pkg</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>Husio Packaging</name>
+	<description>Generate Husio executable jar and other deliverables for target platforms.</description>
+
+	<!-- Only Final modules need to go here, there rest will be added by dependencies -->
+	<dependencies>
+		<dependency>
+			<groupId>org.husio</groupId>
+			<artifactId>wh1080</artifactId>
+			<version>${project.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.husio</groupId>
+			<artifactId>wh1080</artifactId>
+			<version>${project.version}</version>
+			<scope>simulator</scope>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>1.4</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<finalName>husio-${project.version}-bin</finalName>
+							<transformers>
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<mainClass>org.husio.HusioApplication</mainClass>
+								</transformer>
+							</transformers>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
