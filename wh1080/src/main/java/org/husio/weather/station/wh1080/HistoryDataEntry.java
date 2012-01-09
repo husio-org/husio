@@ -195,7 +195,7 @@ public class HistoryDataEntry extends WH1080Types implements WeatherMeasureColle
 	ret.setEnvironment(CollectedWeatherMeasure.ENVIRONMENT.INDOOR);
 	if(!this.isValidByteMetric(RELATIVE_HUMIDITY_IN_ADDRESS)) ret.setValidMetric(false);
 	else{
-	    int value=this.readUnsignedShort(RELATIVE_HUMIDITY_IN_ADDRESS);
+	    int value=this.readUnsignedByte(RELATIVE_HUMIDITY_IN_ADDRESS);
 	    ret.setMeasure(Measure.valueOf(value,HUMIDITY_UNIT));
 	}
 	return ret;
@@ -208,7 +208,7 @@ public class HistoryDataEntry extends WH1080Types implements WeatherMeasureColle
 	
 	if(!this.isValidByteMetric(AVERAGE_WIND_SPEED_ADDRESS)) ret.setValidMetric(false);
 	else{
-	    int value=this.readUnsignedShort(AVERAGE_WIND_SPEED_ADDRESS);
+	    int value=this.readUnsignedByte(AVERAGE_WIND_SPEED_ADDRESS);
 	    ret.setMeasure(Measure.valueOf(value,WIND_UNIT));
 	}
 	return ret;
@@ -220,7 +220,7 @@ public class HistoryDataEntry extends WH1080Types implements WeatherMeasureColle
 	ret.setEnvironment(CollectedWeatherMeasure.ENVIRONMENT.OUTDOOR);
 	if(!this.isValidByteMetric(WIND_SPEED_HIGH_ADDRESS)) ret.setValidMetric(false);
 	else{
-	    int value=this.readUnsignedShort(WIND_SPEED_HIGH_ADDRESS);
+	    int value=this.readUnsignedByte(WIND_SPEED_HIGH_ADDRESS);
 	    ret.setMeasure(Measure.valueOf(value,WIND_UNIT));
 	}
 	return ret;
@@ -233,7 +233,7 @@ public class HistoryDataEntry extends WH1080Types implements WeatherMeasureColle
 	
 	if(!this.isValidByteMetric(WIND_SPEED_GUST_ADDRESS)) ret.setValidMetric(false);
 	else{
-	    int value=this.readUnsignedShort(WIND_SPEED_GUST_ADDRESS);
+	    int value=this.readUnsignedByte(WIND_SPEED_GUST_ADDRESS);
 	    ret.setMeasure(Measure.valueOf(value,WIND_UNIT));
 	}
 	return ret;

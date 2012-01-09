@@ -108,8 +108,9 @@ public class CollectedWeatherMeasure {
     }
     
     public String toString(){
+	String me=this.isValidMetric? measure.toSI().toString():"N/A";
 	String ret="";
-	ret=environment.toString()+":"+type.toString()+":"+measure.toSI();
+	ret=environment.toString()+":"+type.toString()+":"+me;
 	return ret;
     }
 
