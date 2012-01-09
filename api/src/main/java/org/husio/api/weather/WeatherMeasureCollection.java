@@ -1,11 +1,11 @@
 package org.husio.api.weather;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.measure.Measure;
 import javax.measure.quantity.Duration;
+import javax.measure.quantity.Quantity;
 
 /**
  * A weather measurement collection. Normally the weather station will collect metrics for a certain period of time and
@@ -29,6 +29,6 @@ public interface WeatherMeasureCollection {
     /**
      * The collection of measurements that where collected.
      */
-    public List<CollectedWeatherMeasure> getMeasures();
+    public WeatherMeasureList getMeasures();
 
 }

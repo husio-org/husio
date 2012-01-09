@@ -2,6 +2,7 @@ package org.husio.test.wh1080;
 
 import java.util.List;
 
+import javax.measure.quantity.Quantity;
 import javax.usb.UsbConfiguration;
 import javax.usb.UsbDevice;
 import javax.usb.UsbEndpoint;
@@ -74,7 +75,7 @@ public class WH1080Test {
 	WH1080 station=new WH1080();
 	station.start();
 	HistoryDataEntry data=station.readLastDataEntry();
-	List<CollectedWeatherMeasure> measures=data.getMeasures();
+	List<CollectedWeatherMeasure<? extends Quantity>> measures=data.getMeasures();
 	for(CollectedWeatherMeasure m: measures){
 	    log.debug("Collected Measure is: "+m);
 	}

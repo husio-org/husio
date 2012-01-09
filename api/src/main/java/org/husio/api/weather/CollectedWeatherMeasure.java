@@ -1,8 +1,10 @@
 package org.husio.api.weather;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+
 import javax.measure.Measure;
 import javax.measure.quantity.Quantity;
-import javax.measure.unit.Unit;
 
 /**
  * 
@@ -11,7 +13,7 @@ import javax.measure.unit.Unit;
  * @author rafael
  *
  */
-public class CollectedWeatherMeasure {
+public class CollectedWeatherMeasure<T extends Quantity> {
     
     /**
      * Where the metric took place.
@@ -47,7 +49,7 @@ public class CollectedWeatherMeasure {
     
     private TYPE type;
     
-    private Measure<? extends Quantity> measure;
+    private Measure<T> measure;
     
     public CollectedWeatherMeasure(){
 	
@@ -58,12 +60,11 @@ public class CollectedWeatherMeasure {
 	this.type=t;
     }
 
-    public CollectedWeatherMeasure(ENVIRONMENT e, TYPE t, Measure<Quantity> m){
+    public CollectedWeatherMeasure(ENVIRONMENT e, TYPE t, Measure<T> m){
 	this.environment=e;
 	this.type=t;
 	this.measure=m;
     }
-    
 
     public void setValidMetric(boolean isValidMetric) {
 	this.isValidMetric = isValidMetric;
@@ -78,7 +79,7 @@ public class CollectedWeatherMeasure {
 	return this.isValidMetric;
     }
     
-    public void setMeasure(Measure<? extends Quantity> measure) {
+    public void setMeasure(Measure<T> measure) {
 	this.measure = measure;
     }
 
@@ -107,10 +108,30 @@ public class CollectedWeatherMeasure {
 	return type;
     }
     
+    /**
+     * Returns the canonycal name of the type used for the measure collection.
+     * That will be: Temperature, Pressure, etc.
+     * 
+     * @return
+     * @throws Exception
+     */
+    @SuppressWarnings("unchecked")
+    public String getQuantityClassName() {
+	try{
+	Field measureField = this.getClass().getDeclaredField("measure");
+        ParameterizedType measureFieldType = (ParameterizedType) measureField.getGenericType();
+        Class<? extends Quantity> ret= (Class<? extends Quantity>) measureFieldType.getActualTypeArguments()[0];
+        return ret.getCanonicalName();
+	}
+	catch(Exception e){
+	    return "Unknown";
+	}
+    }
+    
     public String toString(){
 	String me=this.isValidMetric? measure.toSI().toString():"N/A";
 	String ret="";
-	ret=environment.toString()+":"+type.toString()+":"+me;
+	ret=this.getQuantityClassName()+":"+environment.toString()+":"+type.toString()+":"+me;
 	return ret;
     }
 

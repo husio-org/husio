@@ -1,9 +1,5 @@
 package org.husio.weather.station.wh1080;
 
-import javax.measure.quantity.Temperature;
-import javax.measure.unit.Unit;
-
-import org.husio.api.weather.WeatherUnits;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +20,7 @@ public class FixedMemoryBlock extends WH1080Types{
     // We are not interested in historic measures (min/max),
     // As those we will build in an station independent way.
     
-    private static final int SAMPLING_INTERVAL_SETTIING_ADDRESS=0x10;
+    private static final int SAMPLING_INTERVAL_SETTING_ADDRESS=0x10;
     private static final int CURRENT_HISTORY_ENTRY_POINTER_ADDRESS=0x1E;
 
     

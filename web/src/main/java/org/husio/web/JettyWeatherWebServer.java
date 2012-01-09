@@ -1,4 +1,4 @@
-package org.husio.http;
+package org.husio.web;
 
 import org.husio.api.WebServer;
 
