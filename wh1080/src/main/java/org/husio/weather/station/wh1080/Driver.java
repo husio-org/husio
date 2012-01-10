@@ -17,6 +17,7 @@ import javax.usb.util.UsbUtil;
 import org.husio.Configuration;
 import org.husio.api.weather.WeatherMeasureCollection;
 import org.husio.api.weather.WeatherStation;
+import org.husio.api.weather.evt.WeatherInformationCollectedEvent;
 import org.husio.usb.UsbUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,6 +64,7 @@ public class Driver implements WeatherStation {
     private FixedMemoryBlock fmb;
 
     private Timer timer;
+    private WeatherStation station;
 
     /**
      * Will find the station in the USB bus.
@@ -75,6 +77,7 @@ public class Driver implements WeatherStation {
 	usbInterface = (UsbInterface) usbDevice.getActiveUsbConfiguration().getUsbInterfaces().get(0);
 	usbEndpoint = (UsbEndpoint) usbInterface.getUsbEndpoints().get(0);
 	usbPipe = usbEndpoint.getUsbPipe();
+	station=this;
 	timer = new Timer("WH1080");
     }
 
@@ -199,7 +202,7 @@ public class Driver implements WeatherStation {
 	@Override
 	public void run() {
 	    try {
-		EventBusService.publish(readLastDataEntry());
+		EventBusService.publish(new WeatherInformationCollectedEvent(station,readLastDataEntry()));
 	    } catch (Exception e) {
 		log.error("Could not read weather from station.", e);
 	    }
