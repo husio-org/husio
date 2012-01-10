@@ -76,7 +76,7 @@ public class Driver implements WeatherStation{
     /**
      * starts and connects to the USB device
      */
-    public void start() throws Exception{
+    public synchronized void start() throws Exception{
 	log.debug("Starting the Weather Station Interface");
 
 	try {
@@ -95,7 +95,7 @@ public class Driver implements WeatherStation{
     }
     
     @Override
-    public void stop() throws Exception {
+    public synchronized void stop() throws Exception {
 	this.status=STATUS.STOPPED;
 	timer.cancel();
 	this.usbPipe.abortAllSubmissions();
@@ -104,7 +104,7 @@ public class Driver implements WeatherStation{
     }
 
     @Override
-    public STATUS getStatus() {
+    public synchronized STATUS getStatus() {
 	return status;
     }
 
@@ -117,7 +117,7 @@ public class Driver implements WeatherStation{
      * @param offset where to place the 32 read bytes at.
      * @throws Exception in case something goes wrong at the USB protocol level.
      */
-    public void readAddress(int address, byte[] dataBuffer, int offset) throws Exception{
+     void readAddress(int address, byte[] dataBuffer, int offset) throws Exception{
 
 	// prepare a control packet to request the read
 	
@@ -157,12 +157,12 @@ public class Driver implements WeatherStation{
 	log.debug("Read Address "+UsbUtil.toHexString(address)+":"+UsbUtils.toHexString(dataBuffer, offset,32));
     }
     
-    public HistoryDataEntry readHistoryDataEntry(int address) throws Exception{
+    public synchronized HistoryDataEntry readHistoryDataEntry(int address) throws Exception{
 	log.debug("Reading history data entry at address: "+UsbUtil.toHexString(address));
 	return new HistoryDataEntry(address, this);
     }
     
-    public FixedMemoryBlock readFixedMemoryBlock() throws Exception{
+    public synchronized FixedMemoryBlock readFixedMemoryBlock() throws Exception{
 	log.debug("Reading fixed memory block");
 	return this.fmb=new FixedMemoryBlock(this);
     }
