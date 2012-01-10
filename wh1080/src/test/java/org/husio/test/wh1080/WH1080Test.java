@@ -12,9 +12,8 @@ import javax.usb.util.UsbUtil;
 
 import org.husio.Configuration;
 import org.husio.api.weather.CollectedWeatherMeasure;
-import org.husio.api.weather.WeatherUnits;
+import org.husio.api.weather.WeatherMeasureCollection;
 import org.husio.usb.UsbUtils;
-import org.husio.weather.station.wh1080.HistoryDataEntry;
 import org.husio.weather.station.wh1080.Driver;
 import org.husio.weather.station.wh1080.WH1080Types;
 import org.slf4j.Logger;
@@ -74,7 +73,7 @@ public class WH1080Test {
     public synchronized void readDevideData() throws Exception{
 	Driver station=new Driver();
 	station.start();
-	HistoryDataEntry data=station.readLastDataEntry();
+	WeatherMeasureCollection data=station.readLastDataEntry();
 	List<CollectedWeatherMeasure<? extends Quantity>> measures=data.getMeasures();
 	for(CollectedWeatherMeasure<? extends Quantity> m: measures){
 	    log.debug("Collected Measure is: "+m);
