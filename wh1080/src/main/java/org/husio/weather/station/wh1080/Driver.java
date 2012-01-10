@@ -80,7 +80,6 @@ public class Driver implements WeatherStation{
 	try {
 	    usbInterface.claim();
 	    usbPipe.open();
-	    this.readFixedMemoryBlock();
 	    long delay=this.readFixedMemoryBlock().getSamplingInterval().longValue(WH1080Types.MILLISECONDS);
 	    timer.scheduleAtFixedRate(new WeatherPublisherTask(), 0, delay);
 	    this.status=STATUS.RUNNING;
@@ -162,7 +161,7 @@ public class Driver implements WeatherStation{
     }
     
     public synchronized FixedMemoryBlock readFixedMemoryBlock() throws Exception{
-	log.debug("Reading fixed memory block");
+	log.debug("Reading WH1080 Status FMB");
 	return this.fmb=new FixedMemoryBlock(this);
     }
     
