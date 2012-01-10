@@ -1,6 +1,6 @@
 package org.husio.eventbus;
 
-import org.husio.api.weather.WeatherMeasureCollection;
+import org.husio.api.weather.evt.WeatherInformationCollectedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,8 +22,8 @@ public class Tracer {
     }
 
     @EventHandler
-    public void handleWeatherInformation(WeatherMeasureCollection weather){
-	log.debug("Received weather info event:"+weather);
+    public void handleWeatherInformation(WeatherInformationCollectedEvent weather){
+	log.debug("Received weather info event:"+weather.getWeatherMeasureCollection());
     }
     
     @EventHandler

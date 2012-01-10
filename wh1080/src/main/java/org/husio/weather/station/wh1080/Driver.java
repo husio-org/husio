@@ -97,7 +97,6 @@ public class Driver implements WeatherStation {
 	    log.error("Could not connect with WH1080, is it been used?",e);
 	    if(usbPipe.isOpen()) usbPipe.close();
 	    usbInterface.release();
-	    
 	}
     }
 
