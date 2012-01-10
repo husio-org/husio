@@ -3,8 +3,6 @@ package org.husio.weather.station.wh1080;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.measure.Measure;
-import javax.measure.quantity.Duration;
 import javax.usb.UsbConst;
 import javax.usb.UsbControlIrp;
 import javax.usb.UsbDevice;
@@ -15,7 +13,6 @@ import javax.usb.UsbIrp;
 import javax.usb.UsbPipe;
 import javax.usb.util.UsbUtil;
 
-import org.husio.HusioApplication;
 import org.husio.api.weather.WeatherStation;
 import org.husio.usb.UsbUtils;
 import org.slf4j.Logger;
@@ -77,7 +74,7 @@ public class Driver implements WeatherStation{
      * starts and connects to the USB device
      */
     public synchronized void start() throws Exception{
-	log.debug("Starting the Weather Station Interface");
+	log.info("Starting the WH1080 Driver");
 
 	try {
 	    usbInterface.claim();
@@ -101,6 +98,7 @@ public class Driver implements WeatherStation{
 	this.usbPipe.abortAllSubmissions();
 	if(this.usbPipe.isOpen()) this.usbPipe.close();
 	this.usbInterface.release();
+	log.info("WH1080 Driver Stopped");
     }
 
     @Override
@@ -191,7 +189,7 @@ public class Driver implements WeatherStation{
 	@Override
 	public void run() {
 	    try {	
-		EventBusService.publish(readLastDataEntry());
+		EventBusService.publish(readLastDataEntry().getMeasures());
 	    } catch (Exception e) {
 		log.error("Could not read weather from station.",e);
 	    }
