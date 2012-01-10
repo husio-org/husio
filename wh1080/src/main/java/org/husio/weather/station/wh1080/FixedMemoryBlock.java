@@ -52,14 +52,11 @@ public class FixedMemoryBlock extends WH1080Types{
     
     
     /**
-     * Last memory block completed by the station. Notes that it is a cycling memory,
-     * they, if the current address being read is the first one (256), the previous was
-     * the last one.
+     * Current memory block used by the station. Notes that it is a cycling memory,
      * @return
      */
     public int lastReadAddress(){
-	int currentAddress=readUnsignedShort(CURRENT_HISTORY_ENTRY_POINTER_ADDRESS);
-	return currentAddress==256 ? 65520: currentAddress-16;
+	return readUnsignedShort(CURRENT_HISTORY_ENTRY_POINTER_ADDRESS);
     }
     
     /**

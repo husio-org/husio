@@ -64,4 +64,13 @@ public class Configuration {
 	return Boolean.getBoolean(getProperty(p));
     }
     
+    /**
+     * Returns a property as int.
+     * @param p
+     * @return
+     */
+    public static int getIntProperty(String p){
+	return Integer.parseInt(getProperty(p));
+    }
+    
 }

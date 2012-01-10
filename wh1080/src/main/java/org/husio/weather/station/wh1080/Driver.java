@@ -34,6 +34,7 @@ import com.adamtaft.eb.EventBusService;
 public class Driver implements WeatherStation {
     
     private static final String FORCE_CLAIM_CONFIG_OPTION="org.husio.weather.station.wh1080.Driver.usbForceClaim";
+    private static final String POLL_INTERVAL_CONFIG_OPTION="org.husio.weather.station.wh1080.Driver.PollIntervalSeconds";
 
     private static final byte WRITE_COMMAND = (byte) 0xA0;
     private static final byte END_MARK = (byte) 0x20;
@@ -86,9 +87,9 @@ public class Driver implements WeatherStation {
 	try {
 	    usbInterface.claim(new InterfacePolicy());
 	    usbPipe.open();
-	    long delay=this.readFixedMemoryBlock().getSamplingInterval().longValue(WH1080Types.MILLISECONDS);
-	    log.info("Will refresh weather information every: "+this.fmb().getSamplingInterval().toSI());
-	    timer.scheduleAtFixedRate(new WeatherPublisherTask(), 0, delay);
+	    long delay=Integer.parseInt(Configuration.getProperty(POLL_INTERVAL_CONFIG_OPTION));
+	    log.info("Will refresh weather information every: "+delay+" seconds");
+	    timer.scheduleAtFixedRate(new WeatherPublisherTask(), 0, delay*1000);
 	    this.status=STATUS.RUNNING;
 
 	} catch (UsbException e) {
