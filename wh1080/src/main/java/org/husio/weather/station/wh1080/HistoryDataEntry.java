@@ -242,10 +242,14 @@ public class HistoryDataEntry extends WH1080Types implements WeatherMeasureColle
 	return ret;
     }
 
-
     @Override
     public WeatherMeasureList getMeasures() {
 	return this.measures;
     }   
+    
+    @Override
+    public String toString(){
+	return this.getTimestamp().toString()+" +"+this.getDuration().toSI()+"="+this.getMeasures();
+    }
     
 }
