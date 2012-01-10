@@ -8,7 +8,6 @@
 	</parent>
 	<groupId>org.husio</groupId>
 	<artifactId>pkg</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<name>Husio Packaging</name>
 	<description>Generate Husio executable jar and other deliverables for target platforms.</description>
 
@@ -19,12 +18,6 @@
 			<artifactId>wh1080</artifactId>
 			<version>${project.version}</version>
 			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.husio</groupId>
-			<artifactId>wh1080</artifactId>
-			<version>${project.version}</version>
-			<scope>simulator</scope>
 		</dependency>
 	</dependencies>
 	<build>

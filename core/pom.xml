@@ -8,7 +8,6 @@
 	</parent>
 	<groupId>org.husio</groupId>
 	<artifactId>core</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<name>Husio Core</name>
 	<description>Main Application Module, EventBus Core.</description>
 	<dependencies>

@@ -7,7 +7,6 @@
   </parent>
   <groupId>org.husio</groupId>
   <artifactId>mobile</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
   <name>Husio Mobile and Touch frontend</name>
   <description>Ajax based frontend for Mobile and Touch Devices.</description>
 </project>

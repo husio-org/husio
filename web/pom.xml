@@ -8,7 +8,6 @@
 	</parent>
 	<groupId>org.husio</groupId>
 	<artifactId>web</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<name>Web Connector</name>
 	<description>EventBUS to Ajax Connector. Connects Husio to modern browsing and mobile applications.</description>
 	<dependencies>

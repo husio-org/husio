@@ -8,7 +8,6 @@
 	</parent>
 	<groupId>org.husio</groupId>
 	<artifactId>usb</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<name>USB Core </name>
 	<dependencies>
 		<dependency>

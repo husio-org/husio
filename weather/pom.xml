@@ -7,7 +7,6 @@
   </parent>
   <groupId>org.husio</groupId>
   <artifactId>weather</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
   <name>weather</name>
   <description>Logs, displays and shares home weather station data</description>
   <dependencies>
