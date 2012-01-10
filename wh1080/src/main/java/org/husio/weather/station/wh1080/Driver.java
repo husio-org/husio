@@ -70,7 +70,7 @@ public class Driver implements WeatherStation{
 	usbInterface=(UsbInterface) usbDevice.getActiveUsbConfiguration().getUsbInterfaces().get(0);
 	usbEndpoint=(UsbEndpoint) usbInterface.getUsbEndpoints().get(0);
 	usbPipe=usbEndpoint.getUsbPipe();
-	timer=new Timer("WH1080 Station Driver");
+	timer=new Timer("WH1080");
     }
     
     /**
