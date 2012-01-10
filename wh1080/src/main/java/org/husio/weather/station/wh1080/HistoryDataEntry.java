@@ -67,14 +67,14 @@ public class HistoryDataEntry extends WH1080Types implements WeatherMeasureColle
     /**
      * The station this entry belongs to
      */
-    private WH1080 station;
+    private Driver station;
     
     /**
      * Reads a new history data entry at the given address. it checks that the address is within range and
      * aligned according to the specification.
      * @param a
      */
-    HistoryDataEntry(int a, WH1080 s) throws Exception{
+    HistoryDataEntry(int a, Driver s) throws Exception{
 	assert 0x100 <= a & a<= 0x01FFFF: "Histroy data entry address out of range"; 
 	assert a % 0x10 ==0 : "History data entry is invalid, not aligned. You may need to reset the data of your station.";
 	this.address=a;

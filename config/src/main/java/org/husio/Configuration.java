@@ -46,4 +46,8 @@ public class Configuration {
 	return ret;
     }
     
+    public static String getProperty(String p){
+	return Configuration.configuration.getProperty(p);
+    }
+    
 }

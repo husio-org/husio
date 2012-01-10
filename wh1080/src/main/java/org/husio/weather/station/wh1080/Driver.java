@@ -1,5 +1,8 @@
 package org.husio.weather.station.wh1080;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import javax.measure.Measure;
 import javax.measure.quantity.Duration;
 import javax.usb.UsbConst;
@@ -12,10 +15,13 @@ import javax.usb.UsbIrp;
 import javax.usb.UsbPipe;
 import javax.usb.util.UsbUtil;
 
+import org.husio.HusioApplication;
 import org.husio.api.weather.WeatherStation;
 import org.husio.usb.UsbUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.adamtaft.eb.EventBusService;
 
 /**
  * 
@@ -24,7 +30,7 @@ import org.slf4j.LoggerFactory;
  * @author rafael
  *
  */
-public class WH1080 implements WeatherStation{
+public class Driver implements WeatherStation{
     
     private static final byte WRITE_COMMAND = (byte) 0xA0;
     private static final byte END_MARK = (byte) 0x20;
@@ -33,7 +39,6 @@ public class WH1080 implements WeatherStation{
     
     private STATUS status=STATUS.STOPPED;
 
-    
     /**
      * USB vendor id for locating the station.
      */
@@ -44,7 +49,7 @@ public class WH1080 implements WeatherStation{
      */
     public static final short USB_PRODUCT_ID=(short) 0x8021;
 
-    private static final Logger log = LoggerFactory.getLogger(WH1080.class);
+    private static final Logger log = LoggerFactory.getLogger(Driver.class);
     
     private UsbDevice usbDevice;
     private UsbPipe usbPipe;
@@ -52,17 +57,20 @@ public class WH1080 implements WeatherStation{
     private UsbEndpoint usbEndpoint;
     
     private FixedMemoryBlock fmb;
+    
+    private Timer timer;
  
     /**
      * Will find the station in the USB bus.
      * @throws Exception
      */
-    public WH1080() throws Exception{
+    public Driver() throws Exception{
 	log.debug("Starting WH1080 Driver");
-	usbDevice=UsbUtils.findDevice(WH1080.USB_VENDOR_ID, WH1080.USB_PRODUCT_ID);
+	usbDevice=UsbUtils.findDevice(Driver.USB_VENDOR_ID, Driver.USB_PRODUCT_ID);
 	usbInterface=(UsbInterface) usbDevice.getActiveUsbConfiguration().getUsbInterfaces().get(0);
 	usbEndpoint=(UsbEndpoint) usbInterface.getUsbEndpoints().get(0);
 	usbPipe=usbEndpoint.getUsbPipe();
+	timer=new Timer("WH1080 Station Driver");
     }
     
     /**
@@ -74,6 +82,9 @@ public class WH1080 implements WeatherStation{
 	try {
 	    usbInterface.claim();
 	    usbPipe.open();
+	    this.readFixedMemoryBlock();
+	    long delay=this.readFixedMemoryBlock().getSamplingInterval().longValue(WH1080Types.MILLISECONDS);
+	    timer.scheduleAtFixedRate(new WeatherPublisherTask(), 0, delay);
 	    this.status=STATUS.RUNNING;
 
 	} catch (UsbException e) {
@@ -81,6 +92,20 @@ public class WH1080 implements WeatherStation{
 	    if(usbPipe.isOpen()) usbPipe.close();
 	    usbInterface.release();
 	}
+    }
+    
+    @Override
+    public void stop() throws Exception {
+	this.status=STATUS.STOPPED;
+	timer.cancel();
+	this.usbPipe.abortAllSubmissions();
+	if(this.usbPipe.isOpen()) this.usbPipe.close();
+	this.usbInterface.release();
+    }
+
+    @Override
+    public STATUS getStatus() {
+	return status;
     }
 
     /**
@@ -151,23 +176,27 @@ public class WH1080 implements WeatherStation{
 	return fmb;
     }
 
+    
+    /**
+     * Private inner task that will publish the weather to the
+     * rest of the husio components.
+     * @author rafael
+     *
+     */
+    private class WeatherPublisherTask extends TimerTask{
 
-    @Override
-    public void stop() throws Exception {
-	this.usbPipe.abortAllSubmissions();
-	if(this.usbPipe.isOpen()) this.usbPipe.close();
-	this.usbInterface.release();
-    }
-
-    @Override
-    public STATUS getStatus() {
-	return status;
-    }
-
-    @Override
-    public Measure<Duration> getPoolingInverval() {
-	// TODO Auto-generated method stub
-	return null;
+	/**
+	 * publishes the weather events as required.
+	 */
+	@Override
+	public void run() {
+	    try {	
+		EventBusService.publish(readLastDataEntry());
+	    } catch (Exception e) {
+		log.error("Could not read weather from station.",e);
+	    }
+	}
+	
     }
 
 }

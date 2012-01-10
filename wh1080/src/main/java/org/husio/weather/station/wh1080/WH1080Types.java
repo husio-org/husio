@@ -23,6 +23,8 @@ import org.husio.api.weather.WeatherUnits;
 // that should make it easy to generate ports for other stations.
 public abstract class WH1080Types {
     
+    /** Useful for scheduling the publisher task */
+    public static final Unit<Duration> MILLISECONDS=WeatherUnits.SECOND.divide(1000);
     /** Measurement duration as stored by the station */
     public static final Unit<Duration> DURATION_UNIT=WeatherUnits.SECOND.times(60);
     /** Temperature unit as stored in the station records*/

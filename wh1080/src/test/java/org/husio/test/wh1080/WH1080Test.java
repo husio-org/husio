@@ -15,7 +15,7 @@ import org.husio.api.weather.CollectedWeatherMeasure;
 import org.husio.api.weather.WeatherUnits;
 import org.husio.usb.UsbUtils;
 import org.husio.weather.station.wh1080.HistoryDataEntry;
-import org.husio.weather.station.wh1080.WH1080;
+import org.husio.weather.station.wh1080.Driver;
 import org.husio.weather.station.wh1080.WH1080Types;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +34,7 @@ public class WH1080Test {
     @Test(enabled=false)
     public void findStationDevice() throws Exception{
 	log.debug("Finding Station WH1080 in virtual USB device hub");
-	UsbDevice device=UsbUtils.findDevice(WH1080.USB_VENDOR_ID, WH1080.USB_PRODUCT_ID);
+	UsbDevice device=UsbUtils.findDevice(Driver.USB_VENDOR_ID, Driver.USB_PRODUCT_ID);
 	if(device!=null) log.debug("The device was found!!");
 	else log.debug("The device was not found");
     }
@@ -42,7 +42,7 @@ public class WH1080Test {
     @Test(enabled=false)
     public void findStationDeviceInfo() throws Exception{
 	log.debug("Finding Information about Station WH1080");
-	UsbDevice device=UsbUtils.findDevice(WH1080.USB_VENDOR_ID, WH1080.USB_PRODUCT_ID);
+	UsbDevice device=UsbUtils.findDevice(Driver.USB_VENDOR_ID, Driver.USB_PRODUCT_ID);
 	assert device!=null : "Device not found";
 	log.debug("Device configured:"+device.isConfigured());
 	List confs=device.getUsbConfigurations();
@@ -71,12 +71,12 @@ public class WH1080Test {
     }
     
     @Test(enabled=true)
-    public void readDevideData() throws Exception{
-	WH1080 station=new WH1080();
+    public synchronized void readDevideData() throws Exception{
+	Driver station=new Driver();
 	station.start();
 	HistoryDataEntry data=station.readLastDataEntry();
 	List<CollectedWeatherMeasure<? extends Quantity>> measures=data.getMeasures();
-	for(CollectedWeatherMeasure m: measures){
+	for(CollectedWeatherMeasure<? extends Quantity> m: measures){
 	    log.debug("Collected Measure is: "+m);
 	}
 	station.stop();

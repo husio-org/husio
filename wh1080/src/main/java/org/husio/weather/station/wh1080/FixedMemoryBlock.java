@@ -1,5 +1,8 @@
 package org.husio.weather.station.wh1080;
 
+import javax.measure.Measure;
+import javax.measure.quantity.Duration;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,14 +35,14 @@ public class FixedMemoryBlock extends WH1080Types{
     /**
      * The station this memory blcok belongs to
      */
-    private WH1080 station;
+    private Driver station;
     
     /**
      * Loads the memory block
      * @param s
      * @throws Exception
      */
-    FixedMemoryBlock(WH1080 s) throws Exception{
+    FixedMemoryBlock(Driver s) throws Exception{
 	this.station=s;
 	
 	for (int i=0; i<256 ; i+=32){
@@ -57,6 +60,14 @@ public class FixedMemoryBlock extends WH1080Types{
     public int lastReadAddress(){
 	int currentAddress=readUnsignedShort(CURRENT_HISTORY_ENTRY_POINTER_ADDRESS);
 	return currentAddress==256 ? 65520: currentAddress-16;
+    }
+    
+    /**
+     * The sampling interval at which this station will update itself
+     */
+    public Measure<Duration> getSamplingInterval(){
+	int samplingInterval=readUnsignedByte(SAMPLING_INTERVAL_SETTING_ADDRESS);
+	return Measure.valueOf(samplingInterval,DURATION_UNIT);
     }
 
     /**
