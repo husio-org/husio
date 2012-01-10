@@ -154,7 +154,7 @@ public class Driver implements WeatherStation{
 		assert irp.isComplete():"Irp is not complete!";
 	}
 	
-	log.debug("Read Address "+UsbUtil.toHexString(address)+":"+UsbUtils.toHexString(dataBuffer, offset,32));
+	log.trace("Read Address "+UsbUtil.toHexString(address)+":"+UsbUtils.toHexString(dataBuffer, offset,32));
     }
     
     public synchronized HistoryDataEntry readHistoryDataEntry(int address) throws Exception{

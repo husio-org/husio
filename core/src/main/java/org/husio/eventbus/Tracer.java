@@ -22,7 +22,7 @@ public class Tracer {
     
     @EventHandler
     public void handePublishedEvent(Object obj){
-	log.trace("Received event:"+obj);
+	log.debug("Received event:"+obj);
     }
 
 }
