@@ -87,13 +87,16 @@ public class Driver implements WeatherStation {
 	    usbInterface.claim(new InterfacePolicy());
 	    usbPipe.open();
 	    long delay=this.readFixedMemoryBlock().getSamplingInterval().longValue(WH1080Types.MILLISECONDS);
+	    log.info("Will refresh weather information every: "+this.fmb().getSamplingInterval().toSI());
 	    timer.scheduleAtFixedRate(new WeatherPublisherTask(), 0, delay);
 	    this.status=STATUS.RUNNING;
 
 	} catch (UsbException e) {
+	    this.status=STATUS.ERROR;
 	    log.error("Could not connect with WH1080, is it been used?",e);
 	    if(usbPipe.isOpen()) usbPipe.close();
 	    usbInterface.release();
+	    
 	}
     }
 

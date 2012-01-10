@@ -22,8 +22,13 @@ public class Tracer {
     }
 
     @EventHandler
-    public void handePublishedEvent(WeatherMeasureCollection weather){
+    public void handleWeatherInformation(WeatherMeasureCollection weather){
 	log.debug("Received weather info event:"+weather);
+    }
+    
+    @EventHandler
+    public void handleObject(Object o){
+	log.debug("Received object event:"+o);
     }
 
 }
