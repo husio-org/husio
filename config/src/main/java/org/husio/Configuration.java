@@ -46,8 +46,22 @@ public class Configuration {
 	return ret;
     }
     
+    /**
+     * Returns a configuration property
+     * @param p
+     * @return
+     */
     public static String getProperty(String p){
 	return Configuration.configuration.getProperty(p);
+    }
+    
+    /**
+     * Returns a property as boolean.
+     * @param p
+     * @return
+     */
+    public static boolean getBooleanProperty(String p){
+	return Boolean.getBoolean(getProperty(p));
     }
     
 }
