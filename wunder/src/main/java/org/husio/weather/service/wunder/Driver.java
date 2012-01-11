@@ -61,9 +61,9 @@ public class Driver extends HTTPWeatherService implements WeatherCommunityServic
     // User Configuration Settings
     
     public static final String WU_STATION_ID_PARAM= "ID";
-    public static final String WU_STATION_ID_CONF_PARAM="org.husio.weather.service.wund.Driver.stationId";
+    public static final String WU_STATION_ID_CONF_PARAM="org.husio.weather.service.wunder.Driver.stationId";
     public static final String WU_PASSWORD_PARAM= "PASSWORD";
-    public static final String WU_PASSWORD_CONF_PARAM= "org.husio.weather.service.wund.Driver.password";
+    public static final String WU_PASSWORD_CONF_PARAM= "org.husio.weather.service.wunder.Driver.password";
 
     // Weather Observation Configuration
         
