@@ -57,7 +57,7 @@ public class HusioApplication {
 	    tracer = new Tracer();
 	    
 	    // Create the Weather Community Service if any
-	    String weatherCommunityDriver = System.getProperty(COMMUNITY_SERVICE_DRIVER_CONF_PARAM);
+	    String weatherCommunityDriver = Configuration.getProperty(COMMUNITY_SERVICE_DRIVER_CONF_PARAM);
 	    if(weatherCommunityDriver != null) 
 		weatherCommunityService = (WeatherCommunityService) Class.forName(Configuration.getProperty(COMMUNITY_SERVICE_DRIVER_CONF_PARAM)).newInstance();
 	    
