@@ -11,10 +11,13 @@ import javax.measure.quantity.Temperature;
 import javax.measure.quantity.Velocity;
 import javax.measure.unit.Unit;
 
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIUtils;
 import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.husio.Configuration;
 import org.husio.api.weather.Humidity;
@@ -86,8 +89,7 @@ public class Driver implements WeatherCommunityService{
     
     private String stationId;
     private String password;
-    
-
+    private HttpClient httpclient = new DefaultHttpClient();
 
     // TODO: Still pending implementation
     //<float> rainin:     inches/hour of rain
@@ -135,7 +137,9 @@ public class Driver implements WeatherCommunityService{
 	URI uri = URIUtils.createURI("http",PWS_SERVER , -1, PWS_UPDATE_URL, 
 	URLEncodedUtils.format(qparams, "UTF-8"), null);
 	HttpGet httpget = new HttpGet(uri);
-	log.debug("The URI is:"+httpget.getURI());   
+	log.debug("The URI is: "+httpget.getURI()); 
+	HttpResponse response=this.httpclient.execute(httpget);
+	log.debug("Response Status: "+response.getStatusLine());
     }
     
 
