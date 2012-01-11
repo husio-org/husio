@@ -30,7 +30,7 @@ public abstract class WH1080Types {
     /** Temperature unit as stored in the station records*/
     public static final Unit<Temperature> TEMPERATURE_UNIT=WeatherUnits.CELSIUS.times(0.1);
     /** Wind speed unit as store in the station records */
-    public static final Unit<Velocity> WIND_UNIT=WeatherUnits.METERS_PER_SECOND;
+    public static final Unit<Velocity> WIND_UNIT=WeatherUnits.METERS_PER_SECOND.times(0.1);
     /** Absolute Pressure as store in the station records */
     public static final Unit<Pressure> PRESSURE_UNIT=WeatherUnits.HECTO_PASCAL.times(0.1);
     /** Humidity as stored in the station records*/
