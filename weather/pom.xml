@@ -7,8 +7,8 @@
   </parent>
   <groupId>org.husio</groupId>
   <artifactId>weather</artifactId>
-  <name>weather</name>
-  <description>Logs, displays and shares home weather station data</description>
+  <name>Husio Weather Core Module</name>
+  <description>Station Independent Weather computations, such as statistics, etc.</description>
   <dependencies>
   	<dependency>
   		<groupId>org.husio</groupId>

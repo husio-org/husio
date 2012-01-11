@@ -6,9 +6,9 @@ import javax.measure.quantity.Temperature;
 import javax.measure.unit.NonSI;
 
 import org.husio.Configuration;
-import org.husio.api.weather.CollectedWeatherMeasure;
-import org.husio.api.weather.CollectedWeatherMeasure.ENVIRONMENT;
-import org.husio.api.weather.CollectedWeatherMeasure.TYPE;
+import org.husio.api.weather.ObservedWeatherMeasure;
+import org.husio.api.weather.ObservedWeatherMeasure.ENVIRONMENT;
+import org.husio.api.weather.ObservedWeatherMeasure.TYPE;
 import org.husio.api.weather.Humidity;
 import org.husio.api.weather.WeatherUnits;
 import org.slf4j.Logger;
@@ -27,7 +27,7 @@ public class ApiTest {
     @Test
     public void measurementTest(){
 	log.debug("Testing Weather API: Measurement 1");
-	CollectedWeatherMeasure<Temperature> cwm=new CollectedWeatherMeasure<Temperature>();
+	ObservedWeatherMeasure<Temperature> cwm=new ObservedWeatherMeasure<Temperature>();
 	cwm.setEnvironment(ENVIRONMENT.INDOOR);
 	cwm.setType(TYPE.MAXIMUM);
 	cwm.setMeasure(Measure.valueOf(5, WeatherUnits.CELSIUS));
@@ -37,7 +37,7 @@ public class ApiTest {
     @Test
     public void measurement2Test(){
 	log.debug("Testing Weather API: Measurement 2");
-	CollectedWeatherMeasure<Pressure> cwm=new CollectedWeatherMeasure<Pressure>();
+	ObservedWeatherMeasure<Pressure> cwm=new ObservedWeatherMeasure<Pressure>();
 	cwm.setEnvironment(ENVIRONMENT.OUTDOOR);
 	cwm.setType(TYPE.MAXIMUM);
 	cwm.setMeasure(Measure.valueOf(5, WeatherUnits.HECTO_PASCAL));
@@ -47,7 +47,7 @@ public class ApiTest {
     @Test
     public void measurement3Test(){
 	log.debug("Testing Weather API: Measurement 3");
-	CollectedWeatherMeasure<Humidity> cwm=new CollectedWeatherMeasure<Humidity>();
+	ObservedWeatherMeasure<Humidity> cwm=new ObservedWeatherMeasure<Humidity>();
 	cwm.setEnvironment(ENVIRONMENT.OUTDOOR);
 	cwm.setType(TYPE.MAXIMUM);
 	cwm.setMeasure(Measure.valueOf(5, WeatherUnits.PERCENT_WATER));
@@ -57,7 +57,7 @@ public class ApiTest {
     @Test
     public void measurementCrossUnitTest(){
 	log.debug("Testing Weather API: Cross Unit Measurement 1");
-	CollectedWeatherMeasure<Pressure> cwm=new CollectedWeatherMeasure<Pressure>();
+	ObservedWeatherMeasure<Pressure> cwm=new ObservedWeatherMeasure<Pressure>();
 	cwm.setEnvironment(ENVIRONMENT.OUTDOOR);
 	cwm.setType(TYPE.MAXIMUM);
 	cwm.setMeasure(Measure.valueOf(105, NonSI.MILLIMETER_OF_MERCURY));

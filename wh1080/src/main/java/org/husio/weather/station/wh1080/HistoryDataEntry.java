@@ -7,11 +7,11 @@ import javax.measure.quantity.Pressure;
 import javax.measure.quantity.Temperature;
 import javax.measure.quantity.Velocity;
 
-import org.husio.api.weather.CollectedWeatherMeasure;
+import org.husio.api.weather.ObservedWeatherMeasure;
 import org.husio.api.weather.Humidity;
-import org.husio.api.weather.WeatherMeasureArrayList;
-import org.husio.api.weather.WeatherMeasureCollection;
-import org.husio.api.weather.WeatherMeasureList;
+import org.husio.api.weather.WeatherObservationArrayList;
+import org.husio.api.weather.WeatherObservation;
+import org.husio.api.weather.WeatherObservationList;
 import org.husio.api.weather.WeatherUnits;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
  * @author rafael
  *
  */
-public class HistoryDataEntry extends WH1080Types implements WeatherMeasureCollection {
+public class HistoryDataEntry extends WH1080Types implements WeatherObservation {
     
     private static final Logger log = LoggerFactory.getLogger(HistoryDataEntry.class);
     
@@ -50,7 +50,7 @@ public class HistoryDataEntry extends WH1080Types implements WeatherMeasureColle
     /**
      * Where the collected metrics are stored
      */
-    private WeatherMeasureList measures=new WeatherMeasureArrayList();
+    private WeatherObservationList measures=new WeatherObservationArrayList();
 
     
     /**
@@ -129,10 +129,10 @@ public class HistoryDataEntry extends WH1080Types implements WeatherMeasureColle
      * Returns the stored indoor temperature.
      * @return the temperature or null if the station has not a valid metric
      */
-    private CollectedWeatherMeasure<Temperature> getIndoorTemperature(){
-	CollectedWeatherMeasure<Temperature> ret=new CollectedWeatherMeasure<Temperature>();
-	ret.setType(CollectedWeatherMeasure.TYPE.DISCRETE);
-	ret.setEnvironment(CollectedWeatherMeasure.ENVIRONMENT.INDOOR);
+    private ObservedWeatherMeasure<Temperature> getIndoorTemperature(){
+	ObservedWeatherMeasure<Temperature> ret=new ObservedWeatherMeasure<Temperature>();
+	ret.setType(ObservedWeatherMeasure.TYPE.DISCRETE);
+	ret.setEnvironment(ObservedWeatherMeasure.ENVIRONMENT.INDOOR);
 	if(!this.isValidShortMetric(TEMPERATURE_IN_ADDRESS)){
 	    ret.setValidMetric(false);
 	}
@@ -147,10 +147,10 @@ public class HistoryDataEntry extends WH1080Types implements WeatherMeasureColle
      * Returns the stored indoor temperature.
      * @return the temperature or null if the station has not a valid metric
      */
-    private CollectedWeatherMeasure<Temperature> getOutdoorTemperature(){
-	CollectedWeatherMeasure<Temperature> ret=new CollectedWeatherMeasure<Temperature>();
-	ret.setType(CollectedWeatherMeasure.TYPE.DISCRETE);
-	ret.setEnvironment(CollectedWeatherMeasure.ENVIRONMENT.OUTDOOR);
+    private ObservedWeatherMeasure<Temperature> getOutdoorTemperature(){
+	ObservedWeatherMeasure<Temperature> ret=new ObservedWeatherMeasure<Temperature>();
+	ret.setType(ObservedWeatherMeasure.TYPE.DISCRETE);
+	ret.setEnvironment(ObservedWeatherMeasure.ENVIRONMENT.OUTDOOR);
 	if(!this.isValidShortMetric(TEMPERATURE_OUT_ADDRESS)) ret.setValidMetric(false);
 	else {
 	    int value=this.readSignedShort(TEMPERATURE_OUT_ADDRESS);
@@ -162,10 +162,10 @@ public class HistoryDataEntry extends WH1080Types implements WeatherMeasureColle
     /**
      * Returns the stored absolute pressure
      */
-    private CollectedWeatherMeasure<Pressure> getAbsolutePressure(){
-	CollectedWeatherMeasure<Pressure> ret=new CollectedWeatherMeasure<Pressure>();
-	ret.setType(CollectedWeatherMeasure.TYPE.DISCRETE);
-	ret.setEnvironment(CollectedWeatherMeasure.ENVIRONMENT.OUTDOOR);
+    private ObservedWeatherMeasure<Pressure> getAbsolutePressure(){
+	ObservedWeatherMeasure<Pressure> ret=new ObservedWeatherMeasure<Pressure>();
+	ret.setType(ObservedWeatherMeasure.TYPE.DISCRETE);
+	ret.setEnvironment(ObservedWeatherMeasure.ENVIRONMENT.OUTDOOR);
 	if(!this.isValidShortMetric(ABSOLUTE_PRESURE_ADDRESS)) ret.setValidMetric(false);
 	else{
 	    int value=this.readUnsignedShort(ABSOLUTE_PRESURE_ADDRESS);
@@ -177,10 +177,10 @@ public class HistoryDataEntry extends WH1080Types implements WeatherMeasureColle
     /**
      * Returns relative humidity outside
      */
-    private CollectedWeatherMeasure<Humidity> getOutdoorRelativeHumidity(){
-	CollectedWeatherMeasure<Humidity> ret=new CollectedWeatherMeasure<Humidity>();
-	ret.setType(CollectedWeatherMeasure.TYPE.DISCRETE);
-	ret.setEnvironment(CollectedWeatherMeasure.ENVIRONMENT.OUTDOOR);	
+    private ObservedWeatherMeasure<Humidity> getOutdoorRelativeHumidity(){
+	ObservedWeatherMeasure<Humidity> ret=new ObservedWeatherMeasure<Humidity>();
+	ret.setType(ObservedWeatherMeasure.TYPE.DISCRETE);
+	ret.setEnvironment(ObservedWeatherMeasure.ENVIRONMENT.OUTDOOR);	
 	if(!this.isValidByteMetric(RELATIVE_HUMIDITY_OUT_ADDRESS)) ret.setValidMetric(false);
 	else{
 	    int value=this.readUnsignedByte(RELATIVE_HUMIDITY_OUT_ADDRESS);
@@ -192,10 +192,10 @@ public class HistoryDataEntry extends WH1080Types implements WeatherMeasureColle
     /**
      * Returns relative humidity outside
      */
-    private CollectedWeatherMeasure<Humidity> getIndoorRelativeHumidity(){
-	CollectedWeatherMeasure<Humidity> ret=new CollectedWeatherMeasure<Humidity>();
-	ret.setType(CollectedWeatherMeasure.TYPE.DISCRETE);
-	ret.setEnvironment(CollectedWeatherMeasure.ENVIRONMENT.INDOOR);
+    private ObservedWeatherMeasure<Humidity> getIndoorRelativeHumidity(){
+	ObservedWeatherMeasure<Humidity> ret=new ObservedWeatherMeasure<Humidity>();
+	ret.setType(ObservedWeatherMeasure.TYPE.DISCRETE);
+	ret.setEnvironment(ObservedWeatherMeasure.ENVIRONMENT.INDOOR);
 	if(!this.isValidByteMetric(RELATIVE_HUMIDITY_IN_ADDRESS)) ret.setValidMetric(false);
 	else{
 	    int value=this.readUnsignedByte(RELATIVE_HUMIDITY_IN_ADDRESS);
@@ -204,10 +204,10 @@ public class HistoryDataEntry extends WH1080Types implements WeatherMeasureColle
 	return ret;
     }
 
-    private CollectedWeatherMeasure<Velocity> getAverageWind(){
-	CollectedWeatherMeasure<Velocity>  ret=new CollectedWeatherMeasure<Velocity> ();
-	ret.setType(CollectedWeatherMeasure.TYPE.AVERAGE);
-	ret.setEnvironment(CollectedWeatherMeasure.ENVIRONMENT.OUTDOOR);
+    private ObservedWeatherMeasure<Velocity> getAverageWind(){
+	ObservedWeatherMeasure<Velocity>  ret=new ObservedWeatherMeasure<Velocity> ();
+	ret.setType(ObservedWeatherMeasure.TYPE.AVERAGE);
+	ret.setEnvironment(ObservedWeatherMeasure.ENVIRONMENT.OUTDOOR);
 	
 	if(!this.isValidByteMetric(AVERAGE_WIND_SPEED_ADDRESS)) ret.setValidMetric(false);
 	else{
@@ -217,10 +217,10 @@ public class HistoryDataEntry extends WH1080Types implements WeatherMeasureColle
 	return ret;
     }
     
-    private CollectedWeatherMeasure<Velocity>  getWindHigh(){
-	CollectedWeatherMeasure<Velocity>  ret=new CollectedWeatherMeasure<Velocity> ();
-	ret.setType(CollectedWeatherMeasure.TYPE.MAXIMUM);
-	ret.setEnvironment(CollectedWeatherMeasure.ENVIRONMENT.OUTDOOR);
+    private ObservedWeatherMeasure<Velocity>  getWindHigh(){
+	ObservedWeatherMeasure<Velocity>  ret=new ObservedWeatherMeasure<Velocity> ();
+	ret.setType(ObservedWeatherMeasure.TYPE.MAXIMUM);
+	ret.setEnvironment(ObservedWeatherMeasure.ENVIRONMENT.OUTDOOR);
 	if(!this.isValidByteMetric(WIND_SPEED_HIGH_ADDRESS)) ret.setValidMetric(false);
 	else{
 	    int value=this.readUnsignedByte(WIND_SPEED_HIGH_ADDRESS);
@@ -229,10 +229,10 @@ public class HistoryDataEntry extends WH1080Types implements WeatherMeasureColle
 	return ret;
     }
     
-    private CollectedWeatherMeasure<Velocity>  getWindGust(){
-	CollectedWeatherMeasure<Velocity>  ret=new CollectedWeatherMeasure<Velocity> ();
-	ret.setType(CollectedWeatherMeasure.TYPE.GUST);
-	ret.setEnvironment(CollectedWeatherMeasure.ENVIRONMENT.OUTDOOR);
+    private ObservedWeatherMeasure<Velocity>  getWindGust(){
+	ObservedWeatherMeasure<Velocity>  ret=new ObservedWeatherMeasure<Velocity> ();
+	ret.setType(ObservedWeatherMeasure.TYPE.GUST);
+	ret.setEnvironment(ObservedWeatherMeasure.ENVIRONMENT.OUTDOOR);
 	
 	if(!this.isValidByteMetric(WIND_SPEED_GUST_ADDRESS)) ret.setValidMetric(false);
 	else{
@@ -243,7 +243,7 @@ public class HistoryDataEntry extends WH1080Types implements WeatherMeasureColle
     }
 
     @Override
-    public WeatherMeasureList getMeasures() {
+    public WeatherObservationList getMeasures() {
 	return this.measures;
     }   
     

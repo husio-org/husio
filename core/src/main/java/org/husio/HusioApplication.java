@@ -2,12 +2,11 @@ package org.husio;
 
 import java.io.IOException;
 
+import org.husio.api.weather.WeatherCommunityService;
 import org.husio.api.weather.WeatherStation;
 import org.husio.eventbus.Tracer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.adamtaft.eb.EventBusService;
 
 /**
  * Main Application Class.
@@ -17,11 +16,16 @@ import com.adamtaft.eb.EventBusService;
  * @author rafael
  *
  */
+@SuppressWarnings("unused") // They are indeed in use by subscribing the event bus!
 public class HusioApplication {
+    
+    private static final String STATION_DRIVER_CONF_PARAM="org.husio.weather.stationDriver";
+    private static final String COMMUNITY_SERVICE_DRIVER_CONF_PARAM="org.husio.weather.serviceDriver";
 
     private static final Logger log = LoggerFactory.getLogger(HusioApplication.class);
     private static Tracer tracer;
     private static WeatherStation weatherStation;
+    private static WeatherCommunityService weatherCommunityService;
     private static String[] commandLineArgs;
 
     /**
@@ -49,14 +53,21 @@ public class HusioApplication {
 	    // Register a shut-down hook
 	    Runtime.getRuntime().addShutdownHook(new ShutdownHook());
 
-	    // create the tracing module
+	    // Create the tracing module
 	    tracer = new Tracer();
-
-	    // create the weather station
-	    String stationDriver = System.getProperty("org.husio.weather.stationDriver");
+	    
+	    // Create the Weather Community Service if any
+	    String stationDriver = System.getProperty(STATION_DRIVER_CONF_PARAM);
 	    assert stationDriver != null : "org.husio.weather.stationDriver not configuted";
-	    weatherStation = (WeatherStation) Class.forName(Configuration.getProperty("org.husio.weather.stationDriver")).newInstance();
+	    weatherStation = (WeatherStation) Class.forName(Configuration.getProperty(STATION_DRIVER_CONF_PARAM)).newInstance();
 	    weatherStation.start();
+	    
+	    // Create the weather station
+	    String weatherCommunityDriver = System.getProperty(COMMUNITY_SERVICE_DRIVER_CONF_PARAM);
+	    if(weatherCommunityDriver != null) 
+		weatherCommunityService = (WeatherCommunityService) Class.forName(Configuration.getProperty(COMMUNITY_SERVICE_DRIVER_CONF_PARAM)).newInstance();
+	    
+	    
 	} catch (Exception e) {
 	    log.error("Error while starting Husio", e);
 	}

@@ -1,5 +1,7 @@
 package org.husio;
 
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -25,13 +27,18 @@ public class Configuration {
      * @throws IOException
      */
     private static Properties composeConfigurationProperties(){
-	Properties ret;
+	Properties user, system, def;
 	try {
-	    ret=readJarProperties("org/husio/config/husio.properties");
+	    // Read the default properties shipped in the jar
+	    def=readJarProperties("org/husio/config/husio.properties");
+	    // Now read the system properties, set the previous as defaults.
+	    system=readFileProperties(new File("/etc","husio.properties"),def);
+	    // Now read the user porperties and set the previous as default
+	    user=readFileProperties(new File(System.getProperty("user.home"),".husio.properties"),system);
 	} catch (IOException e) {
 	    throw new Error("Could not build configuration",e);   
 	}
-	return ret;
+	return user;
     }
 
     /**
@@ -41,8 +48,16 @@ public class Configuration {
      * @throws IOException
      */
     private static Properties readJarProperties(String jarPath) throws IOException{
-	Properties ret=new Properties();
+	Properties ret= new Properties();
 	ret.load(ClassLoader.getSystemClassLoader().getResourceAsStream(jarPath));
+	return ret;
+    }
+    
+    private static Properties readFileProperties(File f, Properties defaultProperties) throws IOException{
+	Properties ret=defaultProperties!=null? new Properties(defaultProperties): new Properties();
+	if(f.canRead()){
+	    ret.load(new FileReader(f));
+	}
 	return ret;
     }
     

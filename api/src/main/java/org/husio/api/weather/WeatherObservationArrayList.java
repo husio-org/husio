@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import javax.measure.quantity.Quantity;
 
-public class WeatherMeasureArrayList  extends ArrayList<CollectedWeatherMeasure<? extends Quantity>> implements WeatherMeasureList{
+public class WeatherObservationArrayList  extends ArrayList<ObservedWeatherMeasure<? extends Quantity>> implements WeatherObservationList{
     private static final long serialVersionUID = 1L;
 
 }

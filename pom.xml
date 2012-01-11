@@ -43,6 +43,7 @@
 		<module>web</module>
 		<module>mobile</module>
 		<module>pkg</module>
+		<module>pwsweather</module>
 	</modules>
 	<build>
 		<plugins>

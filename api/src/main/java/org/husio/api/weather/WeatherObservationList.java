@@ -10,6 +10,6 @@ import javax.measure.quantity.Quantity;
  * @author rafael
  *
  */
-public interface WeatherMeasureList extends List<CollectedWeatherMeasure<? extends Quantity>>{
+public interface WeatherObservationList extends List<ObservedWeatherMeasure<? extends Quantity>>{
     
 }

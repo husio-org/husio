@@ -1,14 +1,8 @@
 package org.husio.api.weather;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-
 import javax.measure.Measure;
 import javax.measure.quantity.Quantity;
-import javax.measure.quantity.Temperature;
 import javax.measure.unit.Dimension;
-import javax.measure.unit.Unit;
 
 /**
  * 
@@ -17,7 +11,7 @@ import javax.measure.unit.Unit;
  * @author rafael
  * 
  */
-public class CollectedWeatherMeasure<T extends Quantity> {
+public class ObservedWeatherMeasure<T extends Quantity> {
 
     /**
      * Where the metric took place.
@@ -60,16 +54,16 @@ public class CollectedWeatherMeasure<T extends Quantity> {
 
     private Measure<T> measure;
     
-    public CollectedWeatherMeasure() {
+    public ObservedWeatherMeasure() {
 
     }
 
-    public CollectedWeatherMeasure(ENVIRONMENT e, TYPE t) {
+    public ObservedWeatherMeasure(ENVIRONMENT e, TYPE t) {
 	this.environment = e;
 	this.type = t;
     }
 
-    public CollectedWeatherMeasure(ENVIRONMENT e, TYPE t, Measure<T> m) {
+    public ObservedWeatherMeasure(ENVIRONMENT e, TYPE t, Measure<T> m) {
 	this.environment = e;
 	this.type = t;
 	this.measure = m;

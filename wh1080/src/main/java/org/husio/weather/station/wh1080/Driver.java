@@ -15,9 +15,9 @@ import javax.usb.UsbPipe;
 import javax.usb.util.UsbUtil;
 
 import org.husio.Configuration;
-import org.husio.api.weather.WeatherMeasureCollection;
+import org.husio.api.weather.WeatherObservation;
 import org.husio.api.weather.WeatherStation;
-import org.husio.api.weather.evt.WeatherInformationCollectedEvent;
+import org.husio.api.weather.evt.WeatherObservationEvent;
 import org.husio.usb.UsbUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -178,7 +178,7 @@ public class Driver implements WeatherStation {
 	return this.fmb = new FixedMemoryBlock(this);
     }
 
-    public WeatherMeasureCollection readLastDataEntry() throws Exception {
+    public WeatherObservation readLastDataEntry() throws Exception {
 	this.readFixedMemoryBlock();
 	return this.readHistoryDataEntry(fmb.lastReadAddress());
     }
@@ -202,7 +202,7 @@ public class Driver implements WeatherStation {
 	@Override
 	public void run() {
 	    try {
-		EventBusService.publish(new WeatherInformationCollectedEvent(station,readLastDataEntry()));
+		EventBusService.publish(new WeatherObservationEvent(station,readLastDataEntry()));
 	    } catch (Exception e) {
 		log.error("Could not read weather from station.", e);
 	    }

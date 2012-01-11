@@ -1,34 +1,32 @@
 package org.husio.api.weather;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.measure.Measure;
 import javax.measure.quantity.Duration;
-import javax.measure.quantity.Quantity;
 
 /**
- * A weather measurement collection. Normally the weather station will collect metrics for a certain period of time and
+ * A weather observation. Normally the weather station will collect metrics for a certain period of time and
  * release a historic weather entry.
  * 
  * @author rafael
  *
  */
-public interface WeatherMeasureCollection {
+public interface WeatherObservation {
     
     /**
-     * The timestamp for this collection.
+     * The timestamp for this observation.
      */
     public Date getTimestamp();
 
     /**
-     * the duration covered by this measure collection.
+     * the duration covered by this observation.
      */
     public Measure<Duration> getDuration();
 
     /**
      * The collection of measurements that where collected.
      */
-    public WeatherMeasureList getMeasures();
+    public WeatherObservationList getMeasures();
 
 }
