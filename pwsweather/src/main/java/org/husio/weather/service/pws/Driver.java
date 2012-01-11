@@ -139,12 +139,12 @@ public class Driver implements WeatherCommunityService{
 	URI uri = URIUtils.createURI("http",PWS_SERVER , -1, PWS_UPDATE_URL, 
 	URLEncodedUtils.format(qparams, "UTF-8"), null);
 	HttpGet httpget = new HttpGet(uri);
-	log.debug("The URI is: "+httpget.getURI()); 
+	log.trace("The URI is: "+httpget.getURI()); //this will log password
 	HttpResponse response=this.httpclient.execute(httpget);
+	
+	// Consume the response
 	HttpEntity entity = response.getEntity();
-	if (entity != null) {
-	    entity = new BufferedHttpEntity(entity);
-	}
+	if (entity != null) entity = new BufferedHttpEntity(entity);
     }
     
 
