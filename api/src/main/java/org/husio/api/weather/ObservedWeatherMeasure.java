@@ -114,27 +114,54 @@ public class ObservedWeatherMeasure<T extends Quantity> {
     }
 
     /**
-     * Returns the canonycal name of the type used for the measure collection.
+     * Returns the cannonical name of the type used for the measure collection.
      * That will be: Temperature, Pressure, etc.
      * 
      * @return
      * @throws Exception
      */
-    public String getDimensionName() {
-	Dimension d=measure.getUnit().getDimension();
+    public static String getDimensionName(Dimension d) {
 	if(d.equals(WeatherUnits.CELSIUS.getDimension())) return "Temperature";
 	else if(d.equals(WeatherUnits.HECTO_PASCAL.getDimension())) return "Pressure";
 	else if(d.equals(WeatherUnits.METERS_PER_SECOND.getDimension())) return "Velocity";
 	else if(d.equals(WeatherUnits.SECOND.getDimension())) return "Duration";
 	else if(d.equals(WeatherUnits.PERCENT_WATER.getDimension())) return "Humidity";
-	return measure.getUnit().getDimension().toString();
+	return d.toString();
     }
+    
+    /**
+     * Gets the dimension 
+     * @return
+     */
+    public String getDimensionName() {
+	return getDimensionName(measure.getUnit().getDimension());
+    }
+
 
     public String toString() {
 	String me = this.isValidMetric ? measure.toSI().toString() : "N/A";
 	String ret = "";
-	ret = this.getDimensionName().toUpperCase() + ":" + environment.toString() + ":" + type.toString() + ":" + me;
+	ret = this.getKey()+ ":" + me;
 	return ret;
+    }
+    
+    /**
+     * Works out the key for a weather measurement.
+     * @param d the dimension of the measurement
+     * @param e the environment of the measurement
+     * @param t the type of measurement
+     * @return
+     */
+    public static String getKey(Dimension d, ENVIRONMENT e, TYPE t){
+	return getDimensionName(d).toUpperCase() + ":" +e.toString() + ":" + t.toString();
+    }
+    
+    /**
+     * Works out the key for this weather measurement.
+     * @return
+     */
+    public String getKey(){
+	return getKey(this.measure.getUnit().getDimension(),this.environment,this.type);
     }
 
 }

@@ -27,6 +27,6 @@ public interface WeatherObservation {
     /**
      * The collection of measurements that where collected.
      */
-    public WeatherObservationList getMeasures();
+    public WeatherObservationTable getMeasures();
 
 }

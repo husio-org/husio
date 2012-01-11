@@ -9,9 +9,8 @@ import javax.measure.quantity.Velocity;
 
 import org.husio.api.weather.ObservedWeatherMeasure;
 import org.husio.api.weather.Humidity;
-import org.husio.api.weather.WeatherObservationArrayList;
 import org.husio.api.weather.WeatherObservation;
-import org.husio.api.weather.WeatherObservationList;
+import org.husio.api.weather.WeatherObservationTable;
 import org.husio.api.weather.WeatherUnits;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,7 +49,7 @@ public class HistoryDataEntry extends WH1080Types implements WeatherObservation 
     /**
      * Where the collected metrics are stored
      */
-    private WeatherObservationList measures=new WeatherObservationArrayList();
+    private WeatherObservationTable measures=new WeatherObservationTable();
 
     
     /**
@@ -243,7 +242,7 @@ public class HistoryDataEntry extends WH1080Types implements WeatherObservation 
     }
 
     @Override
-    public WeatherObservationList getMeasures() {
+    public WeatherObservationTable getMeasures() {
 	return this.measures;
     }   
     

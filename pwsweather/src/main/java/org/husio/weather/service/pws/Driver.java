@@ -4,6 +4,7 @@ import java.text.DateFormat;
 
 import javax.measure.quantity.Pressure;
 import javax.measure.quantity.Temperature;
+import javax.measure.quantity.Velocity;
 import javax.measure.unit.Unit;
 
 import org.husio.api.weather.Humidity;
@@ -28,8 +29,24 @@ public class Driver implements WeatherCommunityService{
     
     private static final Logger log = LoggerFactory.getLogger(Driver.class);
     
+    // Service Configuration
+    
     public static final String PWS_SERVER = "www.pwsweather.com";
     public static final String PWS_UPDATE_URL = "/pwsupdate/pwsupdate.php";
+    public static final String PWS_SOFTWARE_PARAM= "softwaretype";
+    public static final String PWS_SOFTWARE_VALUE= "husio";
+
+    // User Configuration Settings
+    
+    public static final String PWS_STATION_ID_PARAM= "ID";
+    public static final String PWS_STATION_ID_CONF_PARAM="org.husio.weather.service.pws.Driver.stationId";
+    public static final String PWS_PASSWORD_PARAM= "PASSWORD";
+    public static final String PWS_PASSWORD_CONF_PARAM= "org.husio.weather.service.pws.Driver.password";
+
+    // Weather Observation Configuration
+        
+    public static final String PWS_ACTION_PARAM= "action";
+    public static final String PWS_ACTION_VALUE= "updateraw";
 
     public static final String PWS_DATE_PARAM= "dateutc";
     public static final DateFormat PWS_DATE_FORMAT = new PwsDateFormat();    
@@ -46,14 +63,20 @@ public class Driver implements WeatherCommunityService{
     public static final String PWS_TEMPERATURE_PARAM= "tempf";
     public static final Unit<Temperature> PWS_TEMPERATURE_UNIT = WeatherUnits.FAHRENHEIT;
     
+    public static final String PWS_WINDGUST_PARAM= "windgust";
+    public static final Unit<Velocity> PWS_WINDGUST_UNIT = WeatherUnits.MILES_PER_HOUR;
+
+    public static final String PWS_WINDSPEED_PARAM= "windspeed";
+    public static final Unit<Velocity> PWS_WINDSPEED_UNIT = WeatherUnits.MILES_PER_HOUR;
+    
+    public static final String PWS_UNKNOWN_VALUE= "NA";
+
+
     // TODO: Still pending implementation
     //<float> rainin:     inches/hour of rain
     //<float> rainday:    total rainfall for day (localtime)
     //<float> rainmonth:  total rainfall for month (localtime)
     //<float> rainyear:   total rainfall for year (localtime)
-    //<tuple> dateutc:    date string, "YYYY-MM-DD HH:MM:SS"
-    //<float> windgust:   in mph
-    //<float> windspeed:  in mph
     //<float> winddir:    in degrees, between 0.0 and 360.0
     //<string> weather:   unknown at this time (email me if you know!)
     
