@@ -57,16 +57,17 @@ public class HusioApplication {
 	    tracer = new Tracer();
 	    
 	    // Create the Weather Community Service if any
+	    String weatherCommunityDriver = System.getProperty(COMMUNITY_SERVICE_DRIVER_CONF_PARAM);
+	    if(weatherCommunityDriver != null) 
+		weatherCommunityService = (WeatherCommunityService) Class.forName(Configuration.getProperty(COMMUNITY_SERVICE_DRIVER_CONF_PARAM)).newInstance();
+	    
+	    // Create the weather station
 	    String stationDriver = System.getProperty(STATION_DRIVER_CONF_PARAM);
 	    assert stationDriver != null : "org.husio.weather.stationDriver not configuted";
 	    weatherStation = (WeatherStation) Class.forName(Configuration.getProperty(STATION_DRIVER_CONF_PARAM)).newInstance();
 	    weatherStation.start();
 	    
-	    // Create the weather station
-	    String weatherCommunityDriver = System.getProperty(COMMUNITY_SERVICE_DRIVER_CONF_PARAM);
-	    if(weatherCommunityDriver != null) 
-		weatherCommunityService = (WeatherCommunityService) Class.forName(Configuration.getProperty(COMMUNITY_SERVICE_DRIVER_CONF_PARAM)).newInstance();
-	    
+	    log.info("Husio home automation system started ok");
 	    
 	} catch (Exception e) {
 	    log.error("Error while starting Husio", e);
