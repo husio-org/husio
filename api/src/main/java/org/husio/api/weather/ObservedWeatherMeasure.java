@@ -140,9 +140,7 @@ public class ObservedWeatherMeasure<T extends Quantity> {
 
     public String toString() {
 	String me = this.isValidMetric ? measure.toSI().toString() : "N/A";
-	String ret = "";
-	ret = this.getKey()+ ":" + me;
-	return ret;
+	return me;
     }
     
     /**
