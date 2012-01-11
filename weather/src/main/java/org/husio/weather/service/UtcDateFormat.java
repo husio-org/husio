@@ -7,7 +7,7 @@ public class UtcDateFormat extends SimpleDateFormat{
     private static final long serialVersionUID = 1L;
 
     public UtcDateFormat(){
-	super("yyyy-MMM-dd HH:mm:ss");
+	super("yyyy-MM-dd HH:mm:ss");
 	this.setTimeZone(TimeZone.getTimeZone("GMT"));
     }
 
