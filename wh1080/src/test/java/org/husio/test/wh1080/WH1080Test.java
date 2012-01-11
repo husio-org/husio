@@ -75,7 +75,7 @@ public class WH1080Test {
 	Driver station=new Driver();
 	station.start();
 	WeatherObservation data=station.readLastDataEntry();
-	log.debug("Collected Observation is:"+data)
+	log.debug("Collected Observation is:"+data);
 	station.stop();
     }
     
