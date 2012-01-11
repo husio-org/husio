@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.measure.quantity.Pressure;
-import javax.measure.quantity.Quantity;
 import javax.measure.quantity.Temperature;
 import javax.measure.quantity.Velocity;
 import javax.measure.unit.Unit;
@@ -29,6 +28,8 @@ import org.husio.api.weather.ObservedWeatherMeasure.TYPE;
 import org.husio.api.weather.WeatherCommunityService;
 import org.husio.api.weather.WeatherUnits;
 import org.husio.api.weather.evt.WeatherObservationEvent;
+import org.husio.weather.service.HTTPWeatherService;
+import org.husio.weather.service.UtcDateFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,7 +44,7 @@ import com.adamtaft.eb.EventHandler;
  * @author rafael
  *
  */
-public class Driver implements WeatherCommunityService{
+public class Driver extends HTTPWeatherService implements WeatherCommunityService {
     
     private static final Logger log = LoggerFactory.getLogger(Driver.class);
     
@@ -67,10 +68,10 @@ public class Driver implements WeatherCommunityService{
     public static final String PWS_ACTION_VALUE= "updateraw";
 
     public static final String PWS_DATE_PARAM= "dateutc";
-    public static final DateFormat PWS_DATE_FORMAT = new PwsDateFormat();    
+    public static final DateFormat PWS_DATE_FORMAT = new UtcDateFormat();    
     
     public static final String PWS_PRESSURE_PARAM= "pressure";
-    public static final Unit<Pressure> PWS_PRESSURE_UNIT = WeatherUnits.MILLIMETER_OF_MERCURY;
+    public static final Unit<Pressure> PWS_PRESSURE_UNIT = WeatherUnits.INCH_OF_MERCURY;
 
     public static final String PWS_DEWPOINT_PARAM= "dewpoint";
     public static final Unit<Temperature> PWS_DEWPOINT_UNIT = WeatherUnits.FAHRENHEIT;
@@ -146,21 +147,10 @@ public class Driver implements WeatherCommunityService{
 	HttpEntity entity = response.getEntity();
 	if (entity != null) entity = new BufferedHttpEntity(entity);
     }
-    
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    public void addMeasurement(List<NameValuePair> params, WeatherObservationEvent weather, String param, Unit u, ObservedWeatherMeasure.ENVIRONMENT e, ObservedWeatherMeasure.TYPE t ){
-	String value=PWS_UNKNOWN_VALUE;
-	// Get the mesure we are after
-	ObservedWeatherMeasure<? extends Quantity> measure=weather.getWeatherObservation().getMeasures().get(u.getDimension(), e, t);
-	// If the measure exists and it is valid, add it in the required unit, and as float
-	if(measure!=null){
-	    if(measure.isValidMetric()){
-		float v=measure.getMeasure().floatValue(u);
-		value=Float.toString(v);
-	    }
-	}
-	params.add(new BasicNameValuePair(param, value));
+    @Override
+    public String getUnkownValue() {
+	return PWS_UNKNOWN_VALUE;
     }
 
 }

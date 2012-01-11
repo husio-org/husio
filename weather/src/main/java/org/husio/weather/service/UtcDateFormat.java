@@ -1,12 +1,12 @@
-package org.husio.weather.service.pws;
+package org.husio.weather.service;
 
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
-public class PwsDateFormat extends SimpleDateFormat{
+public class UtcDateFormat extends SimpleDateFormat{
     private static final long serialVersionUID = 1L;
 
-    PwsDateFormat(){
+    public UtcDateFormat(){
 	super("yyyy-MMM-dd HH:mm:ss");
 	this.setTimeZone(TimeZone.getTimeZone("GMT"));
     }

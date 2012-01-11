@@ -7,9 +7,9 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<groupId>org.husio</groupId>
-	<artifactId>pwsweather</artifactId>
-	<name>PWS Weather.com Interface</name>
-	<description>Interface to PWS Weather com</description>
+	<artifactId>wunder</artifactId>
+	<name>Weather Underground Community Service</name>
+	<description>Interface to www.wunderground.com</description>
 	<dependencies>
 		<dependency>
 			<groupId>org.husio</groupId>

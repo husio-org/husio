@@ -44,6 +44,7 @@
 		<module>mobile</module>
 		<module>pkg</module>
 		<module>pwsweather</module>
+		<module>wunder</module>
 	</modules>
 	<build>
 		<plugins>
