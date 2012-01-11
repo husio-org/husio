@@ -11,12 +11,14 @@ import javax.measure.quantity.Temperature;
 import javax.measure.quantity.Velocity;
 import javax.measure.unit.Unit;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIUtils;
 import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.husio.Configuration;
@@ -139,7 +141,10 @@ public class Driver implements WeatherCommunityService{
 	HttpGet httpget = new HttpGet(uri);
 	log.debug("The URI is: "+httpget.getURI()); 
 	HttpResponse response=this.httpclient.execute(httpget);
-	log.debug("Response Status: "+response.getStatusLine());
+	HttpEntity entity = response.getEntity();
+	if (entity != null) {
+	    entity = new BufferedHttpEntity(entity);
+	}
     }
     
 
