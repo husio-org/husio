@@ -1,5 +1,9 @@
 package org.husio.api.weather;
 
+import org.husio.api.Initializable;
+import org.husio.api.Module;
+import org.husio.api.Singleton;
+
 
 
 /**
@@ -16,7 +20,7 @@ package org.husio.api.weather;
  * @author rafael
  *
  */
-public interface WeatherStation {
+public interface WeatherStation extends Module, Initializable, Singleton {
     
     /**
      * Status of the weather station.

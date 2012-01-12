@@ -1,7 +1,14 @@
 package org.husio;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.List;
 
+import org.husio.api.Initializable;
+import org.husio.api.Module;
+import org.husio.api.Singleton;
+import org.husio.api.Singleton.MODULE_TYPE;
 import org.husio.api.weather.WeatherCommunityService;
 import org.husio.api.weather.WeatherStation;
 import org.husio.eventbus.Tracer;
@@ -11,22 +18,29 @@ import org.slf4j.LoggerFactory;
 /**
  * Main Application Class.
  * 
- * Instantiates the configured components, registers shutdown hooks, and handles application shutdown.
+ * Instantiates the configured components, registers shutdown hooks, and handles
+ * application shutdown.
  * 
  * @author rafael
- *
+ * 
  */
-@SuppressWarnings("unused") // They are indeed in use by subscribing the event bus!
+@SuppressWarnings("unused")
+// They are indeed in use by subscribing the event bus!
 public class HusioApplication {
-    
-    private static final String STATION_DRIVER_CONF_PARAM="org.husio.weather.stationDriver";
-    private static final String COMMUNITY_SERVICE_DRIVER_CONF_PARAM="org.husio.weather.serviceDriver";
+
+    /**
+     * This is how we are going to search for modules in the configuration file,
+     * this properties will be searched for single modules, or the same property
+     * name terminated by List (for example serviceDriverList) with a separated
+     * list of modules
+     */
+    private static final String[] MODULE_CONFIG_PARAMS = { "org.husio.weather.stationDriver", "org.husio.weather.serviceDriver", "org.husio.optionalModule" };
 
     private static final Logger log = LoggerFactory.getLogger(HusioApplication.class);
-    private static Tracer tracer;
-    private static WeatherStation weatherStation;
-    private static WeatherCommunityService weatherCommunityService;
     private static String[] commandLineArgs;
+
+    private static List<Module> modules = new ArrayList<Module>();
+    private static Hashtable<MODULE_TYPE, Singleton> singletons = new Hashtable<MODULE_TYPE, Singleton>();
 
     /**
      * @param args
@@ -37,15 +51,18 @@ public class HusioApplication {
     }
 
     /**
-     * Creates and registers configured components
-     * Saves components as static variables.
+     * Creates and registers configured components Saves components as static
+     * variables.
+     * 
      * @param args
      */
     private void launchHusioApplication(String[] args) {
-	try {    
+	try {
+	    List<String> loadableModules = new ArrayList<String>();
+
 	    // Save command line args in case any module is interested.
-	    commandLineArgs=args;
-	    
+	    commandLineArgs = args;
+
 	    // Setup the log system and say hi
 	    Configuration.setupLogSystem();
 	    log.info("Husio home automation system starting...");
@@ -53,22 +70,45 @@ public class HusioApplication {
 	    // Register a shut-down hook
 	    Runtime.getRuntime().addShutdownHook(new ShutdownHook());
 
-	    // Create the tracing module
-	    tracer = new Tracer();
-	    
-	    // Create the Weather Community Service if any
-	    String weatherCommunityDriver = Configuration.getProperty(COMMUNITY_SERVICE_DRIVER_CONF_PARAM);
-	    if(weatherCommunityDriver != null) 
-		weatherCommunityService = (WeatherCommunityService) Class.forName(Configuration.getProperty(COMMUNITY_SERVICE_DRIVER_CONF_PARAM)).newInstance();
-	    
-	    // Create the weather station
-	    String stationDriver = System.getProperty(STATION_DRIVER_CONF_PARAM);
-	    assert stationDriver != null : "org.husio.weather.stationDriver not configuted";
-	    weatherStation = (WeatherStation) Class.forName(Configuration.getProperty(STATION_DRIVER_CONF_PARAM)).newInstance();
-	    weatherStation.start();
-	    
+	    // Buildup the loadable module list, a list of the classes to load
+	    for (String property : MODULE_CONFIG_PARAMS) {
+		String driverClass = Configuration.getProperty(property);
+		if (driverClass != null)
+		    loadableModules.add(driverClass);
+		String listProperty = property + "List";
+		String driverClassList = Configuration.getProperty(listProperty);
+		if (driverClassList != null) {
+		    String[] driverClassListItems = driverClassList.split(",");
+		    for (String driverClassItem : driverClassListItems)
+			loadableModules.add(driverClass);
+		}
+
+	    }
+
+	    // Instantiate the modules and ensure that Singletons are only one
+	    // of the kind
+	    for (String driverClass : loadableModules) {
+		log.info("Loading module " + driverClass);
+		Module m = (Module) Class.forName(Configuration.getProperty(driverClass)).newInstance();
+		modules.add(m);
+		if (m instanceof Singleton) {
+		    Singleton s = (Singleton) m;
+		    MODULE_TYPE t = s.getModuleType();
+		    assert !singletons.contains(t) : "There can only be module of type:" + t;
+		    singletons.put(t, s);
+		}
+	    }
+
+	    // now start all the initializable modules
+	    log.info("Initializing modules...");
+	    for (Module m : modules) {
+		if (m instanceof Initializable) {
+		    ((Initializable) m).start();
+		}
+	    }
+
 	    log.info("Husio home automation system started ok");
-	    
+
 	} catch (Exception e) {
 	    log.error("Error while starting Husio", e);
 	}
@@ -85,10 +125,16 @@ public class HusioApplication {
 	@Override
 	public void run() {
 	    try {
-		weatherStation.stop();
+		// now start all the initializable modules
+		log.info("Stoping modules...");
+		for (Module m : modules) {
+		    if (m instanceof Initializable) {
+			((Initializable) m).stop();
+		    }
+		}
 		log.info("Husio shutdown OK");
 	    } catch (Exception e) {
-		log.warn("Could not shut down Husio cleanly",e);
+		log.warn("Could not shut down Husio cleanly", e);
 	    }
 
 	}

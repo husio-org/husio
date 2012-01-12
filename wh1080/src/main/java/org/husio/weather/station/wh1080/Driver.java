@@ -216,4 +216,12 @@ public class Driver implements WeatherStation {
 	}
     }
 
+    /**
+     * Report that this module is a weather station, and only one is allowed in the system.
+     */
+    @Override
+    public MODULE_TYPE getModuleType() {
+	return MODULE_TYPE.WEATHER_STATION;
+    }
+
 }

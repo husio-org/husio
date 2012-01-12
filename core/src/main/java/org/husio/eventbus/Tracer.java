@@ -1,5 +1,6 @@
 package org.husio.eventbus;
 
+import org.husio.api.Module;
 import org.husio.api.weather.evt.WeatherObservationEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +13,7 @@ import com.adamtaft.eb.EventHandler;
  * @author rafael
  *
  */
-public class Tracer {
+public class Tracer implements Module{
     
     private static final Logger log = LoggerFactory.getLogger(Tracer.class);
     
