@@ -67,29 +67,27 @@ public class Driver extends HTTPWeatherService implements WeatherCommunityServic
     public static final String PWS_ACTION_PARAM= "action";
     public static final String PWS_ACTION_VALUE= "updateraw";
 
-    public static final String PWS_DATE_PARAM= "dateutc";
+    public static final String PWS_DATE_PARAM= "DateUTC";
     public static final DateFormat PWS_DATE_FORMAT = new UtcDateFormat();    
     
-    public static final String PWS_PRESSURE_PARAM= "pressure";
+    public static final String PWS_PRESSURE_PARAM= "Baromin";
     public static final Unit<Pressure> PWS_PRESSURE_UNIT = WeatherUnits.INCH_OF_MERCURY;
 
-    public static final String PWS_DEWPOINT_PARAM= "dewpoint";
+    public static final String PWS_DEWPOINT_PARAM= "DewptF";
     public static final Unit<Temperature> PWS_DEWPOINT_UNIT = WeatherUnits.FAHRENHEIT;
 
-    public static final String PWS_HUMIDITY_PARAM= "humidity";
+    public static final String PWS_HUMIDITY_PARAM= "Humidity";
     public static final Unit<Humidity> PWS_HUMIDITY_UNIT = WeatherUnits.PERCENT_WATER;
     
-    public static final String PWS_TEMPERATURE_PARAM= "tempf";
+    public static final String PWS_TEMPERATURE_PARAM= "TempF";
     public static final Unit<Temperature> PWS_TEMPERATURE_UNIT = WeatherUnits.FAHRENHEIT;
     
-    public static final String PWS_WINDGUST_PARAM= "windgust";
+    public static final String PWS_WINDGUST_PARAM= "WindGustMPH";
     public static final Unit<Velocity> PWS_WINDGUST_UNIT = WeatherUnits.MILES_PER_HOUR;
 
-    public static final String PWS_WINDSPEED_PARAM= "windspeed";
+    public static final String PWS_WINDSPEED_PARAM= "WindSpeedMPH";
     public static final Unit<Velocity> PWS_WINDSPEED_UNIT = WeatherUnits.MILES_PER_HOUR;
-    
-    public static final String PWS_UNKNOWN_VALUE= "NA";
-    
+        
     private String stationId;
     private String password;
     private HttpClient httpclient = new DefaultHttpClient();
@@ -150,7 +148,7 @@ public class Driver extends HTTPWeatherService implements WeatherCommunityServic
 
     @Override
     public String getUnkownValue() {
-	return PWS_UNKNOWN_VALUE;
+	return null;
     }
 
 }
