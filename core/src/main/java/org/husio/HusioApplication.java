@@ -89,7 +89,7 @@ public class HusioApplication {
 	    // of the kind
 	    for (String driverClass : loadableModules) {
 		log.info("Loading module " + driverClass);
-		Module m = (Module) Class.forName(Configuration.getProperty(driverClass)).newInstance();
+		Module m = (Module) Class.forName(driverClass).newInstance();
 		modules.add(m);
 		if (m instanceof Singleton) {
 		    Singleton s = (Singleton) m;
