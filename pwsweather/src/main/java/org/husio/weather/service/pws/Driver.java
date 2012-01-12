@@ -5,6 +5,7 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.measure.quantity.Angle;
 import javax.measure.quantity.Pressure;
 import javax.measure.quantity.Temperature;
 import javax.measure.quantity.Velocity;
@@ -87,7 +88,11 @@ public class Driver extends HTTPWeatherService implements WeatherCommunityServic
 
     public static final String PWS_WINDSPEED_PARAM= "windspeedmph";
     public static final Unit<Velocity> PWS_WINDSPEED_UNIT = WeatherUnits.MILES_PER_HOUR;
-        
+
+    public static final String PWS_WINDDIR_PARAM= "winddir";
+    public static final Unit<Angle> PWS_WINDDIR_UNIT = WeatherUnits.DEGREES_FROM_NORTH;
+
+    
     private String stationId;
     private String password;
     private HttpClient httpclient = new DefaultHttpClient();
@@ -97,7 +102,6 @@ public class Driver extends HTTPWeatherService implements WeatherCommunityServic
     //<float> rainday:    total rainfall for day (localtime)
     //<float> rainmonth:  total rainfall for month (localtime)
     //<float> rainyear:   total rainfall for year (localtime)
-    //<float> winddir:    in degrees, between 0.0 and 360.0
     //<string> weather:   unknown at this time (email me if you know!)
     
     /**
@@ -129,10 +133,11 @@ public class Driver extends HTTPWeatherService implements WeatherCommunityServic
 
 	// Add each of the weather observations
 	this.addMeasurement(qparams, weather, PWS_HUMIDITY_PARAM, PWS_HUMIDITY_UNIT, ENVIRONMENT.OUTDOOR, TYPE.DISCRETE);
-	this.addMeasurement(qparams, weather, PWS_PRESSURE_PARAM, PWS_PRESSURE_UNIT, ENVIRONMENT.OUTDOOR, TYPE.DISCRETE);
+	this.addMeasurement(qparams, weather, PWS_PRESSURE_PARAM, PWS_PRESSURE_UNIT, ENVIRONMENT.OUTDOOR, TYPE.ABSOLUTE);
 	this.addMeasurement(qparams, weather, PWS_TEMPERATURE_PARAM, PWS_TEMPERATURE_UNIT, ENVIRONMENT.OUTDOOR, TYPE.DISCRETE);
 	this.addMeasurement(qparams, weather, PWS_WINDSPEED_PARAM, PWS_WINDSPEED_UNIT, ENVIRONMENT.OUTDOOR, TYPE.AVERAGE);
 	this.addMeasurement(qparams, weather, PWS_WINDGUST_PARAM, PWS_WINDGUST_UNIT, ENVIRONMENT.OUTDOOR, TYPE.GUST);
+	this.addMeasurement(qparams, weather, PWS_WINDDIR_PARAM, PWS_WINDDIR_UNIT, ENVIRONMENT.OUTDOOR, TYPE.DISCRETE);
 	
 	// Create the URI
 	URI uri = URIUtils.createURI("http",PWS_SERVER , -1, PWS_UPDATE_URL, 

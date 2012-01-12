@@ -5,6 +5,7 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.measure.quantity.Angle;
 import javax.measure.quantity.Pressure;
 import javax.measure.quantity.Quantity;
 import javax.measure.quantity.Temperature;
@@ -89,6 +90,10 @@ public class Driver extends HTTPWeatherService implements WeatherCommunityServic
 
     public static final String WU_WINDSPEED_PARAM= "windspeedmph";
     public static final Unit<Velocity> WU_WINDSPEED_UNIT = WeatherUnits.MILES_PER_HOUR;
+    
+    public static final String WU_WINDDIR_PARAM= "winddir";
+    public static final Unit<Angle> WU_WINDDIR_UNIT = WeatherUnits.DEGREES_FROM_NORTH;
+
         
     private String stationId;
     private String password;
@@ -125,11 +130,12 @@ public class Driver extends HTTPWeatherService implements WeatherCommunityServic
 	// Add each of the weather observations
 	this.addMeasurement(qparams, weather, WU_HUMIDITY_PARAM, WU_HUMIDITY_UNIT, ENVIRONMENT.OUTDOOR, TYPE.DISCRETE);
 	this.addMeasurement(qparams, weather, WU_INDOOR_HUMIDITY_PARAM, WU_HUMIDITY_UNIT, ENVIRONMENT.INDOOR, TYPE.DISCRETE);
-	this.addMeasurement(qparams, weather, WU_PRESSURE_PARAM, WU_PRESSURE_UNIT, ENVIRONMENT.OUTDOOR, TYPE.DISCRETE);
+	this.addMeasurement(qparams, weather, WU_PRESSURE_PARAM, WU_PRESSURE_UNIT, ENVIRONMENT.OUTDOOR, TYPE.ABSOLUTE);
 	this.addMeasurement(qparams, weather, WU_TEMPERATURE_PARAM, WU_TEMPERATURE_UNIT, ENVIRONMENT.OUTDOOR, TYPE.DISCRETE);
 	this.addMeasurement(qparams, weather, WU_INDOOR_TEMPERATURE_PARAM, WU_TEMPERATURE_UNIT, ENVIRONMENT.INDOOR, TYPE.DISCRETE);
 	this.addMeasurement(qparams, weather, WU_WINDSPEED_PARAM, WU_WINDSPEED_UNIT, ENVIRONMENT.OUTDOOR, TYPE.AVERAGE);
 	this.addMeasurement(qparams, weather, WU_WINDGUST_PARAM, WU_WINDGUST_UNIT, ENVIRONMENT.OUTDOOR, TYPE.GUST);
+	this.addMeasurement(qparams, weather, WU_WINDDIR_PARAM, WU_WINDDIR_UNIT, ENVIRONMENT.OUTDOOR, TYPE.DISCRETE);
 	
 	// Create the URI
 	URI uri = URIUtils.createURI("http",WU_SERVER , -1, WU_UPDATE_URL, 

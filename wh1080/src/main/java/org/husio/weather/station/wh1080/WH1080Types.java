@@ -1,5 +1,6 @@
 package org.husio.weather.station.wh1080;
 
+import javax.measure.quantity.Angle;
 import javax.measure.quantity.Duration;
 import javax.measure.quantity.Pressure;
 import javax.measure.quantity.Temperature;
@@ -31,6 +32,8 @@ public abstract class WH1080Types {
     public static final Unit<Temperature> TEMPERATURE_UNIT=WeatherUnits.CELSIUS.times(0.1);
     /** Wind speed unit as store in the station records */
     public static final Unit<Velocity> WIND_UNIT=WeatherUnits.METERS_PER_SECOND.times(0.1);
+    /** Wind direction unit as store in the station records */
+    public static final Unit<Angle> WIND_DIRECTION_UNIT=WeatherUnits.DEGREES_FROM_NORTH.times(22.5);
     /** Absolute Pressure as store in the station records */
     public static final Unit<Pressure> PRESSURE_UNIT=WeatherUnits.HECTO_PASCAL.times(0.1);
     /** Humidity as stored in the station records*/

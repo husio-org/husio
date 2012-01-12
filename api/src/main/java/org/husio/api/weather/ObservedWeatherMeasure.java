@@ -28,22 +28,10 @@ public class ObservedWeatherMeasure<T extends Quantity> {
      */
 
     /**
-     * Stations will provide a series of metrics for a given measurement period
-     * some of those metrics will result as computing many individual
-     * measurements during the measurement period: for example, AVG wind, or MAX
-     * wind, etc.
-     * 
-     * In some other cases the measurement is absolute: such as rainfall during
-     * that period or simply, the metric remains constant (or is likely to vary
-     * very little) or it is considered constant during the period: temperature,
-     * pressure, for example. For those cases an DISCRETE measurement is
-     * provided that it is supposed to remain constant during the whole period.
-     * 
-     * (such as maximum
-     * 
+     * The type of measure that is been made.
      */
     public static enum TYPE {
-	DISCRETE, MAXIMUM, AVERAGE, NIMIMUM, GUST
+	DISCRETE, RAINFALL, MAXIMUM, AVERAGE, NIMIMUM, GUST, ABSOLUTE, RELATIVE, DEW
     }
 
     private boolean isValidMetric = true;

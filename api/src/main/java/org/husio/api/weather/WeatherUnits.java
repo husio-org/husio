@@ -1,6 +1,7 @@
 package org.husio.api.weather;
 
 
+import javax.measure.quantity.Angle;
 import javax.measure.quantity.Duration;
 import javax.measure.quantity.Pressure;
 import javax.measure.quantity.Temperature;
@@ -39,7 +40,8 @@ public class WeatherUnits {
    /** Wind: Knots */
    public static final Unit<Velocity> KNOT=NonSI.KNOT;
    
-   /** Wind Direction: Nautical Degrees */
+   /** Wind Direction: Degrees */
+   public static final Unit<Angle> DEGREES_FROM_NORTH= NonSI.DEGREE_ANGLE;
    
    /** Absolute Pressure: hpa*/
    public static Unit<Pressure> HECTO_PASCAL=NonSI.ATMOSPHERE.divide(1013.25);

@@ -2,6 +2,7 @@ package org.husio.weather.station.wh1080;
 
 import java.util.Date;
 import javax.measure.Measure;
+import javax.measure.quantity.Angle;
 import javax.measure.quantity.Duration;
 import javax.measure.quantity.Pressure;
 import javax.measure.quantity.Temperature;
@@ -91,6 +92,7 @@ public class HistoryDataEntry extends WH1080Types implements WeatherObservation 
 	measures.add(this.getWindHigh());
 	measures.add(this.getAverageWind());
 	measures.add(this.getWindGust());
+	measures.add(this.getWindDirection());
     }
 
     /**
@@ -163,7 +165,7 @@ public class HistoryDataEntry extends WH1080Types implements WeatherObservation 
      */
     private ObservedWeatherMeasure<Pressure> getAbsolutePressure(){
 	ObservedWeatherMeasure<Pressure> ret=new ObservedWeatherMeasure<Pressure>();
-	ret.setType(ObservedWeatherMeasure.TYPE.DISCRETE);
+	ret.setType(ObservedWeatherMeasure.TYPE.ABSOLUTE);
 	ret.setEnvironment(ObservedWeatherMeasure.ENVIRONMENT.OUTDOOR);
 	if(!this.isValidShortMetric(ABSOLUTE_PRESURE_ADDRESS)) ret.setValidMetric(false);
 	else{
@@ -232,7 +234,6 @@ public class HistoryDataEntry extends WH1080Types implements WeatherObservation 
 	ObservedWeatherMeasure<Velocity>  ret=new ObservedWeatherMeasure<Velocity> ();
 	ret.setType(ObservedWeatherMeasure.TYPE.GUST);
 	ret.setEnvironment(ObservedWeatherMeasure.ENVIRONMENT.OUTDOOR);
-	
 	if(!this.isValidByteMetric(WIND_SPEED_GUST_ADDRESS)) ret.setValidMetric(false);
 	else{
 	    int value=this.readUnsignedByte(WIND_SPEED_GUST_ADDRESS);
@@ -240,6 +241,18 @@ public class HistoryDataEntry extends WH1080Types implements WeatherObservation 
 	}
 	return ret;
     }
+    
+    private ObservedWeatherMeasure<Angle> getWindDirection(){
+	ObservedWeatherMeasure<Angle>  ret=new ObservedWeatherMeasure<Angle> ();
+	ret.setType(ObservedWeatherMeasure.TYPE.DISCRETE);
+	if(this.isBitSet(WIND_DIRECTION_ADDRESS, 7))ret.setValidMetric(false);
+	else{
+	    int value=this.readUnsignedByte(WIND_DIRECTION_ADDRESS);
+	    ret.setMeasure(Measure.valueOf(value,WIND_DIRECTION_UNIT));
+	}
+	return ret;
+    }
+    
 
     @Override
     public WeatherObservationTable getMeasures() {
