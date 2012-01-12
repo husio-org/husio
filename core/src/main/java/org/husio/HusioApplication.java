@@ -72,15 +72,19 @@ public class HusioApplication {
 
 	    // Buildup the loadable module list, a list of the classes to load
 	    for (String property : MODULE_CONFIG_PARAMS) {
+		
+		// Check if the property exists as a single item
 		String driverClass = Configuration.getProperty(property);
 		if (driverClass != null)
 		    loadableModules.add(driverClass);
+		
+		// Check if the property exists as a List
 		String listProperty = property + "List";
 		String driverClassList = Configuration.getProperty(listProperty);
 		if (driverClassList != null) {
 		    String[] driverClassListItems = driverClassList.split(",");
 		    for (String driverClassItem : driverClassListItems)
-			loadableModules.add(driverClass);
+			loadableModules.add(driverClassItem);
 		}
 
 	    }
