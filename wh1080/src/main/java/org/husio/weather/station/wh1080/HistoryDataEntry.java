@@ -207,9 +207,7 @@ public class HistoryDataEntry extends WH1080Types implements WeatherObservation 
 
     private ObservedWeatherMeasure<Velocity> getAverageWind(){
 	ObservedWeatherMeasure<Velocity>  ret=new ObservedWeatherMeasure<Velocity> ();
-	ret.setType(ObservedWeatherMeasure.TYPE.AVERAGE);
-	ret.setEnvironment(ObservedWeatherMeasure.ENVIRONMENT.OUTDOOR);
-	
+	ret.setType(ObservedWeatherMeasure.TYPE.AVERAGE);	
 	if(!this.isValidByteMetric(AVERAGE_WIND_SPEED_ADDRESS)) ret.setValidMetric(false);
 	else{
 	    int value=this.readUnsignedByte(AVERAGE_WIND_SPEED_ADDRESS);
@@ -221,7 +219,6 @@ public class HistoryDataEntry extends WH1080Types implements WeatherObservation 
     private ObservedWeatherMeasure<Velocity>  getWindHigh(){
 	ObservedWeatherMeasure<Velocity>  ret=new ObservedWeatherMeasure<Velocity> ();
 	ret.setType(ObservedWeatherMeasure.TYPE.MAXIMUM);
-	ret.setEnvironment(ObservedWeatherMeasure.ENVIRONMENT.OUTDOOR);
 	if(!this.isValidByteMetric(WIND_SPEED_HIGH_ADDRESS)) ret.setValidMetric(false);
 	else{
 	    int value=this.readUnsignedByte(WIND_SPEED_HIGH_ADDRESS);
@@ -233,7 +230,6 @@ public class HistoryDataEntry extends WH1080Types implements WeatherObservation 
     private ObservedWeatherMeasure<Velocity>  getWindGust(){
 	ObservedWeatherMeasure<Velocity>  ret=new ObservedWeatherMeasure<Velocity> ();
 	ret.setType(ObservedWeatherMeasure.TYPE.GUST);
-	ret.setEnvironment(ObservedWeatherMeasure.ENVIRONMENT.OUTDOOR);
 	if(!this.isValidByteMetric(WIND_SPEED_GUST_ADDRESS)) ret.setValidMetric(false);
 	else{
 	    int value=this.readUnsignedByte(WIND_SPEED_GUST_ADDRESS);
@@ -244,7 +240,6 @@ public class HistoryDataEntry extends WH1080Types implements WeatherObservation 
     
     private ObservedWeatherMeasure<Angle> getWindDirection(){
 	ObservedWeatherMeasure<Angle>  ret=new ObservedWeatherMeasure<Angle> ();
-	ret.setType(ObservedWeatherMeasure.TYPE.DISCRETE);
 	if(this.isBitSet(WIND_DIRECTION_ADDRESS, 7))ret.setValidMetric(false);
 	else{
 	    int value=this.readUnsignedByte(WIND_DIRECTION_ADDRESS);

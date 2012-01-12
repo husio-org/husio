@@ -36,9 +36,9 @@ public class ObservedWeatherMeasure<T extends Quantity> {
 
     private boolean isValidMetric = true;
 
-    private ENVIRONMENT environment;
+    private ENVIRONMENT environment=ENVIRONMENT.OUTDOOR;
 
-    private TYPE type;
+    private TYPE type=TYPE.DISCRETE;
 
     private Measure<T> measure;
     
