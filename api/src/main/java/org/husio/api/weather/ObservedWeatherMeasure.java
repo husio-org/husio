@@ -114,6 +114,7 @@ public class ObservedWeatherMeasure<T extends Quantity> {
 	else if(d.equals(WeatherUnits.METERS_PER_SECOND.getDimension())) return "Velocity";
 	else if(d.equals(WeatherUnits.SECOND.getDimension())) return "Duration";
 	else if(d.equals(WeatherUnits.PERCENT_WATER.getDimension())) return "Humidity";
+	else if(d.equals(WeatherUnits.DEGREES_FROM_NORTH.getDimension())) return "Angle";
 	return d.toString();
     }
     
