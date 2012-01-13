@@ -46,7 +46,7 @@ public abstract class WH1080Types {
      * @return
      */
     public static boolean isBitSet(byte b, int num){
-	byte mask=(byte) (2*num);
+	byte mask=(byte) (1<<num);
 	return (b & mask)>0;
     }
     

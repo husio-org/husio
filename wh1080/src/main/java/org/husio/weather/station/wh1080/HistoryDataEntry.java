@@ -80,6 +80,7 @@ public class HistoryDataEntry extends WH1080Types implements WeatherObservation 
 	this.address=a;
 	this.station=s;
 	this.data=new byte[32]; // the station can't read less that 32, we ignore the other 32
+
 	//TODO: the last data entry might fail
 	s.readAddress(address, data, 0);
 	
