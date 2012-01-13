@@ -43,9 +43,9 @@ public class HistoryDataEntry extends WH1080Types implements WeatherObservation 
     private static final int AVERAGE_WIND_SPEED_ADDRESS=0x9;
     private static final int WIND_SPEED_GUST_ADDRESS=0xA;
     private static final int WIND_SPEED_HIGH_ADDRESS=0xB;
-    private static final int WIND_DIRECTION_ADDRESS=0xB;
-    private static final int TOTAL_RAIN_ADDRESS_ADDRESS=0xC;
-    private static final int STATUS_ADDRESS=0xE;
+    private static final int WIND_DIRECTION_ADDRESS=0xC;
+    private static final int TOTAL_RAIN_ADDRESS_ADDRESS=0xD;
+    private static final int STATUS_ADDRESS=0xF;
 
     /**
      * Where the collected metrics are stored
