@@ -34,7 +34,7 @@ public class HusioApplication {
      * name terminated by List (for example serviceDriverList) with a separated
      * list of modules
      */
-    private static final String[] MODULE_CONFIG_PARAMS = { "org.husio.weather.stationDriver", "org.husio.weather.serviceDriver", "org.husio.optionalModule" };
+    private static final String[] MODULE_CONFIG_PARAMS = { "org.husio.web.serverDriver", "org.husio.weather.stationDriver", "org.husio.weather.serviceDriver", "org.husio.optionalModule" };
 
     private static final Logger log = LoggerFactory.getLogger(HusioApplication.class);
     private static String[] commandLineArgs;
@@ -82,7 +82,8 @@ public class HusioApplication {
 			loadableModules.add(driverClassItem);
 		} else {
 		    // Check if the property exists as a single item
-		    // We ignore the sigle item configuration if there was a list
+		    // We ignore the sigle item configuration if there was a
+		    // list
 		    String driverClass = Configuration.getProperty(property);
 		    if (driverClass != null)
 			loadableModules.add(driverClass);
@@ -93,14 +94,17 @@ public class HusioApplication {
 	    // Instantiate the modules and ensure that Singletons are only one
 	    // of the kind
 	    for (String driverClass : loadableModules) {
-		log.info("Loading module " + driverClass);
-		Module m = (Module) Class.forName(driverClass).newInstance();
-		modules.add(m);
-		if (m instanceof Singleton) {
-		    Singleton s = (Singleton) m;
-		    MODULE_TYPE t = s.getModuleType();
-		    assert !singletons.contains(t) : "There can only be module of type:" + t;
-		    singletons.put(t, s);
+		driverClass = driverClass.trim();
+		if (!driverClass.isEmpty()) {
+		    log.info("Loading module " + driverClass);
+		    Module m = (Module) Class.forName(driverClass.trim()).newInstance();
+		    modules.add(m);
+		    if (m instanceof Singleton) {
+			Singleton s = (Singleton) m;
+			MODULE_TYPE t = s.getModuleType();
+			assert !singletons.contains(t) : "There can only be module of type:" + t;
+			singletons.put(t, s);
+		    }
 		}
 	    }
 

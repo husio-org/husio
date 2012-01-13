@@ -1,5 +1,5 @@
 package org.husio.api;
 
-public interface WebServer {
+public interface WebServer extends Module, Initializable, Singleton{
 
 }

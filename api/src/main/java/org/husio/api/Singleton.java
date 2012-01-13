@@ -11,7 +11,7 @@ public interface Singleton {
      * @author rafael
      *
      */
-    public static enum MODULE_TYPE {WEATHER_STATION}
+    public static enum MODULE_TYPE {WEATHER_STATION, WEB_SERVER}
     
     /**
      * Singleton modules must report with type they implement.
