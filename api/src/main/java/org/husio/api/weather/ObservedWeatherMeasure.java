@@ -140,7 +140,7 @@ public class ObservedWeatherMeasure<T extends Quantity> {
      * @return
      */
     public static String getKey(Dimension d, ENVIRONMENT e, TYPE t){
-	return getDimensionName(d).toUpperCase() + ":" +e.toString() + ":" + t.toString();
+	return e.toString() +"_"+getDimensionName(d).toUpperCase() +"_" + t.toString();
     }
     
     /**
