@@ -13,7 +13,7 @@ public class WeatherObservationTable  extends Hashtable<String,ObservedWeatherMe
      * @param m
      */
     public void add(ObservedWeatherMeasure<? extends Quantity> m){
-	this.put(m.getKey(),m);
+	if(m.isValidMetric()) this.put(m.getKey(),m);
     }
     
     /**
