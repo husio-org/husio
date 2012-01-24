@@ -11,19 +11,12 @@ import javax.measure.quantity.Temperature;
 import javax.measure.quantity.Velocity;
 import javax.measure.unit.Unit;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIUtils;
 import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.entity.BufferedHttpEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.husio.Configuration;
 import org.husio.api.weather.Humidity;
-import org.husio.api.weather.ObservedWeatherMeasure;
 import org.husio.api.weather.ObservedWeatherMeasure.ENVIRONMENT;
 import org.husio.api.weather.ObservedWeatherMeasure.TYPE;
 import org.husio.api.weather.WeatherCommunityService;
@@ -95,7 +88,6 @@ public class Driver extends HTTPWeatherService implements WeatherCommunityServic
     
     private String stationId;
     private String password;
-    private HttpClient httpclient = new DefaultHttpClient();
 
     // TODO: Still pending implementation
     //<float> rainin:     inches/hour of rain
@@ -142,14 +134,7 @@ public class Driver extends HTTPWeatherService implements WeatherCommunityServic
 	// Create the URI
 	URI uri = URIUtils.createURI("http",PWS_SERVER , -1, PWS_UPDATE_URL, 
 	URLEncodedUtils.format(qparams, "UTF-8"), null);
-	HttpGet httpget = new HttpGet(uri);
-	log.trace("The URI is: "+httpget.getURI()); //this will log password
-	HttpResponse response=this.httpclient.execute(httpget);
-	
-	// Consume the response
-	HttpEntity entity = response.getEntity();
-	if (entity != null) entity = new BufferedHttpEntity(entity);
-    }
+	this.submitWeatherInfo(uri);    }
 
     @Override
     public String getUnkownValue() {
