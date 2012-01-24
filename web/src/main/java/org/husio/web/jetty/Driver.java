@@ -1,6 +1,8 @@
 package org.husio.web.jetty;
 
+import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.husio.Configuration;
 import org.husio.api.WebServer;
@@ -29,14 +31,16 @@ public class Driver implements WebServer {
 	server = new Server(port);
 	
 	// create the handler for static content in jars
-	ResourceHandler fileHandler=new ResourceHandler();
-	fileHandler.setDirectoriesListed(true);
+	ResourceHandler staticHandler=new ResourceHandler();
+	staticHandler.setDirectoriesListed(true);
 	String rb=this.getClass().getClassLoader().getResource("HUSIO_WEBROOT").toString();
 	log.debug("Resource base is:"+rb);
 
-	fileHandler.setResourceBase(rb);
-	//server.setHandler(new RequestHandler());
-	server.setHandler(fileHandler);
+	staticHandler.setResourceBase(rb);
+	HandlerList handlers = new HandlerList();
+        handlers.setHandlers(new Handler[] { staticHandler, new RequestHandler() });
+
+        server.setHandler(handlers);
 
     }
     

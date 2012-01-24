@@ -1,9 +1,13 @@
 package org.husio.test;
 
 import javax.measure.Measure;
+import javax.measure.quantity.Duration;
+import javax.measure.quantity.Length;
 import javax.measure.quantity.Pressure;
 import javax.measure.quantity.Temperature;
 import javax.measure.unit.NonSI;
+import javax.measure.unit.SI;
+import javax.measure.unit.Unit;
 
 import org.husio.Configuration;
 import org.husio.api.weather.ObservedWeatherMeasure;
@@ -62,5 +66,32 @@ public class ApiTest {
 	cwm.setType(TYPE.MAXIMUM);
 	cwm.setMeasure(Measure.valueOf(105, NonSI.MILLIMETER_OF_MERCURY));
 	log.debug("The test measure is "+cwm);
+    }
+    
+    @Test
+    public void measurePrintTest(){
+	String out=WeatherUnits.PERCENT_WATER.toString();
+	log.debug("The PERCENT_WATER printout is:"+out);
+    }
+    
+    @Test
+    public void alternateUnitTest(){
+	Unit<Duration> myCoolUnit=SI.SECOND.times(5);
+	Measure<Duration> m=Measure.valueOf(1, myCoolUnit);
+	log.debug("My coolUnit is:"+m);
+    }
+    
+    @Test
+    public void milliUnitTest(){
+	Unit<Duration> myCoolUnit=SI.SECOND.divide(1000);
+	Measure<Duration> m=Measure.valueOf(1, myCoolUnit);
+	log.debug("My coolUnit is:"+m);
+    }
+    
+    @Test
+    public void centiUnitTest(){
+	Unit<Length> myCoolUnit=SI.METER.divide(100);
+	Measure<Length> m=Measure.valueOf(1, myCoolUnit);
+	log.debug("My coolUnit is:"+m);
     }
 }

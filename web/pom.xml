@@ -13,7 +13,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.husio</groupId>
-			<artifactId>core</artifactId>
+			<artifactId>weather</artifactId>
 			<version>${project.version}</version>
 			<scope>compile</scope>
 		</dependency>

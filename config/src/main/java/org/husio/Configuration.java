@@ -76,7 +76,7 @@ public class Configuration {
      * @return
      */
     public static boolean getBooleanProperty(String p){
-	return Boolean.getBoolean(getProperty(p));
+	return Boolean.parseBoolean(getProperty(p));
     }
     
     /**
