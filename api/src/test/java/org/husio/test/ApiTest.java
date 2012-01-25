@@ -1,13 +1,20 @@
 package org.husio.test;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 import javax.measure.Measure;
 import javax.measure.quantity.Duration;
 import javax.measure.quantity.Length;
 import javax.measure.quantity.Pressure;
 import javax.measure.quantity.Temperature;
+import javax.measure.quantity.Velocity;
+import javax.measure.quantity.Volume;
 import javax.measure.unit.NonSI;
 import javax.measure.unit.SI;
 import javax.measure.unit.Unit;
+import javax.measure.unit.format.LocalFormat;
+import javax.measure.unit.format.SymbolMap;
 
 import org.husio.Configuration;
 import org.husio.api.weather.ObservedWeatherMeasure;
@@ -94,4 +101,52 @@ public class ApiTest {
 	Measure<Length> m=Measure.valueOf(1, myCoolUnit);
 	log.debug("My coolUnit is:"+m);
     }
+    
+    @Test
+    public void localizedUnitTest(){
+	LocalFormat format=LocalFormat.getInstance(new Locale("en","UK"));
+	Unit<Volume> myCoolUnit=NonSI.GALLON_UK;
+	Measure<Volume> m=Measure.valueOf(1, myCoolUnit);
+	log.debug("My coolUnit is:"+format.format(myCoolUnit));
+    }
+    
+    @Test
+    public void hpaUnitTest(){
+	Unit<Pressure> myCoolUnit=WeatherUnits.HECTO_PASCAL;
+	Measure<Pressure> m=Measure.valueOf(1, myCoolUnit);
+	log.debug("My coolUnit is:"+m);
+    }  
+    
+    @Test
+    public void customFormatingTest(){
+        LocalFormat format=LocalFormat.getInstance(new SymbolMap(ResourceBundle.getBundle("org.husio.api.weather.LocalFormat")));
+	Unit<Velocity> myCoolUnit=WeatherUnits.KNOT;
+	Measure<Velocity> m=Measure.valueOf(1, myCoolUnit);
+	log.debug("My coolUnit is:"+format.format(myCoolUnit));
+    }  
+
+    @Test
+    public void customFormatingTest2(){
+        LocalFormat format=LocalFormat.getInstance(new SymbolMap(ResourceBundle.getBundle("org.husio.api.weather.LocalFormat")));
+	Unit<Velocity> myCoolUnit=WeatherUnits.KILOMETERS_PER_HOUR;
+	Measure<Velocity> m=Measure.valueOf(1, myCoolUnit);
+	log.debug("My coolUnit is:"+format.format(myCoolUnit));
+    }  
+    
+    @Test
+    public void customFormatingTest3(){
+        LocalFormat format=LocalFormat.getInstance(new SymbolMap(ResourceBundle.getBundle("org.husio.api.weather.LocalFormat")));
+	Unit<Velocity> myCoolUnit=WeatherUnits.METERS_PER_SECOND;
+	Measure<Velocity> m=Measure.valueOf(1, myCoolUnit);
+	log.debug("My coolUnit is:"+format.format(myCoolUnit));
+    }  
+    
+    @Test
+    public void customFormatingTest4(){
+        LocalFormat format=LocalFormat.getInstance(new SymbolMap(ResourceBundle.getBundle("org.husio.api.weather.LocalFormat")));
+	Unit<Humidity> myCoolUnit=WeatherUnits.PERCENT_WATER;
+	Measure<Humidity> m=Measure.valueOf(1, myCoolUnit);
+	log.debug("My coolUnit is:"+format.format(myCoolUnit));
+    }  
+
 }

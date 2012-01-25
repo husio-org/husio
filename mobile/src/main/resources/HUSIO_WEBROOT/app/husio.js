@@ -31,7 +31,10 @@ new Ext.Application({
 		
 		var observationTpl = new Ext.XTemplate(
 			    '<tpl for=".">',
-			        '<span>{measuredValue}</span>',
+			    	'<div class="observation {dimensionName} {environment} {type}">',
+			        	'<span class="value">{measuredValue}</span>',
+			        	'<span class="unit">{measuredUnit}</span>',
+			        '</div>',
 			    '</tpl>'
 		);
 		
@@ -60,7 +63,7 @@ new Ext.Application({
             defaults: {
                 cls: 'card'
             },
-            items: [
+            items: [weatherData,
             {
                 xtype: 'chart',
                 animate: 'true',
@@ -81,7 +84,7 @@ new Ext.Application({
                     donut: 30,
                     colorSet: ['#82B525', '#ddd']
                 }]
-            },weatherData,drawComponent,
+            },drawComponent,
             {
                 title: 'Tab ',
                 html: '<p>Weather SCR 3</p>'

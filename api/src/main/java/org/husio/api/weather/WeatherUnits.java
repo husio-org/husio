@@ -44,7 +44,7 @@ public class WeatherUnits {
    public static final Unit<Angle> DEGREES_FROM_NORTH= NonSI.DEGREE_ANGLE;
    
    /** Absolute Pressure: hpa*/
-   public static Unit<Pressure> HECTO_PASCAL=NonSI.ATMOSPHERE.divide(1013.25);
+   public static Unit<Pressure> HECTO_PASCAL=SI.PASCAL.times(100);
    
    /** Absolute Pressure: Milliliters of mercury */
    public static Unit<Pressure> MILLIMETER_OF_MERCURY=NonSI.MILLIMETER_OF_MERCURY;

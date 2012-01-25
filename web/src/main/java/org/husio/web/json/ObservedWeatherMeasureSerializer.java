@@ -1,10 +1,13 @@
 package org.husio.web.json;
 
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 import javax.measure.Measure;
 import javax.measure.quantity.Quantity;
 import javax.measure.unit.Unit;
+import javax.measure.unit.format.LocalFormat;
+import javax.measure.unit.format.SymbolMap;
 
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.JsonProcessingException;
@@ -26,6 +29,8 @@ public class ObservedWeatherMeasureSerializer extends JsonSerializer<ObservedWea
     
     private UserMetricSystem userMetricSystem=new UserMetricSystem();
     
+    private LocalFormat localFormat=LocalFormat.getInstance(new SymbolMap(ResourceBundle.getBundle("org.husio.api.weather.LocalFormat")));
+    
     @Override
     public Class<ObservedWeatherMeasure> handledType(){
 	return ObservedWeatherMeasure.class;
@@ -41,7 +46,7 @@ public class ObservedWeatherMeasureSerializer extends JsonSerializer<ObservedWea
 	jgen.writeBooleanField("validMetric", value.isValidMetric());
 	Unit<?> u=userMetricSystem.getPreferredUnit(value.getMeasure().getUnit());
 	jgen.writeNumberField("measuredValue", value.getMeasure().to(u).getValue().floatValue());
-	jgen.writeStringField("measuredUnit", u.toString());
+	jgen.writeStringField("measuredUnit", localFormat.format(u));
 	jgen.writeEndObject();
     }
 }
