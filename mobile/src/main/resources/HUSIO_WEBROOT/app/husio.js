@@ -31,9 +31,9 @@ new Ext.Application({
 		
 		var observationTpl = new Ext.XTemplate(
 			    '<tpl for=".">',
-			    	'<div class="observation {dimensionName} {environment} {type}">',
-			        	'<span class="value">{[values.measuredValue.toFixed(1)]}</span>',
-			        	'<span class="unit"> {measuredUnit}</span>',
+			    	'<div class="observation {[values.dimensionName.toLowerCase()]} {[values.environment.toLowerCase()]} {[values.type.toLowerCase()]}">',
+			        	'<span class="observation value">{[values.measuredValue.toFixed(1)]}</span>',
+			        	'<span class="observation unit"> {measuredUnit}</span>',
 			        '</div>',
 			    '</tpl>'
 		);
@@ -58,7 +58,7 @@ new Ext.Application({
         })
 
 		var weatherCarousel = new Ext.Carousel({
-            iconCls: 'favorites',
+            iconCls: 'weather',
             title: 'Weather',
             defaults: {
                 cls: 'card'
@@ -93,7 +93,7 @@ new Ext.Application({
 
 		new Ext.TabPanel({
 			fullscreen: true,
-			cardSwitchAnimation: 'flip',
+			cardSwitchAnimation: 'fade',
 			tabBar: {
 		        dock: 'bottom',
 		        ui: 'dark',
@@ -102,13 +102,13 @@ new Ext.Application({
 		        }
 		    },
 			dockedItems: [
-			              {xtype:'toolbar', ui: 'light', dock: 'top', title:'Husio Home Automation' },
+			              {xtype:'toolbar', ui: 'light', dock: 'top', title:'Husio' },
           	],
 			items: [
 			        weatherCarousel,
-			        {html: 'Power Information Comes Here', title: 'Power', iconCls: 'favorites'},
-			        {html: 'Ligts Automation Comes Here', title: 'Lights', iconCls: 'favorites'},
-			        {html: 'Security, Alarms Come Here', title: 'Security', iconCls: 'favorites'}
+			        {html: 'Power Information Comes Here', title: 'Power', iconCls: 'power'},
+			        {html: 'Ligts Automation Comes Here', title: 'Lights', iconCls: 'bulb'},
+			        {html: 'Security, Alarms Come Here', title: 'Security', iconCls: 'security'}
 			]
 		});
  
