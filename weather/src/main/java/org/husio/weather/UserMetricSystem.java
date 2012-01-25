@@ -24,6 +24,7 @@ public class UserMetricSystem extends SystemOfUnits{
 	userUnits.add(WeatherUnits.KNOT);
 	userUnits.add(WeatherUnits.HECTO_PASCAL);
 	userUnits.add(WeatherUnits.PERCENT_WATER);
+	userUnits.add(WeatherUnits.DEGREES_FROM_NORTH);
     }
 
     @Override
