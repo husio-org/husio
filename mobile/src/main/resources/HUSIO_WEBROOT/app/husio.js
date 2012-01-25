@@ -56,6 +56,10 @@ new Ext.Application({
             itemSelector:'div.thumb-wrap',
             emptyText: 'No data to display'
         })
+        
+        var refreshWeatherData= function(){
+        	currentWeatherStore.load();
+        }
 
 		var weatherCarousel = new Ext.Carousel({
             iconCls: 'weather',
@@ -102,7 +106,9 @@ new Ext.Application({
 		        }
 		    },
 			dockedItems: [
-			              {xtype:'toolbar', ui: 'light', dock: 'top', title:'Husio' },
+			              {xtype:'toolbar', ui: 'light', dock: 'top', title:'Husio', 
+			            	  items:[{xtype: 'spacer'},{text: 'update', handler: refreshWeatherData }]
+			              },
           	],
 			items: [
 			        weatherCarousel,
