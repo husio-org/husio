@@ -32,8 +32,8 @@ new Ext.Application({
 		var observationTpl = new Ext.XTemplate(
 			    '<tpl for=".">',
 			    	'<div class="observation {dimensionName} {environment} {type}">',
-			        	'<span class="value">{measuredValue}</span>',
-			        	'<span class="unit">{measuredUnit}</span>',
+			        	'<span class="value">{[values.measuredValue.toFixed(1)]}</span>',
+			        	'<span class="unit"> {measuredUnit}</span>',
 			        '</div>',
 			    '</tpl>'
 		);
