@@ -44,7 +44,7 @@ public abstract class HTTPWeatherService {
     protected void addMeasurement(List<NameValuePair> params, WeatherObservationEvent weather, String param, Unit u, ObservedWeatherMeasure.ENVIRONMENT e, ObservedWeatherMeasure.TYPE t ){
 	String value=this.getUnkownValue();
 	// Get the mesure we are after
-	ObservedWeatherMeasure<? extends Quantity> measure=weather.getWeatherObservation().getMeasures().get(u.getDimension(), e, t);
+	ObservedWeatherMeasure<? extends Quantity> measure=weather.getWeatherObservation().getMeasuresAsTable().get(u.getDimension(), e, t);
 	// If the measure exists and it is valid, add it in the required unit, and as float
 	if(measure!=null){
 	    if(measure.isValidMetric()){

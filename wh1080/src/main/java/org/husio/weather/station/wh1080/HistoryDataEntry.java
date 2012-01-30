@@ -12,7 +12,7 @@ import javax.measure.quantity.Velocity;
 
 import org.husio.api.weather.ObservedWeatherMeasure;
 import org.husio.api.weather.WeatherObservation;
-import org.husio.api.weather.WeatherObservationTable;
+import org.husio.api.weather.WeatherObservationList;
 import org.husio.api.weather.WeatherUnits;
 
 
@@ -49,7 +49,7 @@ public class HistoryDataEntry extends WH1080Types{
     /**
      * Where the collected metrics are stored
      */
-    private WeatherObservationTable measures=new WeatherObservationTable();
+    private WeatherObservationList measures=new WeatherObservationList();
 
     
     /**
@@ -258,7 +258,7 @@ public class HistoryDataEntry extends WH1080Types{
     }
     
 
-    private WeatherObservationTable getMeasures() {
+    private WeatherObservationList getMeasures() {
 	return this.measures;
     }   
     

@@ -25,8 +25,8 @@ public class WeatherObservationSerializer  extends JsonSerializer<WeatherObserva
     @Override
     public void serialize(WeatherObservation value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException {
 	jgen.writeStartObject();
-	//jgen.writeObjectField("timestamp", value.getTimestamp());
-	jgen.writeObjectField("measures",value.getMeasures().elements());
+	jgen.writeObjectField("timestamp", value.getTimestamp());
+	jgen.writeObjectField("measures",value.getMeasures());
 	jgen.writeEndObject();
     }
 

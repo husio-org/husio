@@ -10,7 +10,7 @@ import org.husio.api.weather.ObservedWeatherMeasure;
 import org.husio.api.weather.ObservedWeatherMeasure.ENVIRONMENT;
 import org.husio.api.weather.ObservedWeatherMeasure.TYPE;
 import org.husio.api.weather.WeatherObservation;
-import org.husio.api.weather.WeatherObservationTable;
+import org.husio.api.weather.WeatherObservationList;
 import org.husio.api.weather.WeatherUnits;
 
 /**
@@ -50,19 +50,19 @@ class SimulatedWeatherObservation{
     }
 
     @SuppressWarnings("unchecked")
-    private WeatherObservationTable getMeasures() {
-	WeatherObservationTable wot = new WeatherObservationTable();
-	wot.add(this.getSimulatedMeasure(ENVIRONMENT.OUTDOOR, TYPE.DISCRETE, WeatherUnits.CELSIUS, -10, 20, 0));
-	wot.add(this.getSimulatedMeasure(ENVIRONMENT.OUTDOOR, TYPE.DEW, WeatherUnits.CELSIUS, -12, 17, 0));
-	wot.add(this.getSimulatedMeasure(ENVIRONMENT.INDOOR, TYPE.DISCRETE, WeatherUnits.CELSIUS, 18, 22, 0));
-	wot.add(this.getSimulatedMeasure(ENVIRONMENT.OUTDOOR, TYPE.DISCRETE, WeatherUnits.PERCENT_WATER, 70, 99.9, 0.2));
-	wot.add(this.getSimulatedMeasure(ENVIRONMENT.INDOOR, TYPE.DISCRETE, WeatherUnits.PERCENT_WATER, 30, 50, 0.25));
-	wot.add(this.getSimulatedMeasure(ENVIRONMENT.OUTDOOR, TYPE.ABSOLUTE, WeatherUnits.HECTO_PASCAL, 920, 1080, 0.3));
-	wot.add(this.getSimulatedMeasure(ENVIRONMENT.OUTDOOR, TYPE.RELATIVE, WeatherUnits.HECTO_PASCAL, 920, 1080, 0.6));
-	wot.add(this.getSimulatedMeasure(ENVIRONMENT.OUTDOOR, TYPE.MAXIMUM, WeatherUnits.KNOT, 0, 35, 0.1));
-	wot.add(this.getSimulatedMeasure(ENVIRONMENT.OUTDOOR, TYPE.GUST, WeatherUnits.KNOT, 0, 50, 0.1));
-	wot.add(this.getSimulatedMeasure(ENVIRONMENT.OUTDOOR, TYPE.AVERAGE, WeatherUnits.KNOT, 0, 30, 0.1));
-	return wot;
+    private WeatherObservationList getMeasures() {
+	WeatherObservationList wol = new WeatherObservationList();
+	wol.add(this.getSimulatedMeasure(ENVIRONMENT.OUTDOOR, TYPE.DISCRETE, WeatherUnits.CELSIUS, -10, 20, 0));
+	wol.add(this.getSimulatedMeasure(ENVIRONMENT.OUTDOOR, TYPE.DEW, WeatherUnits.CELSIUS, -12, 17, 0));
+	wol.add(this.getSimulatedMeasure(ENVIRONMENT.INDOOR, TYPE.DISCRETE, WeatherUnits.CELSIUS, 18, 22, 0));
+	wol.add(this.getSimulatedMeasure(ENVIRONMENT.OUTDOOR, TYPE.DISCRETE, WeatherUnits.PERCENT_WATER, 70, 99.9, 0.2));
+	wol.add(this.getSimulatedMeasure(ENVIRONMENT.INDOOR, TYPE.DISCRETE, WeatherUnits.PERCENT_WATER, 30, 50, 0.25));
+	wol.add(this.getSimulatedMeasure(ENVIRONMENT.OUTDOOR, TYPE.ABSOLUTE, WeatherUnits.HECTO_PASCAL, 920, 1080, 0.3));
+	wol.add(this.getSimulatedMeasure(ENVIRONMENT.OUTDOOR, TYPE.RELATIVE, WeatherUnits.HECTO_PASCAL, 920, 1080, 0.6));
+	wol.add(this.getSimulatedMeasure(ENVIRONMENT.OUTDOOR, TYPE.MAXIMUM, WeatherUnits.KNOT, 0, 35, 0.1));
+	wol.add(this.getSimulatedMeasure(ENVIRONMENT.OUTDOOR, TYPE.GUST, WeatherUnits.KNOT, 0, 50, 0.1));
+	wol.add(this.getSimulatedMeasure(ENVIRONMENT.OUTDOOR, TYPE.AVERAGE, WeatherUnits.KNOT, 0, 30, 0.1));
+	return wol;
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })

@@ -39,6 +39,7 @@ public class WeatherHistory implements Module, Initializable {
     public void start() throws Exception {
 	con=HusioApplication.getDbConnection();
 	observationDao=DaoManager.createDao(con, WeatherObservation.class);
+	//TableUtils.dropTable(con, WeatherObservation.class, true);
 	TableUtils.createTableIfNotExists(con, WeatherObservation.class);
 	log.debug("Created Weather History Service");
 	EventBusService.subscribe(this);	

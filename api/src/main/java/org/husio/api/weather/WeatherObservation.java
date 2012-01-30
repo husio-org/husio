@@ -29,7 +29,9 @@ public class WeatherObservation implements Serializable{
     private Measure<Duration> duration;
     
     @DatabaseField(dataType=DataType.SERIALIZABLE)
-    private WeatherObservationTable observationTable;
+    private WeatherObservationList measures;
+
+    transient private WeatherObservationTable observationTable;
     
     public WeatherObservation(){
     }
@@ -56,15 +58,21 @@ public class WeatherObservation implements Serializable{
 	this.duration = duration;
     }
 
+    public WeatherObservationTable getMeasuresAsTable(){
+	if(this.observationTable!=null) return this.observationTable;
+	else return this.observationTable=new WeatherObservationTable(this.measures);
+    }
+
+    public void setMeasures(WeatherObservationList measures) {
+	this.measures = measures;
+    }
+    
     /**
      * The collection of measurements that where collected.
      */
-    public WeatherObservationTable getMeasures(){
-	return this.observationTable;
+    public WeatherObservationList getMeasures() {
+	return measures;
     }
     
-    public void setMeasures(WeatherObservationTable t){
-	this.observationTable=t;
-    }
 
 }
