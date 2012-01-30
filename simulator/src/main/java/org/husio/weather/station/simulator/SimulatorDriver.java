@@ -19,18 +19,18 @@ import com.adamtaft.eb.EventBusService;
  * @author rafael
  * 
  */
-public class Driver implements WeatherStation {
+public class SimulatorDriver implements WeatherStation {
 
     static final String POLL_INTERVAL_CONFIG_OPTION = "org.husio.weather.station.simulator.Driver.PollIntervalSeconds";
 
-    private static final Logger log = LoggerFactory.getLogger(Driver.class);
+    private static final Logger log = LoggerFactory.getLogger(SimulatorDriver.class);
 
     private Timer timer;
     private STATUS status = STATUS.STOPPED;
     private WeatherStation station;
     private double time=0;
 
-    public Driver() {
+    public SimulatorDriver() {
 	station = this;
 	timer = new Timer("Simulator");
 	log.info("Initializing the Weather simulator");
@@ -66,7 +66,7 @@ public class Driver implements WeatherStation {
      * @return
      */
     public WeatherObservation generateSimulatedWeather() {
-	return new SimulatedWeatherObservation(time+=0.1);
+	return new SimulatedWeatherObservation(time+=0.1).getObservation();
     }
 
     /**

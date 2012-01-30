@@ -17,15 +17,15 @@ import org.slf4j.LoggerFactory;
  * @author rafael
  *
  */
-public class Driver implements WebServer {
+public class JettyDriver implements WebServer {
     
     private static String PORT_CONF_PARAM="org.husio.web.jetty.Driver.port";
     
-    private static final Logger log = LoggerFactory.getLogger(Driver.class);
+    private static final Logger log = LoggerFactory.getLogger(JettyDriver.class);
     
     private Server server;
 
-    public Driver(){
+    public JettyDriver(){
 	int port=Configuration.getIntProperty(PORT_CONF_PARAM);
 	log.info("Initializing Jetty Webserver on port."+port);
 	server = new Server(port);

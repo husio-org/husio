@@ -38,9 +38,9 @@ import com.adamtaft.eb.EventHandler;
  * @author rafael
  *
  */
-public class Driver extends HTTPWeatherService implements WeatherCommunityService {
+public class PwsDriver extends HTTPWeatherService implements WeatherCommunityService {
     
-    private static final Logger log = LoggerFactory.getLogger(Driver.class);
+    private static final Logger log = LoggerFactory.getLogger(PwsDriver.class);
     
     // Service Configuration
     
@@ -100,7 +100,7 @@ public class Driver extends HTTPWeatherService implements WeatherCommunityServic
      * Says hello and registers with the event bus to receive 
      * Weather Observations 
      */
-    public Driver(){
+    public PwsDriver(){
 	log.info("Starting PSWeather.com Community Service Connector");
 	EventBusService.subscribe(this);
 	this.stationId=Configuration.getProperty(PWS_STATION_ID_CONF_PARAM);

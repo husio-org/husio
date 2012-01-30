@@ -40,9 +40,9 @@ import com.adamtaft.eb.EventHandler;
  * @author rafael
  * 
  */
-public class Driver extends HTTPWeatherService implements WeatherCommunityService {
+public class WunderDriver extends HTTPWeatherService implements WeatherCommunityService {
 
-    private static final Logger log = LoggerFactory.getLogger(Driver.class);
+    private static final Logger log = LoggerFactory.getLogger(WunderDriver.class);
 
     // Service Configuration
 
@@ -93,7 +93,7 @@ public class Driver extends HTTPWeatherService implements WeatherCommunityServic
      * Says hello and registers with the event bus to receive Weather
      * Observations
      */
-    public Driver() {
+    public WunderDriver() {
 	log.info("Starting Weather Underground Community Service Connector");
 	EventBusService.subscribe(this);
 	this.stationId = Configuration.getProperty(WU_STATION_ID_CONF_PARAM);

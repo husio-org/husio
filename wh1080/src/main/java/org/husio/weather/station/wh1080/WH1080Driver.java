@@ -32,7 +32,7 @@ import com.adamtaft.eb.EventBusService;
  * @author rafael
  * 
  */
-public class Driver implements WeatherStation {
+public class WH1080Driver implements WeatherStation {
     
     private static final String FORCE_CLAIM_CONFIG_OPTION="org.husio.weather.station.wh1080.Driver.usbForceClaim";
     private static final String POLL_INTERVAL_CONFIG_OPTION="org.husio.weather.station.wh1080.Driver.PollIntervalSeconds";
@@ -54,7 +54,7 @@ public class Driver implements WeatherStation {
      */
     public static final short USB_PRODUCT_ID = (short) 0x8021;
 
-    private static final Logger log = LoggerFactory.getLogger(Driver.class);
+    private static final Logger log = LoggerFactory.getLogger(WH1080Driver.class);
 
     private UsbDevice usbDevice;
     private UsbPipe usbPipe;
@@ -71,9 +71,9 @@ public class Driver implements WeatherStation {
      * 
      * @throws Exception
      */
-    public Driver() throws Exception {
+    public WH1080Driver() throws Exception {
 	log.debug("Starting WH1080 Driver");
-	usbDevice = UsbUtils.findDevice(Driver.USB_VENDOR_ID, Driver.USB_PRODUCT_ID);
+	usbDevice = UsbUtils.findDevice(WH1080Driver.USB_VENDOR_ID, WH1080Driver.USB_PRODUCT_ID);
 	usbInterface = (UsbInterface) usbDevice.getActiveUsbConfiguration().getUsbInterfaces().get(0);
 	usbEndpoint = (UsbEndpoint) usbInterface.getUsbEndpoints().get(0);
 	usbPipe = usbEndpoint.getUsbPipe();
@@ -180,7 +180,7 @@ public class Driver implements WeatherStation {
 
     public WeatherObservation readLastDataEntry() throws Exception {
 	this.readFixedMemoryBlock();
-	return this.readHistoryDataEntry(fmb.lastReadAddress());
+	return this.readHistoryDataEntry(fmb.lastReadAddress()).getObservation();
     }
 
     public FixedMemoryBlock fmb() {
