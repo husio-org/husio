@@ -35,14 +35,14 @@ public class FixedMemoryBlock extends WH1080Types{
     /**
      * The station this memory blcok belongs to
      */
-    private Driver station;
+    private WH1080Driver station;
     
     /**
      * Loads the memory block
      * @param s
      * @throws Exception
      */
-    FixedMemoryBlock(Driver s) throws Exception{
+    FixedMemoryBlock(WH1080Driver s) throws Exception{
 	this.station=s;
 	
 	for (int i=0; i<256 ; i+=32){

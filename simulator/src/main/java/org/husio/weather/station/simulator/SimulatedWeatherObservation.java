@@ -19,26 +19,38 @@ import org.husio.api.weather.WeatherUnits;
  * @author rafael
  * 
  */
-class SimulatedWeatherObservation implements WeatherObservation {
+class SimulatedWeatherObservation{
 
     private double time = 0;
+    
+    private WeatherObservation observation=new WeatherObservation();
 
+
+    /**
+     * Creates a simulated observation.
+     * @param t time counter, as a simulation generator.
+     */
     SimulatedWeatherObservation(double t) {
 	this.time = t;
+	observation.setTimestamp(this.timestamp);
+	observation.setDuration(this.getDuration());
+	observation.setMeasures(this.getMeasures());
+    }
+    
+    public WeatherObservation getObservation(){
+	return this.observation;
     }
 
     private Date timestamp = new Date();
 
-    public Date getTimestamp() {
-	return timestamp;
-    }
 
-    public Measure getDuration() {
-	long delay = Integer.parseInt(Configuration.getProperty(Driver.POLL_INTERVAL_CONFIG_OPTION));
+    private Measure getDuration() {
+	long delay = Integer.parseInt(Configuration.getProperty(SimulatorDriver.POLL_INTERVAL_CONFIG_OPTION));
 	return Measure.valueOf(delay, WeatherUnits.SECOND);
     }
 
-    public WeatherObservationTable getMeasures() {
+    @SuppressWarnings("unchecked")
+    private WeatherObservationTable getMeasures() {
 	WeatherObservationTable wot = new WeatherObservationTable();
 	wot.add(this.getSimulatedMeasure(ENVIRONMENT.OUTDOOR, TYPE.DISCRETE, WeatherUnits.CELSIUS, -10, 20, 0));
 	wot.add(this.getSimulatedMeasure(ENVIRONMENT.OUTDOOR, TYPE.DEW, WeatherUnits.CELSIUS, -12, 17, 0));
@@ -53,6 +65,7 @@ class SimulatedWeatherObservation implements WeatherObservation {
 	return wot;
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     private ObservedWeatherMeasure getSimulatedMeasure(ENVIRONMENT e, TYPE t, Unit u, double min, double max, double offset) {
 	ObservedWeatherMeasure ret = new ObservedWeatherMeasure();
 	ret.setEnvironment(e);
@@ -83,7 +96,7 @@ class SimulatedWeatherObservation implements WeatherObservation {
 
     @Override
     public String toString() {
-	return this.getTimestamp().toString() + " +" + this.getDuration().toSI() + "=" + this.getMeasures();
+	return this.timestamp.toString() + " +" + this.getDuration().toSI() + "=" + this.getMeasures();
     }
 
 }

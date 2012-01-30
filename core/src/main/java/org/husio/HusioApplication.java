@@ -1,6 +1,9 @@
 package org.husio;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
@@ -14,6 +17,9 @@ import org.husio.api.weather.WeatherStation;
 import org.husio.eventbus.Tracer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.j256.ormlite.jdbc.JdbcConnectionSource;
+import com.j256.ormlite.support.ConnectionSource;
 
 /**
  * Main Application Class.
@@ -34,13 +40,23 @@ public class HusioApplication {
      * name terminated by List (for example serviceDriverList) with a separated
      * list of modules
      */
-    private static final String[] MODULE_CONFIG_PARAMS = { "org.husio.web.serverDriver", "org.husio.weather.stationDriver", "org.husio.weather.serviceDriver", "org.husio.optionalModule" };
-
+    private static final String[] MODULE_CONFIG_PARAMS = { "org.husio.weather.module","org.husio.web.serverDriver", "org.husio.weather.stationDriver", "org.husio.weather.serviceDriver", "org.husio.optionalModule" };
+    
+    private static final String DB_DRIVER_CONFIG="org.h2.Driver";
+    private static final String DB_STORAGE_PATH="org.husio.db.storagePath";
+    private static final String DB_JDBC_PROTOCOL="jdbc:h2:";
+    
     private static final Logger log = LoggerFactory.getLogger(HusioApplication.class);
     private static String[] commandLineArgs;
 
     private static List<Module> modules = new ArrayList<Module>();
     private static Hashtable<MODULE_TYPE, Singleton> singletons = new Hashtable<MODULE_TYPE, Singleton>();
+    
+    private static HusioApplication singleton;
+    
+    public HusioApplication(){
+	this.singleton=this;
+    }
 
     /**
      * @param args
@@ -69,10 +85,12 @@ public class HusioApplication {
 
 	    // Register a shut-down hook
 	    Runtime.getRuntime().addShutdownHook(new ShutdownHook());
+	    
+	    // Load the database driver
+	    Class.forName(DB_DRIVER_CONFIG);
 
 	    // Buildup the loadable module list, a list of the classes to load
 	    for (String property : MODULE_CONFIG_PARAMS) {
-
 		// Check if the property exists as a List
 		String listProperty = property + "List";
 		String driverClassList = Configuration.getProperty(listProperty);
@@ -149,5 +167,31 @@ public class HusioApplication {
 	}
 
     }
+    
+    /**
+     * Generates a connection string, also used during testing
+     */
+    public static String dbConnectionString(String filePath){
+	return DB_JDBC_PROTOCOL+filePath;
+    }
+    
+    /**
+     * Builds the connection string according to user preferences.
+     * @return
+     */
+    private String dbConnectionString(){
+	return dbConnectionString(Configuration.getProperty(DB_STORAGE_PATH));
+    }
+    
+    /**
+     * Access to connections, we expect many modules to use connections if they need to store data.
+     * @return
+     * @throws SQLException
+     */
+    public static ConnectionSource getDbConnection() throws SQLException{
+	return new JdbcConnectionSource(singleton.dbConnectionString(),"sa","");
+    }
+    
+    
 
 }

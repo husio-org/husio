@@ -1,5 +1,7 @@
 package org.husio.api.weather;
 
+import java.io.Serializable;
+
 import javax.measure.Measure;
 import javax.measure.quantity.Quantity;
 import javax.measure.unit.Dimension;
@@ -11,7 +13,9 @@ import javax.measure.unit.Dimension;
  * @author rafael
  * 
  */
-public class ObservedWeatherMeasure<T extends Quantity> {
+public class ObservedWeatherMeasure<T extends Quantity> implements Serializable{
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * Where the metric took place.

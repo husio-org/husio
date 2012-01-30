@@ -1,11 +1,12 @@
 package org.husio.api.weather;
 
+import java.io.Serializable;
 import java.util.Hashtable;
 
 import javax.measure.quantity.Quantity;
 import javax.measure.unit.Dimension;
 
-public class WeatherObservationTable  extends Hashtable<String,ObservedWeatherMeasure<? extends Quantity>>{
+public class WeatherObservationTable  extends Hashtable<String,ObservedWeatherMeasure<? extends Quantity>> implements Serializable{
     private static final long serialVersionUID = 1L;
     
     /**
