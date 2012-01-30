@@ -1,6 +1,7 @@
 package org.husio.weather.station.wh1080;
 
 import javax.measure.quantity.Angle;
+import javax.measure.quantity.Dimensionless;
 import javax.measure.quantity.Duration;
 import javax.measure.quantity.Pressure;
 import javax.measure.quantity.Temperature;
@@ -8,7 +9,6 @@ import javax.measure.quantity.Velocity;
 import javax.measure.unit.Unit;
 import javax.usb.util.UsbUtil;
 
-import org.husio.api.weather.Humidity;
 import org.husio.api.weather.WeatherUnits;
 
 /**
@@ -37,7 +37,7 @@ public abstract class WH1080Types {
     /** Absolute Pressure as store in the station records */
     public static final Unit<Pressure> PRESSURE_UNIT=WeatherUnits.HECTO_PASCAL.times(0.1);
     /** Humidity as stored in the station records*/
-    public static final Unit<Humidity> HUMIDITY_UNIT=WeatherUnits.PERCENT_WATER;
+    public static final Unit<Dimensionless> HUMIDITY_UNIT=WeatherUnits.PERCENT_WATER;
 
     /**
      * returns true is the bit number 0-7 is set in the passed byte.

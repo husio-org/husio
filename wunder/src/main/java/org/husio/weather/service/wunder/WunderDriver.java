@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.measure.quantity.Angle;
+import javax.measure.quantity.Dimensionless;
 import javax.measure.quantity.Pressure;
 import javax.measure.quantity.Temperature;
 import javax.measure.quantity.Velocity;
@@ -16,7 +17,6 @@ import org.apache.http.client.utils.URIUtils;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
 import org.husio.Configuration;
-import org.husio.api.weather.Humidity;
 import org.husio.api.weather.ObservedWeatherMeasure.ENVIRONMENT;
 import org.husio.api.weather.ObservedWeatherMeasure.TYPE;
 import org.husio.api.weather.WeatherCommunityService;
@@ -71,7 +71,7 @@ public class WunderDriver extends HTTPWeatherService implements WeatherCommunity
 
     public static final String WU_HUMIDITY_PARAM = "humidity";
     public static final String WU_INDOOR_HUMIDITY_PARAM = "indoorhumidity";
-    public static final Unit<Humidity> WU_HUMIDITY_UNIT = WeatherUnits.PERCENT_WATER;
+    public static final Unit<Dimensionless> WU_HUMIDITY_UNIT = WeatherUnits.PERCENT_WATER;
 
     public static final String WU_TEMPERATURE_PARAM = "tempf";
     public static final String WU_INDOOR_TEMPERATURE_PARAM = "indoortempf";

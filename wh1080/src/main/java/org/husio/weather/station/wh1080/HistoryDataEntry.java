@@ -4,12 +4,12 @@ import java.util.Date;
 
 import javax.measure.Measure;
 import javax.measure.quantity.Angle;
+import javax.measure.quantity.Dimensionless;
 import javax.measure.quantity.Duration;
 import javax.measure.quantity.Pressure;
 import javax.measure.quantity.Temperature;
 import javax.measure.quantity.Velocity;
 
-import org.husio.api.weather.Humidity;
 import org.husio.api.weather.ObservedWeatherMeasure;
 import org.husio.api.weather.WeatherObservation;
 import org.husio.api.weather.WeatherObservationTable;
@@ -187,8 +187,8 @@ public class HistoryDataEntry extends WH1080Types{
     /**
      * Returns relative humidity outside
      */
-    private ObservedWeatherMeasure<Humidity> getOutdoorRelativeHumidity(){
-	ObservedWeatherMeasure<Humidity> ret=new ObservedWeatherMeasure<Humidity>();
+    private ObservedWeatherMeasure<Dimensionless> getOutdoorRelativeHumidity(){
+	ObservedWeatherMeasure<Dimensionless> ret=new ObservedWeatherMeasure<Dimensionless>();
 	ret.setType(ObservedWeatherMeasure.TYPE.DISCRETE);
 	ret.setEnvironment(ObservedWeatherMeasure.ENVIRONMENT.OUTDOOR);	
 	if(!this.isValidByteMetric(RELATIVE_HUMIDITY_OUT_ADDRESS)) ret.setValidMetric(false);
@@ -202,8 +202,8 @@ public class HistoryDataEntry extends WH1080Types{
     /**
      * Returns relative humidity outside
      */
-    private ObservedWeatherMeasure<Humidity> getIndoorRelativeHumidity(){
-	ObservedWeatherMeasure<Humidity> ret=new ObservedWeatherMeasure<Humidity>();
+    private ObservedWeatherMeasure<Dimensionless> getIndoorRelativeHumidity(){
+	ObservedWeatherMeasure<Dimensionless> ret=new ObservedWeatherMeasure<Dimensionless>();
 	ret.setType(ObservedWeatherMeasure.TYPE.DISCRETE);
 	ret.setEnvironment(ObservedWeatherMeasure.ENVIRONMENT.INDOOR);
 	if(!this.isValidByteMetric(RELATIVE_HUMIDITY_IN_ADDRESS)) ret.setValidMetric(false);

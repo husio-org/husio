@@ -2,6 +2,7 @@ package org.husio.api.weather;
 
 
 import javax.measure.quantity.Angle;
+import javax.measure.quantity.Dimensionless;
 import javax.measure.quantity.Duration;
 import javax.measure.quantity.Pressure;
 import javax.measure.quantity.Temperature;
@@ -52,7 +53,7 @@ public class WeatherUnits {
    /** Absolute Pressure: Inches of mercury */
    public static Unit<Pressure> INCH_OF_MERCURY=NonSI.INCH_OF_MERCURY;
    
-   /** Humidity: Inches of mercury */
-   public static Unit<Humidity> PERCENT_WATER=Humidity.UNIT;
+   /** Humidity: Percent of water */
+   public static Unit<Dimensionless> PERCENT_WATER=NonSI.PERCENT;
 
 }
