@@ -1,8 +1,15 @@
 package org.husio.test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.Hashtable;
+
+import javax.measure.Measure;
+import javax.measure.quantity.Duration;
+import javax.measure.unit.SI;
 
 import org.husio.Configuration;
 import org.husio.HusioApplication;
@@ -23,6 +30,7 @@ import com.j256.ormlite.table.TableUtils;
 public class OrmTest {
     
     private static final Logger log = LoggerFactory.getLogger(OrmTest.class);
+    private static final boolean CREATE_TABLE=true;
     
     ConnectionSource con;
     Dao<TestObject,Date> testDao;
@@ -40,7 +48,18 @@ public class OrmTest {
     @Test(groups="init")
     public void createDb() throws SQLException{
 	log.debug("Creating test table");
-	TableUtils.createTable(con, TestObject.class);
+	if(CREATE_TABLE) TableUtils.dropTable(con, TestObject.class, true);
+	TableUtils.createTableIfNotExists(con, TestObject.class);
+    }
+    
+    @Test
+    public void serializationTest() throws IOException{
+	int v=1;
+	Measure<Duration> m=Measure.valueOf(v, SI.SECOND);
+	ByteArrayOutputStream bos=new ByteArrayOutputStream();
+	ObjectOutputStream oos=new ObjectOutputStream(bos);
+	oos.writeObject(m);
+	log.debug("Serialized size for "+m+" is "+bos.size());
     }
     
     @Test(groups="query",dependsOnGroups="init",enabled=true)
@@ -53,13 +72,15 @@ public class OrmTest {
 	o.getData().put("hola", "mundo");
 	o.getData().put("hello", "world");
 	o.getData().put("bye", "bye");
+	int m=1;
+	o.setMeasure(Measure.valueOf(m, SI.SECOND));
 	this.testDao.create(o);
     }
     
     @Test(dependsOnGroups="query")
-    public void dropDb() throws SQLException{
-	log.debug("Dropping test table");
-	TableUtils.dropTable(con, TestObject.class, false);
+    public void closeDb() throws SQLException{
+	log.debug("Closing test table");
+	con.close();
     }
     
     /**
@@ -75,6 +96,8 @@ public class OrmTest {
 	private String comment;
 	@DatabaseField(dataType=DataType.SERIALIZABLE)
 	private Hashtable<String,String> data;
+	@DatabaseField(dataType=DataType.SERIALIZABLE)
+	private Measure<Duration> measure;
 	
 	public TestObject(){
 	    
@@ -97,6 +120,14 @@ public class OrmTest {
 	}
 	public void setData(Hashtable<String, String> data) {
 	    this.data = data;
+	}
+
+	public void setMeasure(Measure<Duration> measure) {
+	    this.measure = measure;
+	}
+
+	public Measure<Duration> getMeasure() {
+	    return measure;
 	}
 	
     }

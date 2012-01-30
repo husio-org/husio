@@ -25,10 +25,10 @@ public class WeatherObservation implements Serializable{
     @DatabaseField(id = true)
     private Date timeStamp;
     
-    @DatabaseField(dataType=DataType.SERIALIZABLE, width=256)
+    @DatabaseField(dataType=DataType.SERIALIZABLE)
     private Measure<Duration> duration;
     
-    @DatabaseField(dataType=DataType.SERIALIZABLE,width=2048)
+    @DatabaseField(dataType=DataType.SERIALIZABLE)
     private WeatherObservationTable observationTable;
     
     public WeatherObservation(){
