@@ -23,4 +23,15 @@
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skipTests>${husio.skipTest.wh1080}</skipTests>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

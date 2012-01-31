@@ -7,7 +7,7 @@
 	<packaging>pom</packaging>
 	<name>Husio Home Automation </name>
 	<properties>
-		    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -45,6 +45,7 @@
 		<module>pkg</module>
 		<module>pwsweather</module>
 		<module>wunder</module>
+		<module>ormjson</module>
 	</modules>
 	<build>
 		<plugins>
@@ -141,22 +142,34 @@
 	</build>
 	<profiles>
 		<profile>
-			<id>macosx-x86</id>
+			<id>bare</id>
 			<activation>
-				<os>
-					<family>macosx</family>
-					<arch>x86</arch>
-				</os>
+				<activeByDefault>true</activeByDefault>
 			</activation>
+			<properties>
+				<husio.skipTest.usb>true</husio.skipTest.usb>
+				<husio.skipTest.wh1080>true</husio.skipTest.wh1080>
+			</properties>
 		</profile>
 		<profile>
-			<id>linux-x86</id>
+			<id>usb</id>
 			<activation>
-				<os>
-					<name>Linux</name>
-					<arch>i386</arch>
-				</os>
+				<activeByDefault>false</activeByDefault>
 			</activation>
+			<properties>
+				<husio.skipTest.usb>false</husio.skipTest.usb>
+			</properties>
+		</profile>
+		<profile>
+			<id>wh1080</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<husio.skipTest.usb>false</husio.skipTest.usb>
+				<husio.skipTest.wh1080>false</husio.skipTest.wh1080>
+			</properties>
 		</profile>
 	</profiles>
 </project>
+
