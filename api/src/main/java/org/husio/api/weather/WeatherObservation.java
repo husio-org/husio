@@ -5,10 +5,12 @@ import java.util.Date;
 
 import javax.measure.Measure;
 import javax.measure.quantity.Duration;
+import javax.measure.unit.SI;
 
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import org.husio.ormjson.JsonTypePersister;
 
 /**
  * A weather observation. Normally the weather station will collect metrics for a certain period of time and
@@ -25,12 +27,16 @@ public class WeatherObservation implements Serializable{
     @DatabaseField(id = true)
     private Date timeStamp;
     
-    @DatabaseField(dataType=DataType.SERIALIZABLE)
-    private Measure<Duration> duration;
+    @DatabaseField(dataType=DataType.LONG)
+    private long durationInSeconds;
     
-    @DatabaseField(dataType=DataType.SERIALIZABLE)
+    /**
+     * Please, note that the weather module will also setup
+     * JSON artifacts that will tune how the JSON is serialized/deserialized
+     */
+    @DatabaseField(persisterClass=JsonTypePersister.class)
     private WeatherObservationList measures;
-
+    
     transient private WeatherObservationTable observationTable;
     
     public WeatherObservation(){
@@ -51,11 +57,11 @@ public class WeatherObservation implements Serializable{
      * the duration covered by this observation.
      */
     public Measure<Duration> getDuration(){
-	return this.duration;
+	return Measure.valueOf(this.durationInSeconds, SI.SECOND);
     }
     
     public void setDuration(Measure<Duration> duration) {
-	this.duration = duration;
+	this.durationInSeconds = duration.longValue(SI.SECOND);
     }
 
     public WeatherObservationTable getMeasuresAsTable(){

@@ -60,10 +60,4 @@ public class WeatherUnitTest {
     }
     
     
-    @Test
-    public void customUnitTest(){
-	log.debug("");
-    }
-    
-    
 }

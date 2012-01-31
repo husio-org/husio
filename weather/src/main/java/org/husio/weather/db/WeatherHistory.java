@@ -1,13 +1,21 @@
-package org.husio.weather.history;
+package org.husio.weather.db;
 
 import java.sql.SQLException;
 import java.util.Date;
 
+import org.codehaus.jackson.Version;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.SerializationConfig;
+import org.codehaus.jackson.map.module.SimpleModule;
 import org.husio.HusioApplication;
 import org.husio.api.Initializable;
 import org.husio.api.Module;
+import org.husio.api.weather.ObservedWeatherMeasure;
 import org.husio.api.weather.WeatherObservation;
 import org.husio.api.weather.evt.WeatherObservationEvent;
+import org.husio.ormjson.JsonTypePersister;
+import org.husio.weather.json.DBObservedWeatherMeasureDeserializer;
+import org.husio.weather.json.DBObservedWeatherMeasureSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +32,7 @@ public class WeatherHistory implements Module, Initializable {
     private ConnectionSource con;
     // instantiate the dao
     Dao<WeatherObservation, Date> observationDao;
-        
+            
     @EventHandler
     public void handleWeatherObservation(WeatherObservationEvent weather){
 	log.debug("Storing weather observation event:"+weather.getWeatherObservation());
@@ -37,9 +45,9 @@ public class WeatherHistory implements Module, Initializable {
 
     @Override
     public void start() throws Exception {
+	configureDbJson();
 	con=HusioApplication.getDbConnection();
 	observationDao=DaoManager.createDao(con, WeatherObservation.class);
-	//TableUtils.dropTable(con, WeatherObservation.class, true);
 	TableUtils.createTableIfNotExists(con, WeatherObservation.class);
 	log.debug("Created Weather History Service");
 	EventBusService.subscribe(this);	
@@ -49,6 +57,18 @@ public class WeatherHistory implements Module, Initializable {
     public void stop() throws Exception {
 	EventBusService.unsubscribe(this);
 	con.close();
+    }
+    
+    /**
+     * Sets ups ObjectMapping options for efficient json storage in DB.
+     */
+    public static void configureDbJson(){
+	ObjectMapper mapper=JsonTypePersister.getObjectMapper();
+	mapper.configure(SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS, false);
+	SimpleModule husioModule = new SimpleModule("HusioDB", new Version(1, 0, 0, null));
+	husioModule.addSerializer(new DBObservedWeatherMeasureSerializer());
+	husioModule.addDeserializer(ObservedWeatherMeasure.class, new DBObservedWeatherMeasureDeserializer());
+	mapper.registerModule(husioModule);
     }
 
 }

@@ -18,16 +18,15 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>javax.measure</groupId>
-			<artifactId>jsr-275</artifactId>
-			<version>1.0.0</version>
-			<type>jar</type>
+			<groupId>org.husio</groupId>
+			<artifactId>ormjson</artifactId>
+			<version>${project.version}</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.j256.ormlite</groupId>
-			<artifactId>ormlite-jdbc</artifactId>
-			<version>4.33</version>
+			<groupId>javax.measure</groupId>
+			<artifactId>jsr-275</artifactId>
+			<version>1.0.0</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>

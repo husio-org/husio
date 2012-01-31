@@ -190,8 +190,6 @@ public class HusioApplication {
      */
     public static ConnectionSource getDbConnection() throws SQLException{
 	return new JdbcConnectionSource(singleton.dbConnectionString(),"sa","");
-    }
-    
-    
+    }   
 
 }

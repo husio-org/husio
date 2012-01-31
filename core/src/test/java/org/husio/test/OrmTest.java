@@ -26,7 +26,6 @@ import org.codehaus.jackson.map.SerializationConfig;
 import org.husio.Configuration;
 import org.husio.HusioApplication;
 import org.husio.api.weather.ObservedWeatherMeasure;
-import org.husio.api.weather.ObservedWeatherMeasure.ENVIRONMENT;
 import org.husio.api.weather.WeatherUnits;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,8 +46,8 @@ public class OrmTest {
     private static final Logger log = LoggerFactory.getLogger(OrmTest.class);
     private static final boolean CREATE_TABLE = true;
 
-    ConnectionSource con;
-    Dao<TestObject, Date> testDao;
+    private ConnectionSource con;
+    private Dao<TestObject, Date> testDao;
 
     @BeforeTest
     public void init() throws SQLException {

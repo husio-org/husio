@@ -4,6 +4,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.measure.Measure;
+import javax.measure.quantity.Dimensionless;
 import javax.measure.quantity.Duration;
 import javax.measure.quantity.Length;
 import javax.measure.quantity.Pressure;
@@ -20,7 +21,6 @@ import org.husio.Configuration;
 import org.husio.api.weather.ObservedWeatherMeasure;
 import org.husio.api.weather.ObservedWeatherMeasure.ENVIRONMENT;
 import org.husio.api.weather.ObservedWeatherMeasure.TYPE;
-import org.husio.api.weather.Humidity;
 import org.husio.api.weather.WeatherUnits;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,7 +58,7 @@ public class ApiTest {
     @Test
     public void measurement3Test(){
 	log.debug("Testing Weather API: Measurement 3");
-	ObservedWeatherMeasure<Humidity> cwm=new ObservedWeatherMeasure<Humidity>();
+	ObservedWeatherMeasure<Dimensionless> cwm=new ObservedWeatherMeasure<Dimensionless>();
 	cwm.setEnvironment(ENVIRONMENT.OUTDOOR);
 	cwm.setType(TYPE.MAXIMUM);
 	cwm.setMeasure(Measure.valueOf(5, WeatherUnits.PERCENT_WATER));
@@ -144,8 +144,8 @@ public class ApiTest {
     @Test
     public void customFormatingTest4(){
         LocalFormat format=LocalFormat.getInstance(new SymbolMap(ResourceBundle.getBundle("org.husio.api.weather.LocalFormat")));
-	Unit<Humidity> myCoolUnit=WeatherUnits.PERCENT_WATER;
-	Measure<Humidity> m=Measure.valueOf(1, myCoolUnit);
+	Unit<Dimensionless> myCoolUnit=WeatherUnits.PERCENT_WATER;
+	Measure<Dimensionless> m=Measure.valueOf(1, myCoolUnit);
 	log.debug("My coolUnit is:"+format.format(myCoolUnit));
     }  
 
