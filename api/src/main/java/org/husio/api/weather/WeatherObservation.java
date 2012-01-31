@@ -80,5 +80,9 @@ public class WeatherObservation implements Serializable{
 	return measures;
     }
     
+    @Override
+    public String toString(){
+	return this.getTimestamp()+"["+this.getDuration().toSI()+"]"+this.getMeasures();
+    }
 
 }
