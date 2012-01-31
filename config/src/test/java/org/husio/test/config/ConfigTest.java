@@ -12,7 +12,7 @@ public class ConfigTest {
     @Test
     public void testBooleanConfigOption(){
 	log.debug("Testing boolean configuration options");
-	String testProperty="org.husio.weather.station.wh1080.Driver.usbForceClaim";
+	String testProperty="org.husio.weather.station.wh1080.WH1080Driver.usbForceClaim";
 	boolean t=Configuration.getBooleanProperty(testProperty);
 	assert t: "Option not found or not true";
     }
