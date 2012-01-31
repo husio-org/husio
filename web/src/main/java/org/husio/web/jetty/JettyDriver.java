@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
  */
 public class JettyDriver implements WebServer {
     
-    private static String PORT_CONF_PARAM="org.husio.web.jetty.Driver.port";
+    private static String PORT_CONF_PARAM="org.husio.web.jetty.JettyDriver.port";
     
     private static final Logger log = LoggerFactory.getLogger(JettyDriver.class);
     

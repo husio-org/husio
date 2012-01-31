@@ -34,8 +34,8 @@ import com.adamtaft.eb.EventBusService;
  */
 public class WH1080Driver implements WeatherStation {
     
-    private static final String FORCE_CLAIM_CONFIG_OPTION="org.husio.weather.station.wh1080.Driver.usbForceClaim";
-    private static final String POLL_INTERVAL_CONFIG_OPTION="org.husio.weather.station.wh1080.Driver.PollIntervalSeconds";
+    private static final String FORCE_CLAIM_CONFIG_OPTION="org.husio.weather.station.wh1080.WH1080Driver.usbForceClaim";
+    private static final String POLL_INTERVAL_CONFIG_OPTION="org.husio.weather.station.wh1080.WH1080Driver.pollIntervalSeconds";
 
     private static final byte WRITE_COMMAND = (byte) 0xA0;
     private static final byte END_MARK = (byte) 0x20;

@@ -52,9 +52,9 @@ public class PwsDriver extends HTTPWeatherService implements WeatherCommunitySer
     // User Configuration Settings
     
     public static final String PWS_STATION_ID_PARAM= "ID";
-    public static final String PWS_STATION_ID_CONF_PARAM="org.husio.weather.service.pws.Driver.stationId";
+    public static final String PWS_STATION_ID_CONF_PARAM="org.husio.weather.service.pws.PwsDriver.stationId";
     public static final String PWS_PASSWORD_PARAM= "PASSWORD";
-    public static final String PWS_PASSWORD_CONF_PARAM= "org.husio.weather.service.pws.Driver.password";
+    public static final String PWS_PASSWORD_CONF_PARAM= "org.husio.weather.service.pws.PwsDriver.password";
 
     // Weather Observation Configuration
         

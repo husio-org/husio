@@ -21,7 +21,7 @@ import com.adamtaft.eb.EventBusService;
  */
 public class SimulatorDriver implements WeatherStation {
 
-    static final String POLL_INTERVAL_CONFIG_OPTION = "org.husio.weather.station.simulator.Driver.PollIntervalSeconds";
+    static final String POLL_INTERVAL_CONFIG_OPTION = "org.husio.weather.station.simulator.SimulatorDriver.pollIntervalSeconds";
 
     private static final Logger log = LoggerFactory.getLogger(SimulatorDriver.class);
 
