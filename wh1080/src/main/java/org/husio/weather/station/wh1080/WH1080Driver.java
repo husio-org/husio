@@ -6,6 +6,7 @@ import java.util.TimerTask;
 import javax.usb.UsbConst;
 import javax.usb.UsbControlIrp;
 import javax.usb.UsbDevice;
+import javax.usb.UsbDisconnectedException;
 import javax.usb.UsbEndpoint;
 import javax.usb.UsbException;
 import javax.usb.UsbInterface;
@@ -33,9 +34,9 @@ import com.adamtaft.eb.EventBusService;
  * 
  */
 public class WH1080Driver implements WeatherStation {
-    
-    private static final String FORCE_CLAIM_CONFIG_OPTION="org.husio.weather.station.wh1080.WH1080Driver.usbForceClaim";
-    private static final String POLL_INTERVAL_CONFIG_OPTION="org.husio.weather.station.wh1080.WH1080Driver.pollIntervalSeconds";
+
+    private static final String FORCE_CLAIM_CONFIG_OPTION = "org.husio.weather.station.wh1080.WH1080Driver.usbForceClaim";
+    private static final String POLL_INTERVAL_CONFIG_OPTION = "org.husio.weather.station.wh1080.WH1080Driver.pollIntervalMinutes";
 
     private static final byte WRITE_COMMAND = (byte) 0xA0;
     private static final byte END_MARK = (byte) 0x20;
@@ -77,28 +78,32 @@ public class WH1080Driver implements WeatherStation {
 	usbInterface = (UsbInterface) usbDevice.getActiveUsbConfiguration().getUsbInterfaces().get(0);
 	usbEndpoint = (UsbEndpoint) usbInterface.getUsbEndpoints().get(0);
 	usbPipe = usbEndpoint.getUsbPipe();
-	station=this;
+	station = this;
 	timer = new Timer("WH1080");
     }
 
     /**
      * starts and connects to the USB device
      */
-    public synchronized void start() throws Exception{
+    public synchronized void start() throws Exception {
 	log.info("Starting the WH1080 Driver");
 
 	try {
 	    usbInterface.claim(new InterfacePolicy());
 	    usbPipe.open();
-	    long delay=Integer.parseInt(Configuration.getProperty(POLL_INTERVAL_CONFIG_OPTION));
-	    log.info("Will refresh weather information every: "+delay+" seconds");
-	    timer.scheduleAtFixedRate(new WeatherPublisherTask(), 0, delay*1000);
-	    this.status=STATUS.RUNNING;
+	    int delay = Integer.parseInt(Configuration.getProperty(POLL_INTERVAL_CONFIG_OPTION));
+	    log.info("Will refresh weather information every: " + delay + " minutes");
+	    this.setSamplingTimeMinutes(UsbUtils.intToUnsignedByte(delay));
+	    long delayMs= delay * 60 * 1000;
+	    // we ensure that at least one entry is fully complete, give a five seconds margin.
+	    timer.scheduleAtFixedRate(new WeatherPublisherTask(), delayMs+5000,delayMs);
+	    this.status = STATUS.RUNNING;
 
 	} catch (UsbException e) {
-	    this.status=STATUS.ERROR;
-	    log.error("Could not connect with WH1080, is it been used?",e);
-	    if(usbPipe.isOpen()) usbPipe.close();
+	    this.status = STATUS.ERROR;
+	    log.error("Could not connect with WH1080, is it been used?", e);
+	    if (usbPipe.isOpen())
+		usbPipe.close();
 	    usbInterface.release();
 	}
     }
@@ -132,7 +137,7 @@ public class WH1080Driver implements WeatherStation {
      * @throws Exception
      *             in case something goes wrong at the USB protocol level.
      */
-    void readAddress(int address, byte[] dataBuffer, int offset) throws Exception {
+     void readAddress(int address, byte[] dataBuffer, int offset) throws Exception {
 
 	// prepare a control packet to request the read
 
@@ -146,6 +151,21 @@ public class WH1080Driver implements WeatherStation {
 		END_MARK, // end mark
 	};
 
+	this.writeCommand(command);
+
+	// read 32 bytes in 4x8 bytes packets from the station
+	for (int i = 0; i < 4; i++) this.readReplyPacket(dataBuffer, offset + 8 * i);
+
+	log.trace("Read Address " + UsbUtil.toHexString(address) + ":" + UsbUtils.toHexString(dataBuffer, offset, 32));
+    }
+
+    /**
+     * Writes a command packet to the station
+     * 
+     * @param command
+     * @throws Exception
+     */
+    void writeCommand(byte[] command) throws Exception {
 	UsbControlIrp cirp = this.usbDevice.createUsbControlIrp((byte) (UsbConst.REQUESTTYPE_DIRECTION_OUT | UsbConst.REQUESTTYPE_TYPE_CLASS | UsbConst.REQUESTTYPE_RECIPIENT_INTERFACE),
 		UsbConst.REQUEST_SET_CONFIGURATION, (short) (UsbConst.REQUESTTYPE_RECIPIENT_ENDPOINT << 8), // value
 		(short) 0);
@@ -154,18 +174,56 @@ public class WH1080Driver implements WeatherStation {
 
 	// send the command
 	usbDevice.syncSubmit(cirp);
+    }
 
-	// read 32 bytes in 4 8 bytes packets from the station
-	for (int i = 0; i < 4; i++) {
-	    UsbIrp irp = usbPipe.createUsbIrp();
-	    irp.setData(dataBuffer);
-	    irp.setLength(8);
-	    irp.setOffset(offset + 8 * i);
-	    usbPipe.syncSubmit(irp);
-	    assert irp.isComplete() : "Irp is not complete!";
+    /**
+     * reads a 8 byte reply packet from the station.
+     * 
+     * @param dataBuffer
+     * @param offset
+     */
+    void readReplyPacket(byte[] dataBuffer, int offset) throws Exception{
+	UsbIrp irp = usbPipe.createUsbIrp();
+	irp.setData(dataBuffer);
+	irp.setLength(8);
+	irp.setOffset(offset);
+	usbPipe.syncSubmit(irp);
+	assert irp.isComplete() : "Irp is not complete!";
+    }
+
+    /**
+     * Writes a byte to the station
+     * 
+     * @param address
+     * @param data
+     */
+     void writeByteAddress(int address, byte data) throws Exception {
+
+	// prepare a control packet to request the read
+
+	byte[] command = { WRITE_COMMAND, // command
+		(byte) (address / 256), // address high
+		(byte) (address % 256), // address low
+		END_MARK, // end mark
+		WRITE_COMMAND, // command
+		data, 0, END_MARK, // end mark
+	};
+
+	this.writeCommand(command);
+	
+	byte[] reply=new byte[8];
+	this.readReplyPacket(reply, 0);
+	for (byte b: reply){
+	    assert b==0x65: "Invalid WH1080 Reply";
 	}
+	
+	log.debug("Command was processed OK");
 
-	log.trace("Read Address " + UsbUtil.toHexString(address) + ":" + UsbUtils.toHexString(dataBuffer, offset, 32));
+    }
+     
+    public synchronized void setSamplingTimeMinutes(byte num) throws Exception{
+	log.debug("Settign WH1080 sampling time to minutes: " + num + " minutes");
+	this.writeByteAddress(FixedMemoryBlock.SAMPLING_INTERVAL_SETTING_ADDRESS, num);
     }
 
     public synchronized HistoryDataEntry readHistoryDataEntry(int address) throws Exception {
@@ -180,7 +238,7 @@ public class WH1080Driver implements WeatherStation {
 
     public WeatherObservation readLastDataEntry() throws Exception {
 	this.readFixedMemoryBlock();
-	return this.readHistoryDataEntry(fmb.lastReadAddress()).getObservation();
+	return this.readHistoryDataEntry(fmb.lastCompletedEntryAddress()).getObservation();
     }
 
     public FixedMemoryBlock fmb() {
@@ -202,22 +260,23 @@ public class WH1080Driver implements WeatherStation {
 	@Override
 	public void run() {
 	    try {
-		EventBusService.publish(new WeatherObservationEvent(station,readLastDataEntry()));
+		EventBusService.publish(new WeatherObservationEvent(station, readLastDataEntry()));
 	    } catch (Exception e) {
 		log.error("Could not read weather from station.", e);
 	    }
 	}
 
     }
-    
-    private class InterfacePolicy implements UsbInterfacePolicy{ 
-	public boolean forceClaim(UsbInterface usbInterface){
+
+    private class InterfacePolicy implements UsbInterfacePolicy {
+	public boolean forceClaim(UsbInterface usbInterface) {
 	    return Configuration.getBooleanProperty(FORCE_CLAIM_CONFIG_OPTION);
 	}
     }
 
     /**
-     * Report that this module is a weather station, and only one is allowed in the system.
+     * Report that this module is a weather station, and only one is allowed in
+     * the system.
      */
     @Override
     public MODULE_TYPE getModuleType() {

@@ -19,6 +19,7 @@ import org.husio.weather.station.wh1080.WH1080Driver;
 import org.husio.weather.station.wh1080.WH1080Types;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -144,5 +145,6 @@ public class WH1080Test {
 	log.debug("The value for unsigned short "+UsbUtil.toHexString(" 0x", data)+" is: "+val);
 	assert val==32768:"Conversion Failed";
     }    
+    
     
 }

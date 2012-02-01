@@ -23,8 +23,13 @@ public class FixedMemoryBlock extends WH1080Types{
     // We are not interested in historic measures (min/max),
     // As those we will build in an station independent way.
     
-    private static final int SAMPLING_INTERVAL_SETTING_ADDRESS=0x10;
-    private static final int CURRENT_HISTORY_ENTRY_POINTER_ADDRESS=0x1E;
+    static final int SAMPLING_INTERVAL_SETTING_ADDRESS=0x10;
+    static final int CURRENT_HISTORY_ENTRY_POINTER_ADDRESS=0x1E;
+    
+    static final int FIRST_HISTORY_ENTRY_ADDRESS=0x100;
+    static final int LAST_HISTORY_ENTRY_ADDRESS=0x100;
+    static final int HISTORY_ENTRY_SIZE=0x10;
+
 
     
     /**
@@ -52,11 +57,16 @@ public class FixedMemoryBlock extends WH1080Types{
     
     
     /**
-     * Current memory block used by the station. Notes that it is a cycling memory,
+     * Last Completed Memory Block by the Station. Notes that it is a cycling memory with a min and max address,
+     * plus each entry has a certain size.
      * @return
      */
-    public int lastReadAddress(){
-	return readUnsignedShort(CURRENT_HISTORY_ENTRY_POINTER_ADDRESS);
+    public int lastCompletedEntryAddress(){
+	int ret;
+	int currentEntryAddress=readUnsignedShort(CURRENT_HISTORY_ENTRY_POINTER_ADDRESS);
+	if(currentEntryAddress==FIRST_HISTORY_ENTRY_ADDRESS) ret=LAST_HISTORY_ENTRY_ADDRESS;
+	else ret=currentEntryAddress-HISTORY_ENTRY_SIZE;
+	return ret;
     }
     
     /**
