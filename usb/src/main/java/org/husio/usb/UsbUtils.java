@@ -69,4 +69,13 @@ public class UsbUtils {
 	return ret;
     }
     
+    /**
+     * Converts and int into an unsigned byte
+     * @param i
+     * @return
+     */
+    public static byte intToUnsignedByte(int i){
+	return (byte) (i&0xFF);
+    }
+    
 }

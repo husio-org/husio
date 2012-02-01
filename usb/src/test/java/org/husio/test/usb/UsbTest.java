@@ -11,8 +11,10 @@ import javax.usb.UsbServices;
 import javax.usb.util.UsbUtil;
 
 import org.husio.Configuration;
+import org.husio.usb.UsbUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -152,6 +154,30 @@ public class UsbTest {
 	String productDesc=d.getProductString()!=null? d.getProductString() : "Unknown";
 	String serial=d.getSerialNumberString()!=null? d.getSerialNumberString() : "Unknown";
 	return "["+vendor+":"+product+"] "+manufacturer+" - "+productDesc+ " - S/N "+serial;
+    }
+    
+    @Test(enabled=true)
+    public void testIntToByte(){
+	int i=0xfe;
+	byte b=UsbUtils.intToUnsignedByte(i);
+	log.debug("The resulting byte is: "+UsbUtil.toHexString(b));
+	Assert.assertEquals(UsbUtil.toHexString(b), "fe");
+    }
+
+    @Test(enabled=true)
+    public void testIntToByte2(){
+	int i=0x01;
+	byte b=UsbUtils.intToUnsignedByte(i);
+	log.debug("The resulting byte is: "+UsbUtil.toHexString(b));
+	Assert.assertEquals(UsbUtil.toHexString(b), "01");
+    }
+
+    @Test(enabled=true)
+    public void testIntToByte3(){
+	int i=0xA0;
+	byte b=UsbUtils.intToUnsignedByte(i);
+	log.debug("The resulting byte is: "+UsbUtil.toHexString(b));
+	Assert.assertEquals(UsbUtil.toHexString(b), "a0");
     }
 
 }
