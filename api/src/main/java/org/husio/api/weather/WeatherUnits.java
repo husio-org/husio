@@ -4,6 +4,7 @@ package org.husio.api.weather;
 import javax.measure.quantity.Angle;
 import javax.measure.quantity.Dimensionless;
 import javax.measure.quantity.Duration;
+import javax.measure.quantity.Length;
 import javax.measure.quantity.Pressure;
 import javax.measure.quantity.Temperature;
 import javax.measure.quantity.Velocity;
@@ -55,5 +56,11 @@ public class WeatherUnits {
    
    /** Humidity: Percent of water */
    public static Unit<Dimensionless> PERCENT_WATER=NonSI.PERCENT;
+   
+   /** Rainfall: mm rainfall */
+   public static Unit<Length> MM_RAINFALL=SI.MILLIMETER;
+   
+   /** Rainfall: mm rainfall */
+   public static Unit<Length> INCH_RAINFALL=NonSI.INCH;
 
 }

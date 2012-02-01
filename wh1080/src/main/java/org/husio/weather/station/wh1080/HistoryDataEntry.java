@@ -6,6 +6,7 @@ import javax.measure.Measure;
 import javax.measure.quantity.Angle;
 import javax.measure.quantity.Dimensionless;
 import javax.measure.quantity.Duration;
+import javax.measure.quantity.Length;
 import javax.measure.quantity.Pressure;
 import javax.measure.quantity.Temperature;
 import javax.measure.quantity.Velocity;
@@ -37,9 +38,9 @@ public class HistoryDataEntry extends WH1080Types{
     private static final int RELATIVE_HUMIDITY_OUT_ADDRESS=0x4;
     private static final int TEMPERATURE_OUT_ADDRESS=0x5;
     private static final int ABSOLUTE_PRESURE_ADDRESS=0x7;
-    private static final int AVERAGE_WIND_SPEED_ADDRESS=0x9;
-    private static final int WIND_SPEED_GUST_ADDRESS=0xA;
-    private static final int WIND_SPEED_HIGH_ADDRESS=0xB;
+    private static final int AVERAGE_WIND_SPEED_LOW_BITS_ADDRESS=0x9;
+    private static final int GUST_WIND_SPEED_LOW_BITS_ADDRESS=0xA;
+    private static final int WIND_SPEED_HIGH_NYBBLE_ADDRESS=0xB;
     private static final int WIND_DIRECTION_ADDRESS=0xC;
     private static final int TOTAL_RAIN_ADDRESS_ADDRESS=0xD;
     private static final int STATUS_ADDRESS=0xF;
@@ -89,10 +90,10 @@ public class HistoryDataEntry extends WH1080Types{
 	measures.add(this.getAbsolutePressure());
 	measures.add(this.getIndoorRelativeHumidity());
 	measures.add(this.getOutdoorRelativeHumidity());
-	measures.add(this.getWindHigh());
 	measures.add(this.getAverageWind());
 	measures.add(this.getWindGust());
 	measures.add(this.getWindDirection());
+	measures.add(this.getTotalRainfall());
 	
 	// create the observation object
 	observation.setDuration(this.getDuration());
@@ -217,31 +218,20 @@ public class HistoryDataEntry extends WH1080Types{
     private ObservedWeatherMeasure<Velocity> getAverageWind(){
 	ObservedWeatherMeasure<Velocity>  ret=new ObservedWeatherMeasure<Velocity> ();
 	ret.setType(ObservedWeatherMeasure.TYPE.AVERAGE);	
-	if(!this.isValidByteMetric(AVERAGE_WIND_SPEED_ADDRESS)) ret.setValidMetric(false);
+	if(!this.isValidByteMetric(AVERAGE_WIND_SPEED_LOW_BITS_ADDRESS)) ret.setValidMetric(false);
 	else{
-	    int value=this.readUnsignedByte(AVERAGE_WIND_SPEED_ADDRESS);
+	    int value=this.readByteAndHalf(AVERAGE_WIND_SPEED_LOW_BITS_ADDRESS, WIND_SPEED_HIGH_NYBBLE_ADDRESS, false);
 	    ret.setMeasure(Measure.valueOf(value,WIND_UNIT));
 	}
 	return ret;
     }
     
-    private ObservedWeatherMeasure<Velocity>  getWindHigh(){
-	ObservedWeatherMeasure<Velocity>  ret=new ObservedWeatherMeasure<Velocity> ();
-	ret.setType(ObservedWeatherMeasure.TYPE.MAXIMUM);
-	if(!this.isValidByteMetric(WIND_SPEED_HIGH_ADDRESS)) ret.setValidMetric(false);
-	else{
-	    int value=this.readUnsignedByte(WIND_SPEED_HIGH_ADDRESS);
-	    ret.setMeasure(Measure.valueOf(value,WIND_UNIT));
-	}
-	return ret;
-    }
-    
-    private ObservedWeatherMeasure<Velocity>  getWindGust(){
+    private ObservedWeatherMeasure<Velocity> getWindGust(){
 	ObservedWeatherMeasure<Velocity>  ret=new ObservedWeatherMeasure<Velocity> ();
 	ret.setType(ObservedWeatherMeasure.TYPE.GUST);
-	if(!this.isValidByteMetric(WIND_SPEED_GUST_ADDRESS)) ret.setValidMetric(false);
+	if(!this.isValidByteMetric(GUST_WIND_SPEED_LOW_BITS_ADDRESS)) ret.setValidMetric(false);
 	else{
-	    int value=this.readUnsignedByte(WIND_SPEED_GUST_ADDRESS);
+	    int value=this.readByteAndHalf(GUST_WIND_SPEED_LOW_BITS_ADDRESS, WIND_SPEED_HIGH_NYBBLE_ADDRESS, true);
 	    ret.setMeasure(Measure.valueOf(value,WIND_UNIT));
 	}
 	return ret;
@@ -253,6 +243,17 @@ public class HistoryDataEntry extends WH1080Types{
 	else{
 	    int value=this.readUnsignedByte(WIND_DIRECTION_ADDRESS);
 	    ret.setMeasure(Measure.valueOf(value,WIND_DIRECTION_UNIT));
+	}
+	return ret;
+    }
+    
+    private ObservedWeatherMeasure<Length> getTotalRainfall(){
+	ObservedWeatherMeasure<Length>  ret=new ObservedWeatherMeasure<Length> ();
+	ret.setType(ObservedWeatherMeasure.TYPE.AGREGATED);
+	if(this.isBitSet(TOTAL_RAIN_ADDRESS_ADDRESS, 6))ret.setValidMetric(false);
+	else{
+	    int value=this.readUnsignedByte(TOTAL_RAIN_ADDRESS_ADDRESS);
+	    ret.setMeasure(Measure.valueOf(value,RAINFALL_UNIT));
 	}
 	return ret;
     }

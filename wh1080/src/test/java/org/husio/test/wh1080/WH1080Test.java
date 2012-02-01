@@ -147,4 +147,48 @@ public class WH1080Test {
     }    
     
     
+    @Test(enabled=true)
+    public void testNybbleHigh(){
+	byte[] data={
+		(byte) 0xAA,
+		(byte) 0x12
+	};
+	int result=WH1080Types.readByteAndHalf(data, 0, 1, true);
+	log.debug("The result is:"+UsbUtil.toHexString(result));
+	Assert.assertEquals(UsbUtil.toHexString(result), "000001aa");
+    }
+    
+    @Test(enabled=true)
+    public void testNybbleHigh2(){
+	byte[] data={
+		(byte) 0xFA,
+		(byte) 0x12
+	};
+	int result=WH1080Types.readByteAndHalf(data, 0, 1, true);
+	log.debug("The result is:"+UsbUtil.toHexString(result));
+	Assert.assertEquals(UsbUtil.toHexString(result), "000001fa");
+    }
+    
+    @Test(enabled=true)
+    public void testNybbleLow(){
+	byte[] data={
+		(byte) 0xAA,
+		(byte) 0x12
+	};
+	int result=WH1080Types.readByteAndHalf(data, 0, 1, false);
+	log.debug("The result is:"+UsbUtil.toHexString(result));
+	Assert.assertEquals(UsbUtil.toHexString(result), "000002aa");
+    }
+    
+    @Test(enabled=true)
+    public void testNybbleLow2(){
+	byte[] data={
+		(byte) 0xFA,
+		(byte) 0x12
+	};
+	int result=WH1080Types.readByteAndHalf(data, 0, 1, false);
+	log.debug("The result is:"+UsbUtil.toHexString(result));
+	Assert.assertEquals(UsbUtil.toHexString(result), "000002fa");
+    }
+    
 }

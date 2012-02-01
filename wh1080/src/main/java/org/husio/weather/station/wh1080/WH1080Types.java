@@ -3,6 +3,7 @@ package org.husio.weather.station.wh1080;
 import javax.measure.quantity.Angle;
 import javax.measure.quantity.Dimensionless;
 import javax.measure.quantity.Duration;
+import javax.measure.quantity.Length;
 import javax.measure.quantity.Pressure;
 import javax.measure.quantity.Temperature;
 import javax.measure.quantity.Velocity;
@@ -31,13 +32,16 @@ public abstract class WH1080Types {
     /** Temperature unit as stored in the station records*/
     public static final Unit<Temperature> TEMPERATURE_UNIT=WeatherUnits.CELSIUS.times(0.1);
     /** Wind speed unit as store in the station records */
-    public static final Unit<Velocity> WIND_UNIT=WeatherUnits.METERS_PER_SECOND.times(0.1);
+    public static final Unit<Velocity> WIND_UNIT=WeatherUnits.METERS_PER_SECOND.times(0.1).times(0.38);
     /** Wind direction unit as store in the station records */
     public static final Unit<Angle> WIND_DIRECTION_UNIT=WeatherUnits.DEGREES_FROM_NORTH.times(22.5);
     /** Absolute Pressure as store in the station records */
     public static final Unit<Pressure> PRESSURE_UNIT=WeatherUnits.HECTO_PASCAL.times(0.1);
     /** Humidity as stored in the station records*/
     public static final Unit<Dimensionless> HUMIDITY_UNIT=WeatherUnits.PERCENT_WATER;
+    
+    /** Rainfall as stored in the station records*/
+    public static final Unit<Length> RAINFALL_UNIT=WeatherUnits.MM_RAINFALL.times(0.3);
 
     /**
      * returns true is the bit number 0-7 is set in the passed byte.
@@ -137,7 +141,27 @@ public abstract class WH1080Types {
      */
     public boolean isValidShortMetric(int address){
 	return isValidByteMetric(address) && isValidByteMetric(address+1);
-    }    
+    }
+    
+    /**
+     * reads a byte and half, where the nibble is most significant. the nibble is storead 
+     * either on the half high bits (or lower) of a second byte
+     * @param data the array that has the data
+     * @param byte address the address where the data is stored
+     * @param nybble address where the nyble is stored
+     * @param isHighNibbleBits if the 4 nyble bigs are the most significant (or the less significant).
+     */
+    public static int readByteAndHalf(byte[] data, int byteAddress, int nybbleAddress, boolean isHighNybbleBits){
+	int ret=readUnsignedByte(data,byteAddress);
+	byte nybble;
+	if(isHighNybbleBits) nybble=(byte) ((data[nybbleAddress] & (byte) 0xF0)>>4);
+	else nybble=(byte) (data[nybbleAddress] & (byte) 0x0F);
+	return ret + (nybble << 8);
+    }
+    
+    public int readByteAndHalf(int byteAddress, int nybbleAddress, boolean isHighNybbleBits){
+	return readByteAndHalf(this.data(),byteAddress,nybbleAddress,isHighNybbleBits);
+    }
 
     /**
      * Enables access to WH1080 memory chunk

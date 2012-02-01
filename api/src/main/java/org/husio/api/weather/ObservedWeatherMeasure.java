@@ -35,7 +35,7 @@ public class ObservedWeatherMeasure<T extends Quantity> implements Serializable{
      * The type of measure that is been made.
      */
     public static enum TYPE {
-	DISCRETE, RAINFALL, MAXIMUM, AVERAGE, NIMIMUM, GUST, ABSOLUTE, RELATIVE, DEW
+	DISCRETE, AGREGATED, MAXIMUM, AVERAGE, NIMIMUM, GUST, ABSOLUTE, RELATIVE, DEW
     }
 
     private boolean isValidMetric = true;
@@ -119,6 +119,7 @@ public class ObservedWeatherMeasure<T extends Quantity> implements Serializable{
 	else if(d.equals(WeatherUnits.SECOND.getDimension())) return "Duration";
 	else if(d.equals(WeatherUnits.PERCENT_WATER.getDimension())) return "Humidity";
 	else if(d.equals(WeatherUnits.DEGREES_FROM_NORTH.getDimension())) return "Angle";
+	else if(d.equals(WeatherUnits.MM_RAINFALL.getDimension())) return "Legnth";
 	return d.toString();
     }
     
