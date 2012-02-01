@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.List;
 
 import javax.measure.Measure;
 import javax.measure.quantity.Duration;
@@ -101,18 +102,11 @@ public class WeatherPersistenceTest {
     
     @Test(groups="insert",dependsOnGroups = "init")
     public void insertRecord() throws SQLException{
+	log.debug("Inserting one obsercation in the test db");
 	WeatherObservation o=new WeatherObservation();
 	o.setDuration(Measure.valueOf(5, SI.SECOND));
 	o.setTimestamp(testObservationId);
-	WeatherObservationList wol=new WeatherObservationList();
-	ObservedWeatherMeasure<Temperature> m=new ObservedWeatherMeasure<Temperature>();
-	m.setMeasure(Measure.valueOf(-2,SI.CELSIUS));
-	m.setType(TYPE.AVERAGE);
-	wol.add(m);
-	ObservedWeatherMeasure<Pressure> m2=new ObservedWeatherMeasure<Pressure>();
-	m2.setMeasure(Measure.valueOf(1000,WeatherUnits.HECTO_PASCAL));
-	m2.setType(TYPE.ABSOLUTE);
-	wol.add(m2);
+	WeatherObservationList wol=this.getRandomWeatherObservationList();
 	o.setMeasures(wol);
 	testDao.create(o);
     }
@@ -123,10 +117,42 @@ public class WeatherPersistenceTest {
 	log.debug("Retrieved obsercation is:"+o);
     }
     
-    @Test(dependsOnGroups = "query")
+    @Test(groups="insertMany",dependsOnGroups = "init", invocationCount=20)
+    public void insertRecords() throws SQLException{
+	log.debug("Inserting one of 20 obsercation in the test db");
+	WeatherObservation o=new WeatherObservation();
+	o.setDuration(Measure.valueOf(5, SI.SECOND));
+	o.setTimestamp(new Date());
+	WeatherObservationList wol=this.getRandomWeatherObservationList();
+	o.setMeasures(wol);
+	testDao.create(o);
+    }
+    
+    @Test(groups="queryMany",dependsOnGroups = "insertMany")
+    public void retrieveRecords() throws SQLException{
+	List<WeatherObservation> list=testDao.queryForAll();
+	for(WeatherObservation o: list){
+		log.debug("Found obsercation:"+o);
+	}
+    }
+    
+    @Test(dependsOnGroups = "queryMany")
     public void closeDb() throws SQLException {
 	log.debug("Closing test db");
 	con.close();
+    }
+    
+    private WeatherObservationList getRandomWeatherObservationList(){
+	WeatherObservationList ret=new WeatherObservationList();
+	ObservedWeatherMeasure<Temperature> m=new ObservedWeatherMeasure<Temperature>();
+	m.setMeasure(Measure.valueOf(Math.random()*50-25,SI.CELSIUS));
+	m.setType(TYPE.AVERAGE);
+	ret.add(m);
+	ObservedWeatherMeasure<Pressure> m2=new ObservedWeatherMeasure<Pressure>();
+	m2.setMeasure(Measure.valueOf(Math.random()*100+900,WeatherUnits.HECTO_PASCAL));
+	m2.setType(TYPE.ABSOLUTE);
+	ret.add(m2);
+	return ret;
     }
 
 
