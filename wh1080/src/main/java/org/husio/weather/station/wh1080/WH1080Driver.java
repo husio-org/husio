@@ -201,11 +201,11 @@ public class WH1080Driver implements WeatherStation {
 
 	// prepare a control packet to request the read
 
-	byte[] command = { WRITE_COMMAND, // command
+	byte[] command = { WRITE_COMMAND_WORD, // command
 		(byte) (address / 256), // address high
 		(byte) (address % 256), // address low
 		END_MARK, // end mark
-		WRITE_COMMAND, // command
+		WRITE_COMMAND_WORD, // command
 		data, 0, END_MARK, // end mark
 	};
 
