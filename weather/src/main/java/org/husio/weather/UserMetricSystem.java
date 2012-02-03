@@ -21,10 +21,11 @@ public class UserMetricSystem extends SystemOfUnits{
     public UserMetricSystem(){
 	//TODO: Take from configutation
 	userUnits.add(WeatherUnits.CELSIUS);
-	userUnits.add(WeatherUnits.KNOT);
+	userUnits.add(WeatherUnits.METERS_PER_SECOND);
 	userUnits.add(WeatherUnits.HECTO_PASCAL);
 	userUnits.add(WeatherUnits.PERCENT_WATER);
 	userUnits.add(WeatherUnits.DEGREES_FROM_NORTH);
+	userUnits.add(WeatherUnits.MM_RAINFALL);
     }
 
     @Override
