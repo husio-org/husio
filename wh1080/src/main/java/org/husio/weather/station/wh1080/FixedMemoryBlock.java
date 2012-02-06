@@ -29,9 +29,8 @@ public class FixedMemoryBlock extends WH1080Types{
     
     static final int FIRST_HISTORY_ENTRY_ADDRESS=0x100;
     // documentation is not clear about the last address
-    // several opensource projects use contradicting information
-    // TODO: logs to see where the circular jump takes place. 
-    static final int LAST_HISTORY_ENTRY_ADDRESS=0x1FFF0;
+    // the following address has been checked empirically. 
+    static final int LAST_HISTORY_ENTRY_ADDRESS=0xFFF0;
     static final int HISTORY_ENTRY_SIZE=0x10;
     static final byte SETTING_HAS_CHANGED_VALUE=(byte) 0xaa;
     
