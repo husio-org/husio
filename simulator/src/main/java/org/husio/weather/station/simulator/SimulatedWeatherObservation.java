@@ -59,9 +59,9 @@ class SimulatedWeatherObservation{
 	wol.add(this.getSimulatedMeasure(ENVIRONMENT.INDOOR, TYPE.DISCRETE, WeatherUnits.PERCENT_WATER, 30, 50, 0.25));
 	wol.add(this.getSimulatedMeasure(ENVIRONMENT.OUTDOOR, TYPE.ABSOLUTE, WeatherUnits.HECTO_PASCAL, 920, 1080, 0.3));
 	wol.add(this.getSimulatedMeasure(ENVIRONMENT.OUTDOOR, TYPE.RELATIVE, WeatherUnits.HECTO_PASCAL, 920, 1080, 0.6));
-	wol.add(this.getSimulatedMeasure(ENVIRONMENT.OUTDOOR, TYPE.MAXIMUM, WeatherUnits.KNOT, 0, 35, 0.1));
+	wol.add(this.getSimulatedMeasure(ENVIRONMENT.OUTDOOR, TYPE.AVERAGE, WeatherUnits.KNOT, 0, 35, 0.1));
 	wol.add(this.getSimulatedMeasure(ENVIRONMENT.OUTDOOR, TYPE.GUST, WeatherUnits.KNOT, 0, 50, 0.1));
-	wol.add(this.getSimulatedMeasure(ENVIRONMENT.OUTDOOR, TYPE.AVERAGE, WeatherUnits.KNOT, 0, 30, 0.1));
+	wol.add(this.getSimulatedMeasure(ENVIRONMENT.OUTDOOR, TYPE.DISCRETE, WeatherUnits.DEGREES_FROM_NORTH, 0, 360, 0.15));
 	return wol;
     }
 
