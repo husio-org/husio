@@ -1,3 +1,16 @@
+Husio.views.mainToolbar = new Ext.Toolbar({
+    dock : 'top',
+    title: 'Husio',
+	ui: 'light', 
+	items:[
+	       {xtype: 'spacer'},
+	       {text: 'update', handler: function(){
+	    	   Ext.dispatch({controller: 'Weather', action: 'refreshCurrentWeather'});
+	    	   }
+	       }
+	]
+});
+
 Husio.views.MainPanel=Ext.extend(Ext.TabPanel,{
 	fullscreen: true,
 	cardSwitchAnimation: 'fade',
@@ -8,19 +21,7 @@ Husio.views.MainPanel=Ext.extend(Ext.TabPanel,{
             pack: 'center'
         }
     },
-	dockedItems: [{
-					xtype:'toolbar',
-					ui: 'light', 
-					dock: 'top', 
-					title:'Husio', 
-	            	items:[
-	            	       {xtype: 'spacer'},
-	            	       {text: 'update', handler: function(){
-	            	    	   Ext.dispatch({controller: 'Weather', action: 'refreshCurrentWeather'});
-	            	    	   }
-	            	       }
-	            	]
-		}],
+	dockedItems: [Husio.views.mainToolbar],
 	items: [
 	        Husio.views.weatherCarousel,
 	        {html: 'Power Information Comes Here', title: 'Power', iconCls: 'power'},

@@ -5,7 +5,8 @@
 Husio=new Ext.Application({
 	name: 'Husio',
 	launch: function(){
-		new Husio.views.MainPanel();
+		Husio.views.mainPanel=new Husio.views.MainPanel();
+				
 		console.log("Husio touch client started");
 	}
 });

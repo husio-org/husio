@@ -4,25 +4,25 @@
  */
 Husio.controllers.Weather=Ext.regController('Weather', {
 	
-	store: Ext.StoreMgr.get("CurrentWeatherStore"),
-	
+    ocws: Ext.StoreMgr.get("OutdoorCurrentWeatherStore"),
+    icws: Ext.StoreMgr.get("IndoorCurrentWeatherStore"),
+		
 	// Reloads current weather information
 	refreshCurrentWeather: function(){
 		console.log("reloading current weather");
-		this.store.load();
+		this.ocws.load();
+		this.icws.load();
 	},
 	
 	// Outdoor weater
 	outdoor: function(){
-		this.store.clearFilter();
-		this.store.filter("environment","OUTDOOR");
-		console.log("filtering to outdoor weather");
+		Husio.views.mainToolbar.setTitle("Outdoor Weather");
+		console.log("showing outdoor weather");
 	},
 	
 	indoor: function(){
-		this.store.clearFilter();
-		this.store.filter("environment","INDOOR");
-		console.log("filtering to indoor weather");
+		Husio.views.mainToolbar.setTitle("Indoor Weather");
+		console.log("showing indoor weather");
 	}
 });
 

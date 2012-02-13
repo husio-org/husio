@@ -3,7 +3,7 @@
  * The outdoor data template View
  */
 Husio.views.weatherOutdoorData=new Ext.DataView({
-    store: 'CurrentWeatherStore',
+    store: 'OutdoorCurrentWeatherStore',
     tpl: observationTpl,
     autoHeight:true,
     multiSelect: false,
@@ -20,7 +20,7 @@ Husio.views.weatherOutdoorData=new Ext.DataView({
  * The indoor data template view
  */
 Husio.views.weatherIndoorData=new Ext.DataView({
-    store: 'CurrentWeatherStore',
+    store: 'IndoorCurrentWeatherStore',
     tpl: observationTpl,
     autoHeight:true,
     multiSelect: false,
