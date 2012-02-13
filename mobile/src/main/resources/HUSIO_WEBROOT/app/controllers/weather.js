@@ -16,12 +16,12 @@ Husio.controllers.Weather=Ext.regController('Weather', {
 	
 	// Outdoor weater
 	outdoor: function(){
-		Husio.views.mainToolbar.setTitle("Outdoor Weather");
+		Husio.views.mainToolbar.setTitle("Outdoor");
 		console.log("showing outdoor weather");
 	},
 	
 	indoor: function(){
-		Husio.views.mainToolbar.setTitle("Indoor Weather");
+		Husio.views.mainToolbar.setTitle("Indoor");
 		console.log("showing indoor weather");
 	}
 });
