@@ -12,9 +12,12 @@ import javax.measure.quantity.Temperature;
 import javax.measure.quantity.Velocity;
 
 import org.husio.api.weather.ObservedWeatherMeasure;
+import org.husio.api.weather.ObservedWeatherMeasure.ENVIRONMENT;
+import org.husio.api.weather.ObservedWeatherMeasure.VARIANT;
 import org.husio.api.weather.WeatherObservation;
 import org.husio.api.weather.WeatherObservationList;
 import org.husio.api.weather.WeatherUnits;
+import org.husio.api.weather.ObservedWeatherMeasure.MEASUREMENT_TYPE;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -152,9 +155,7 @@ public class HistoryDataEntry extends WH1080Types {
      * @return the temperature or null if the station has not a valid metric
      */
     private ObservedWeatherMeasure<Temperature> getIndoorTemperature() {
-	ObservedWeatherMeasure<Temperature> ret = new ObservedWeatherMeasure<Temperature>();
-	ret.setType(ObservedWeatherMeasure.TYPE.DISCRETE);
-	ret.setEnvironment(ObservedWeatherMeasure.ENVIRONMENT.INDOOR);
+	ObservedWeatherMeasure<Temperature> ret = new ObservedWeatherMeasure<Temperature>(MEASUREMENT_TYPE.TEMPERATURE,ENVIRONMENT.INDOOR);
 	if (!this.isValidShortMetric(TEMPERATURE_IN_ADDRESS)) {
 	    ret.setValidMetric(false);
 	} else {
@@ -170,9 +171,7 @@ public class HistoryDataEntry extends WH1080Types {
      * @return the temperature or null if the station has not a valid metric
      */
     private ObservedWeatherMeasure<Temperature> getOutdoorTemperature() {
-	ObservedWeatherMeasure<Temperature> ret = new ObservedWeatherMeasure<Temperature>();
-	ret.setType(ObservedWeatherMeasure.TYPE.DISCRETE);
-	ret.setEnvironment(ObservedWeatherMeasure.ENVIRONMENT.OUTDOOR);
+	ObservedWeatherMeasure<Temperature> ret = new ObservedWeatherMeasure<Temperature>(MEASUREMENT_TYPE.TEMPERATURE);
 	if (!this.isValidShortMetric(TEMPERATURE_OUT_ADDRESS))
 	    ret.setValidMetric(false);
 	else {
@@ -186,9 +185,7 @@ public class HistoryDataEntry extends WH1080Types {
      * Returns the stored absolute pressure
      */
     private ObservedWeatherMeasure<Pressure> getAbsolutePressure() {
-	ObservedWeatherMeasure<Pressure> ret = new ObservedWeatherMeasure<Pressure>();
-	ret.setType(ObservedWeatherMeasure.TYPE.ABSOLUTE);
-	ret.setEnvironment(ObservedWeatherMeasure.ENVIRONMENT.OUTDOOR);
+	ObservedWeatherMeasure<Pressure> ret = new ObservedWeatherMeasure<Pressure>(MEASUREMENT_TYPE.PRESSURE,ENVIRONMENT.OUTDOOR,VARIANT.ABSOLUTE);
 	if (!this.isValidShortMetric(ABSOLUTE_PRESURE_ADDRESS))
 	    ret.setValidMetric(false);
 	else {
@@ -202,9 +199,7 @@ public class HistoryDataEntry extends WH1080Types {
      * Returns relative humidity outside
      */
     private ObservedWeatherMeasure<Dimensionless> getOutdoorRelativeHumidity() {
-	ObservedWeatherMeasure<Dimensionless> ret = new ObservedWeatherMeasure<Dimensionless>();
-	ret.setType(ObservedWeatherMeasure.TYPE.DISCRETE);
-	ret.setEnvironment(ObservedWeatherMeasure.ENVIRONMENT.OUTDOOR);
+	ObservedWeatherMeasure<Dimensionless> ret = new ObservedWeatherMeasure<Dimensionless>(MEASUREMENT_TYPE.HUMIDITY);
 	if (!this.isValidByteMetric(RELATIVE_HUMIDITY_OUT_ADDRESS))
 	    ret.setValidMetric(false);
 	else {
@@ -218,9 +213,7 @@ public class HistoryDataEntry extends WH1080Types {
      * Returns relative humidity outside
      */
     private ObservedWeatherMeasure<Dimensionless> getIndoorRelativeHumidity() {
-	ObservedWeatherMeasure<Dimensionless> ret = new ObservedWeatherMeasure<Dimensionless>();
-	ret.setType(ObservedWeatherMeasure.TYPE.DISCRETE);
-	ret.setEnvironment(ObservedWeatherMeasure.ENVIRONMENT.INDOOR);
+	ObservedWeatherMeasure<Dimensionless> ret = new ObservedWeatherMeasure<Dimensionless>(MEASUREMENT_TYPE.HUMIDITY,ENVIRONMENT.INDOOR);
 	if (!this.isValidByteMetric(RELATIVE_HUMIDITY_IN_ADDRESS))
 	    ret.setValidMetric(false);
 	else {
@@ -231,8 +224,7 @@ public class HistoryDataEntry extends WH1080Types {
     }
 
     private ObservedWeatherMeasure<Velocity> getAverageWind() {
-	ObservedWeatherMeasure<Velocity> ret = new ObservedWeatherMeasure<Velocity>();
-	ret.setType(ObservedWeatherMeasure.TYPE.AVERAGE);
+	ObservedWeatherMeasure<Velocity> ret = new ObservedWeatherMeasure<Velocity>(MEASUREMENT_TYPE.WIND_SPEED,ENVIRONMENT.OUTDOOR,VARIANT.AVERAGE);
 	if (!this.isValidByteMetric(AVERAGE_WIND_SPEED_LOW_BITS_ADDRESS))
 	    ret.setValidMetric(false);
 	else {
@@ -243,8 +235,7 @@ public class HistoryDataEntry extends WH1080Types {
     }
 
     private ObservedWeatherMeasure<Velocity> getWindGust() {
-	ObservedWeatherMeasure<Velocity> ret = new ObservedWeatherMeasure<Velocity>();
-	ret.setType(ObservedWeatherMeasure.TYPE.GUST);
+	ObservedWeatherMeasure<Velocity> ret = new ObservedWeatherMeasure<Velocity>(MEASUREMENT_TYPE.WIND_SPEED,ENVIRONMENT.OUTDOOR,VARIANT.GUST);
 	if (!this.isValidByteMetric(GUST_WIND_SPEED_LOW_BITS_ADDRESS))
 	    ret.setValidMetric(false);
 	else {
@@ -255,7 +246,7 @@ public class HistoryDataEntry extends WH1080Types {
     }
 
     private ObservedWeatherMeasure<Angle> getWindDirection() {
-	ObservedWeatherMeasure<Angle> ret = new ObservedWeatherMeasure<Angle>();
+	ObservedWeatherMeasure<Angle> ret = new ObservedWeatherMeasure<Angle>(MEASUREMENT_TYPE.WIND_DIRECTION);
 	if (this.isBitSet(WIND_DIRECTION_ADDRESS, 7))
 	    ret.setValidMetric(false);
 	else {
@@ -266,8 +257,7 @@ public class HistoryDataEntry extends WH1080Types {
     }
 
     private ObservedWeatherMeasure<Length> getTotalRainfall() {
-	ObservedWeatherMeasure<Length> ret = new ObservedWeatherMeasure<Length>();
-	ret.setType(ObservedWeatherMeasure.TYPE.AGREGATED);
+	ObservedWeatherMeasure<Length> ret = new ObservedWeatherMeasure<Length>(MEASUREMENT_TYPE.RAINFALL,ENVIRONMENT.OUTDOOR,VARIANT.AGREGATED);
 	if (this.isBitSet(STATUS_ADDRESS, 7))
 	    log.warn("The rain counter did overflow! set a smaller polling time"); //TODO: is that right? would that help?
 	else {

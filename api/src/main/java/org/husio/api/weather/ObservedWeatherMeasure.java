@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import javax.measure.Measure;
 import javax.measure.quantity.Quantity;
-import javax.measure.unit.Dimension;
 
 /**
  * 
@@ -30,35 +29,68 @@ public class ObservedWeatherMeasure<T extends Quantity> implements Serializable{
     /**
      * Type of measurement
      */
+    
+    public static enum MEASUREMENT_TYPE {
+	TEMPERATURE,PRESSURE,WIND_SPEED,WIND_DIRECTION,RAINFALL,HUMIDITY, DURATION
+    }
 
     /**
-     * The type of measure that is been made.
+     * The variant of measure that is been made: calculation applied, etc.
      */
-    public static enum TYPE {
+    public static enum VARIANT {
 	DISCRETE, AGREGATED, MAXIMUM, AVERAGE, NIMIMUM, GUST, ABSOLUTE, RELATIVE, DEW
     }
 
     private boolean isValidMetric = true;
+    
+    private MEASUREMENT_TYPE mtype;
 
     private ENVIRONMENT environment=ENVIRONMENT.OUTDOOR;
 
-    private TYPE type=TYPE.DISCRETE;
+    private VARIANT variant=VARIANT.DISCRETE;
 
     private Measure<T> measure;
     
     public ObservedWeatherMeasure() {
 
     }
-
-    public ObservedWeatherMeasure(ENVIRONMENT e, TYPE t) {
+    
+    public ObservedWeatherMeasure(MEASUREMENT_TYPE mt) {
+	this.mtype=mt;
+    }
+    
+    public ObservedWeatherMeasure(MEASUREMENT_TYPE mt, ENVIRONMENT e) {
+	this.mtype=mt;
 	this.environment = e;
-	this.type = t;
     }
 
-    public ObservedWeatherMeasure(ENVIRONMENT e, TYPE t, Measure<T> m) {
+    public ObservedWeatherMeasure(MEASUREMENT_TYPE mt, ENVIRONMENT e, VARIANT v) {
+	this.mtype=mt;
 	this.environment = e;
-	this.type = t;
+	this.variant = v;
+    }
+
+    public ObservedWeatherMeasure(MEASUREMENT_TYPE mt, ENVIRONMENT e, VARIANT v, Measure<T> m) {
+	this.mtype=mt;
+	this.environment = e;
+	this.variant = v;
 	this.measure = m;
+    }
+
+    public void setMtype(MEASUREMENT_TYPE mtype) {
+	this.mtype = mtype;
+    }
+
+    public MEASUREMENT_TYPE getMtype() {
+	return mtype;
+    }
+
+    public void setVariant(VARIANT variant) {
+	this.variant = variant;
+    }
+
+    public VARIANT getVariant() {
+	return variant;
     }
 
     public void setValidMetric(boolean isValidMetric) {
@@ -97,41 +129,6 @@ public class ObservedWeatherMeasure<T extends Quantity> implements Serializable{
 	return environment;
     }
 
-    public void setType(TYPE type) {
-	this.type = type;
-    }
-
-    public TYPE getType() {
-	return type;
-    }
-
-    /**
-     * Returns the cannonical name of the type used for the measure collection.
-     * That will be: Temperature, Pressure, etc.
-     * 
-     * @return
-     * @throws Exception
-     */
-    public static String getDimensionName(Dimension d) {
-	if(d.equals(WeatherUnits.CELSIUS.getDimension())) return "Temperature";
-	else if(d.equals(WeatherUnits.HECTO_PASCAL.getDimension())) return "Pressure";
-	else if(d.equals(WeatherUnits.METERS_PER_SECOND.getDimension())) return "Velocity";
-	else if(d.equals(WeatherUnits.SECOND.getDimension())) return "Duration";
-	else if(d.equals(WeatherUnits.PERCENT_WATER.getDimension())) return "Humidity";
-	else if(d.equals(WeatherUnits.DEGREES_FROM_NORTH.getDimension())) return "Angle";
-	else if(d.equals(WeatherUnits.MM_RAINFALL.getDimension())) return "Legnth";
-	return d.toString();
-    }
-    
-    /**
-     * Gets the dimension 
-     * @return
-     */
-    public String getDimensionName() {
-	return getDimensionName(measure.getUnit().getDimension());
-    }
-
-
     public String toString() {
 	String me = this.isValidMetric ? measure.toSI().toString() : "N/A";
 	return me;
@@ -144,8 +141,8 @@ public class ObservedWeatherMeasure<T extends Quantity> implements Serializable{
      * @param t the type of measurement
      * @return
      */
-    public static String getKey(Dimension d, ENVIRONMENT e, TYPE t){
-	return e.toString() +"_"+getDimensionName(d).toUpperCase() +"_" + t.toString();
+    public static String getKey(MEASUREMENT_TYPE mt, ENVIRONMENT e, VARIANT v){
+	return e.toString() +"_"+mt.toString() +"_" + v.toString();
     }
     
     /**
@@ -153,7 +150,7 @@ public class ObservedWeatherMeasure<T extends Quantity> implements Serializable{
      * @return
      */
     public String getKey(){
-	return getKey(this.measure.getUnit().getDimension(),this.environment,this.type);
+	return getKey(this.mtype,this.environment,this.variant);
     }
 
 }

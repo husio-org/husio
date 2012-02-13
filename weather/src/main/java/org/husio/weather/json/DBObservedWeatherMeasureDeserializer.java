@@ -12,8 +12,9 @@ import org.codehaus.jackson.JsonToken;
 import org.codehaus.jackson.map.DeserializationContext;
 import org.codehaus.jackson.map.deser.StdDeserializer;
 import org.husio.api.weather.ObservedWeatherMeasure;
+import org.husio.api.weather.ObservedWeatherMeasure.MEASUREMENT_TYPE;
 import org.husio.api.weather.ObservedWeatherMeasure.ENVIRONMENT;
-import org.husio.api.weather.ObservedWeatherMeasure.TYPE;
+import org.husio.api.weather.ObservedWeatherMeasure.VARIANT;
 
 @SuppressWarnings("rawtypes")
 public class DBObservedWeatherMeasureDeserializer extends StdDeserializer<ObservedWeatherMeasure> {
@@ -32,10 +33,12 @@ public class DBObservedWeatherMeasureDeserializer extends StdDeserializer<Observ
 	    String fieldName = jp.getCurrentName();
 	    // Let's move to value
 	    jp.nextToken();
-	    if (fieldName.equals("e")) {
+	    if (fieldName.equals("r")) {
+		result.setMtype(MEASUREMENT_TYPE.values()[jp.getIntValue()]);
+	    } else if (fieldName.equals("e")) {
 		result.setEnvironment(ENVIRONMENT.values()[jp.getIntValue()]);
-	    } else if (fieldName.equals("t")) {
-		result.setType(TYPE.values()[jp.getIntValue()]);
+	    } else if (fieldName.equals("r")) {
+		result.setVariant(VARIANT.values()[jp.getIntValue()]);
 	    } else if (fieldName.equals("v")) {
 		result.setValidMetric(jp.getIntValue()==1);
 	    } else if (fieldName.equals("m")) {

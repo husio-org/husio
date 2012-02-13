@@ -40,9 +40,9 @@ public class ObservedWeatherMeasureSerializer extends JsonSerializer<ObservedWea
     @Override
     public void serialize(ObservedWeatherMeasure value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException {
 	jgen.writeStartObject();
-	jgen.writeStringField("dimensionName",value.getDimensionName());
+	jgen.writeStringField("mtype",value.getMtype().toString());
 	jgen.writeStringField("environment",value.getEnvironment().toString());
-	jgen.writeStringField("type",value.getType().toString());
+	jgen.writeStringField("variant",value.getVariant().toString());
 	jgen.writeBooleanField("validMetric", value.isValidMetric());
 	Unit<?> u=userMetricSystem.getPreferredUnit(value.getMeasure().getUnit());
 	jgen.writeNumberField("measuredValue", value.getMeasure().to(u).getValue().floatValue());

@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Hashtable;
 
 import javax.measure.quantity.Quantity;
-import javax.measure.unit.Dimension;
 
 public class WeatherObservationTable extends Hashtable<String, ObservedWeatherMeasure<? extends Quantity>> implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -28,8 +27,8 @@ public class WeatherObservationTable extends Hashtable<String, ObservedWeatherMe
      *            the type
      * @return
      */
-    public ObservedWeatherMeasure<? extends Quantity> get(Dimension d, ObservedWeatherMeasure.ENVIRONMENT e, ObservedWeatherMeasure.TYPE t) {
-	String key = ObservedWeatherMeasure.getKey(d, e, t);
+    public ObservedWeatherMeasure<? extends Quantity> get(ObservedWeatherMeasure.MEASUREMENT_TYPE mt, ObservedWeatherMeasure.ENVIRONMENT e, ObservedWeatherMeasure.VARIANT t) {
+	String key = ObservedWeatherMeasure.getKey(mt, e, t);
 	return super.get(key);
     }
 

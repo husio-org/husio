@@ -20,7 +20,8 @@ import javax.measure.unit.format.SymbolMap;
 import org.husio.Configuration;
 import org.husio.api.weather.ObservedWeatherMeasure;
 import org.husio.api.weather.ObservedWeatherMeasure.ENVIRONMENT;
-import org.husio.api.weather.ObservedWeatherMeasure.TYPE;
+import org.husio.api.weather.ObservedWeatherMeasure.MEASUREMENT_TYPE;
+import org.husio.api.weather.ObservedWeatherMeasure.VARIANT;
 import org.husio.api.weather.WeatherUnits;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,8 +40,9 @@ public class ApiTest {
     public void measurementTest(){
 	log.debug("Testing Weather API: Measurement 1");
 	ObservedWeatherMeasure<Temperature> cwm=new ObservedWeatherMeasure<Temperature>();
+	cwm.setMtype(MEASUREMENT_TYPE.TEMPERATURE);
 	cwm.setEnvironment(ENVIRONMENT.INDOOR);
-	cwm.setType(TYPE.MAXIMUM);
+	cwm.setVariant(VARIANT.MAXIMUM);
 	cwm.setMeasure(Measure.valueOf(5, WeatherUnits.CELSIUS));
 	log.debug("The test measure is "+cwm);
     }
@@ -49,8 +51,9 @@ public class ApiTest {
     public void measurement2Test(){
 	log.debug("Testing Weather API: Measurement 2");
 	ObservedWeatherMeasure<Pressure> cwm=new ObservedWeatherMeasure<Pressure>();
+	cwm.setMtype(MEASUREMENT_TYPE.PRESSURE);
 	cwm.setEnvironment(ENVIRONMENT.OUTDOOR);
-	cwm.setType(TYPE.MAXIMUM);
+	cwm.setVariant(VARIANT.MAXIMUM);
 	cwm.setMeasure(Measure.valueOf(5, WeatherUnits.HECTO_PASCAL));
 	log.debug("The test measure is "+cwm);
     }
@@ -59,8 +62,9 @@ public class ApiTest {
     public void measurement3Test(){
 	log.debug("Testing Weather API: Measurement 3");
 	ObservedWeatherMeasure<Dimensionless> cwm=new ObservedWeatherMeasure<Dimensionless>();
+	cwm.setMtype(MEASUREMENT_TYPE.HUMIDITY);
 	cwm.setEnvironment(ENVIRONMENT.OUTDOOR);
-	cwm.setType(TYPE.MAXIMUM);
+	cwm.setVariant(VARIANT.MAXIMUM);
 	cwm.setMeasure(Measure.valueOf(5, WeatherUnits.PERCENT_WATER));
 	log.debug("The test measure is "+cwm);
     }
@@ -69,8 +73,9 @@ public class ApiTest {
     public void measurementCrossUnitTest(){
 	log.debug("Testing Weather API: Cross Unit Measurement 1");
 	ObservedWeatherMeasure<Pressure> cwm=new ObservedWeatherMeasure<Pressure>();
+	cwm.setMtype(MEASUREMENT_TYPE.PRESSURE);
 	cwm.setEnvironment(ENVIRONMENT.OUTDOOR);
-	cwm.setType(TYPE.MAXIMUM);
+	cwm.setVariant(VARIANT.MAXIMUM);
 	cwm.setMeasure(Measure.valueOf(105, NonSI.MILLIMETER_OF_MERCURY));
 	log.debug("The test measure is "+cwm);
     }

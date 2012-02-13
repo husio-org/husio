@@ -19,7 +19,7 @@ import org.husio.ormjson.JsonTypePersister;
  * @author rafael
  *
  */
-@DatabaseTable(tableName = "observations")
+@DatabaseTable(tableName = "raw_observations")
 public class WeatherObservation implements Serializable{
     
     private static final long serialVersionUID = 1L;

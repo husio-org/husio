@@ -21,7 +21,8 @@ import org.codehaus.jackson.map.module.SimpleModule;
 import org.husio.Configuration;
 import org.husio.HusioApplication;
 import org.husio.api.weather.ObservedWeatherMeasure;
-import org.husio.api.weather.ObservedWeatherMeasure.TYPE;
+import org.husio.api.weather.ObservedWeatherMeasure.MEASUREMENT_TYPE;
+import org.husio.api.weather.ObservedWeatherMeasure.VARIANT;
 import org.husio.api.weather.WeatherObservation;
 import org.husio.api.weather.WeatherObservationList;
 import org.husio.api.weather.WeatherUnits;
@@ -80,6 +81,7 @@ public class WeatherPersistenceTest {
 	mapper.registerModule(husioModule);
 
 	ObservedWeatherMeasure m=new ObservedWeatherMeasure<Duration>();
+	m.setMtype(MEASUREMENT_TYPE.PRESSURE);
 	m.setMeasure(Measure.valueOf(1, WeatherUnits.HECTO_PASCAL));
 	ByteArrayOutputStream bos = new ByteArrayOutputStream();
 	mapper.writeValue(bos, m);
@@ -145,12 +147,14 @@ public class WeatherPersistenceTest {
     private WeatherObservationList getRandomWeatherObservationList(){
 	WeatherObservationList ret=new WeatherObservationList();
 	ObservedWeatherMeasure<Temperature> m=new ObservedWeatherMeasure<Temperature>();
+	m.setMtype(MEASUREMENT_TYPE.TEMPERATURE);
 	m.setMeasure(Measure.valueOf(Math.random()*50-25,SI.CELSIUS));
-	m.setType(TYPE.AVERAGE);
+	m.setVariant(VARIANT.AVERAGE);
 	ret.add(m);
 	ObservedWeatherMeasure<Pressure> m2=new ObservedWeatherMeasure<Pressure>();
+	m2.setMtype(MEASUREMENT_TYPE.PRESSURE);
 	m2.setMeasure(Measure.valueOf(Math.random()*100+900,WeatherUnits.HECTO_PASCAL));
-	m2.setType(TYPE.ABSOLUTE);
+	m2.setVariant(VARIANT.ABSOLUTE);
 	ret.add(m2);
 	return ret;
     }

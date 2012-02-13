@@ -18,7 +18,8 @@ import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
 import org.husio.Configuration;
 import org.husio.api.weather.ObservedWeatherMeasure.ENVIRONMENT;
-import org.husio.api.weather.ObservedWeatherMeasure.TYPE;
+import org.husio.api.weather.ObservedWeatherMeasure.MEASUREMENT_TYPE;
+import org.husio.api.weather.ObservedWeatherMeasure.VARIANT;
 import org.husio.api.weather.WeatherCommunityService;
 import org.husio.api.weather.WeatherUnits;
 import org.husio.api.weather.evt.WeatherObservationEvent;
@@ -124,12 +125,12 @@ public class PwsDriver extends HTTPWeatherService implements WeatherCommunitySer
 	qparams.add(new BasicNameValuePair(PWS_DATE_PARAM, PWS_DATE_FORMAT.format(weather.getWeatherObservation().getTimestamp())));
 
 	// Add each of the weather observations
-	this.addMeasurement(qparams, weather, PWS_HUMIDITY_PARAM, PWS_HUMIDITY_UNIT, ENVIRONMENT.OUTDOOR, TYPE.DISCRETE);
-	this.addMeasurement(qparams, weather, PWS_PRESSURE_PARAM, PWS_PRESSURE_UNIT, ENVIRONMENT.OUTDOOR, TYPE.ABSOLUTE);
-	this.addMeasurement(qparams, weather, PWS_TEMPERATURE_PARAM, PWS_TEMPERATURE_UNIT, ENVIRONMENT.OUTDOOR, TYPE.DISCRETE);
-	this.addMeasurement(qparams, weather, PWS_WINDSPEED_PARAM, PWS_WINDSPEED_UNIT, ENVIRONMENT.OUTDOOR, TYPE.AVERAGE);
-	this.addMeasurement(qparams, weather, PWS_WINDGUST_PARAM, PWS_WINDGUST_UNIT, ENVIRONMENT.OUTDOOR, TYPE.GUST);
-	this.addMeasurement(qparams, weather, PWS_WINDDIR_PARAM, PWS_WINDDIR_UNIT, ENVIRONMENT.OUTDOOR, TYPE.DISCRETE);
+	this.addMeasurement(qparams, weather, PWS_HUMIDITY_PARAM, PWS_HUMIDITY_UNIT, MEASUREMENT_TYPE.HUMIDITY,ENVIRONMENT.OUTDOOR, VARIANT.DISCRETE);
+	this.addMeasurement(qparams, weather, PWS_PRESSURE_PARAM, PWS_PRESSURE_UNIT, MEASUREMENT_TYPE.PRESSURE, ENVIRONMENT.OUTDOOR, VARIANT.ABSOLUTE);
+	this.addMeasurement(qparams, weather, PWS_TEMPERATURE_PARAM, PWS_TEMPERATURE_UNIT, MEASUREMENT_TYPE.TEMPERATURE, ENVIRONMENT.OUTDOOR, VARIANT.DISCRETE);
+	this.addMeasurement(qparams, weather, PWS_WINDSPEED_PARAM, PWS_WINDSPEED_UNIT, MEASUREMENT_TYPE.WIND_SPEED, ENVIRONMENT.OUTDOOR, VARIANT.AVERAGE);
+	this.addMeasurement(qparams, weather, PWS_WINDGUST_PARAM, PWS_WINDGUST_UNIT, MEASUREMENT_TYPE.WIND_SPEED, ENVIRONMENT.OUTDOOR, VARIANT.GUST);
+	this.addMeasurement(qparams, weather, PWS_WINDDIR_PARAM, PWS_WINDDIR_UNIT, MEASUREMENT_TYPE.WIND_DIRECTION, ENVIRONMENT.OUTDOOR, VARIANT.DISCRETE);
 	
 	// Create the URI
 	URI uri = URIUtils.createURI("http",PWS_SERVER , -1, PWS_UPDATE_URL, 
