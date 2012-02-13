@@ -26,6 +26,7 @@ import org.codehaus.jackson.map.SerializationConfig;
 import org.husio.Configuration;
 import org.husio.HusioApplication;
 import org.husio.api.weather.ObservedWeatherMeasure;
+import org.husio.api.weather.ObservedWeatherMeasure.MEASUREMENT_TYPE;
 import org.husio.api.weather.WeatherUnits;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -145,8 +146,8 @@ public class OrmTest {
     }
     
     @Test
-    public void serializationWeatherObsercationTest() throws IOException, ClassNotFoundException{
-	ObservedWeatherMeasure<Temperature> owm=new ObservedWeatherMeasure<Temperature>();
+    public void serializationWeatherObservationTest() throws IOException, ClassNotFoundException{
+	ObservedWeatherMeasure<Temperature> owm=new ObservedWeatherMeasure<Temperature>(MEASUREMENT_TYPE.TEMPERATURE);
 	owm.setMeasure(Measure.valueOf(2, SI.CELSIUS));
 	ByteArrayOutputStream bos = new ByteArrayOutputStream();
 	ObjectOutputStream oos = new ObjectOutputStream(bos);
