@@ -33,7 +33,7 @@ public class DBObservedWeatherMeasureDeserializer extends StdDeserializer<Observ
 	    String fieldName = jp.getCurrentName();
 	    // Let's move to value
 	    jp.nextToken();
-	    if (fieldName.equals("r")) {
+	    if (fieldName.equals("t")) {
 		result.setMtype(MEASUREMENT_TYPE.values()[jp.getIntValue()]);
 	    } else if (fieldName.equals("e")) {
 		result.setEnvironment(ENVIRONMENT.values()[jp.getIntValue()]);
