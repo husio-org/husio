@@ -2,6 +2,7 @@ package org.husio.web.jetty;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,7 +11,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jetty.server.Request;
+import org.husio.api.weather.ObservedWeatherMeasure;
+import org.husio.api.weather.ObservedWeatherMeasure.ENVIRONMENT;
+import org.husio.api.weather.ObservedWeatherMeasure.MEASUREMENT_TYPE;
+import org.husio.api.weather.ObservedWeatherMeasure.VARIANT;
 import org.husio.api.weather.WeatherObservation;
+import org.husio.api.weather.WeatherObservationDataSeries;
+import org.husio.api.weather.WeatherObservationDataSeriesSpecification;
+import org.husio.api.weather.WeatherUnits;
+import org.husio.weather.chart.WeatherChartSpecs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,6 +39,7 @@ public class WeatherHistoryRequestHandler extends HusioRequestHandler {
 
     public WeatherHistoryRequestHandler() throws Exception {
 	observationDao = DaoManager.createDao(con, WeatherObservation.class);
+	List<WeatherObservationDataSeriesSpecification> chartSpec=new ArrayList<WeatherObservationDataSeriesSpecification>();	
     }
 
     @Override
@@ -41,9 +51,10 @@ public class WeatherHistoryRequestHandler extends HusioRequestHandler {
     private void handleHistory(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response) throws ServletException {
 	HQUERY_TERM term = HQUERY_TERM.ALL;
 	try {
-	    List<WeatherObservation> result = observationDao.queryForAll();
+	    List<WeatherObservation> observations = observationDao.queryForAll();
 	    response.setContentType("application/json");
-	    mapper.writeValue(response.getWriter(), result);
+	    WeatherObservationDataSeries chart=WeatherObservationDataSeries.createFrom(observations, WeatherChartSpecs.outdorTemperature());
+	    mapper.writeValue(response.getWriter(), chart);
 	    response.setStatus(HttpServletResponse.SC_OK);
 	} catch (Exception e) {
 	    log.error("Could not serve weather history", e);
@@ -52,5 +63,6 @@ public class WeatherHistoryRequestHandler extends HusioRequestHandler {
 
 	((Request) request).setHandled(true);
     }
+    
 
 }
