@@ -4,7 +4,7 @@ Husio.views.mainToolbar = new Ext.Toolbar({
 	ui: 'light', 
 	items:[
 	       {xtype: 'spacer'},
-	       {text: 'update', handler: function(){
+	       {xtype: 'button', iconMask: true, iconCls: 'refresh', handler: function(){
 	    	   Ext.dispatch({controller: 'Weather', action: 'refreshCurrentWeather'});
 	    	   }
 	       }
