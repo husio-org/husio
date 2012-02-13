@@ -25,15 +25,15 @@ import org.slf4j.LoggerFactory;
 import com.adamtaft.eb.EventBusService;
 import com.adamtaft.eb.EventHandler;
 
-public class RequestHandler extends AbstractHandler {
+public class CurrentWeatherRequestHandler extends AbstractHandler {
     
     
     private WeatherObservationEvent lastObservation;
     private ObjectMapper mapper = new ObjectMapper();
     
-    private static final Logger log = LoggerFactory.getLogger(RequestHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(CurrentWeatherRequestHandler.class);
     
-    RequestHandler(){
+    CurrentWeatherRequestHandler(){
 	mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 	mapper.configure(SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS, false);
 	SimpleModule husioModule = new SimpleModule("Husio", new Version(1, 0, 0, null));

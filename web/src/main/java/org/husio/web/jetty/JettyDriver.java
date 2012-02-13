@@ -38,7 +38,7 @@ public class JettyDriver implements WebServer {
 
 	staticHandler.setResourceBase(rb);
 	HandlerList handlers = new HandlerList();
-        handlers.setHandlers(new Handler[] { staticHandler, new RequestHandler() });
+        handlers.setHandlers(new Handler[] { staticHandler, new CurrentWeatherRequestHandler() });
 
         server.setHandler(handlers);
 
