@@ -25,7 +25,7 @@ public class JettyDriver implements WebServer {
     
     private Server server;
 
-    public JettyDriver(){
+    public JettyDriver() throws Exception{
 	int port=Configuration.getIntProperty(PORT_CONF_PARAM);
 	log.info("Initializing Jetty Webserver on port."+port);
 	server = new Server(port);
@@ -38,7 +38,7 @@ public class JettyDriver implements WebServer {
 
 	staticHandler.setResourceBase(rb);
 	HandlerList handlers = new HandlerList();
-        handlers.setHandlers(new Handler[] { staticHandler, new CurrentWeatherRequestHandler() });
+        handlers.setHandlers(new Handler[] { staticHandler, new CurrentWeatherRequestHandler(), new WeatherHistoryRequestHandler() });
 
         server.setHandler(handlers);
 
