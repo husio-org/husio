@@ -4,7 +4,7 @@
  */
 Husio.views.weatherOutdoorData=new Ext.DataView({
     store: 'OutdoorCurrentWeatherStore',
-    tpl: observationTpl,
+    tpl: Husio.views.observationTpl,
     autoHeight:true,
     multiSelect: false,
     itemSelector:'div.thumb-wrap',
@@ -21,7 +21,7 @@ Husio.views.weatherOutdoorData=new Ext.DataView({
  */
 Husio.views.weatherIndoorData=new Ext.DataView({
     store: 'IndoorCurrentWeatherStore',
-    tpl: observationTpl,
+    tpl: Husio.views.observationTpl,
     autoHeight:true,
     multiSelect: false,
     itemSelector:'div.thumb-wrap',
@@ -29,6 +29,40 @@ Husio.views.weatherIndoorData=new Ext.DataView({
     listeners:{
         activate: function(){
 	    	Ext.dispatch({controller: 'Weather', action: 'indoor'});
+		}		
+     }
+});
+
+
+Husio.views.historyChart=new Ext.chart.Chart({
+    cls: 'line1',
+    theme: 'Demo',
+    animate: true,
+    insetPadding: 25,
+    store: Ext.StoreMgr.get("WeatherHistoryStore"),
+    axes: [{
+        type: 'Numeric',
+        position: 'left',
+        title: 'Temperature',
+        fields: ['temp']
+    }, {
+        type: 'Category',
+        position: 'bottom',
+        fields: ['date'],
+        dateFormat: 'U'
+    }],
+    series: [{
+        type: 'line',
+        xField: 'date',
+        yField: 'temp',
+        showMarkers: false,
+        lineWith: 1,
+        axis: 'left',
+        smooth: true
+    }],
+    listeners:{
+        activate: function(){
+	    	Ext.dispatch({controller: 'Weather', action: 'history'});
 		}		
      }
 });
@@ -43,27 +77,5 @@ Husio.views.weatherCarousel = new Ext.Carousel({
     defaults: {
         cls: 'card'
     },
-    items: [Husio.views.weatherOutdoorData,Husio.views.weatherIndoorData,
-    {
-        xtype: 'chart',
-        animate: 'true',
-        store: 'CurrentWeatherStore',
-        flex: 1,
-        insetPadding: 25,
-        axes: [{
-            type: 'gauge',
-            position: 'gauge',
-            minimum: 0,
-            maximum: 100,
-            steps: 10,
-            margin: 7
-        }],
-        series: [{
-            type: 'gauge',
-            field: 'measuredValue',
-            donut: 30,
-            colorSet: ['#82B525', '#ddd']
-        }]
-    }
-    ]
+    items: [Husio.views.weatherOutdoorData,Husio.views.weatherIndoorData,Husio.views.historyChart]
 });

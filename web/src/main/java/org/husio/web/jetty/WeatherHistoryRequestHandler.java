@@ -20,11 +20,14 @@ import org.husio.api.weather.WeatherObservationDataSeries;
 import org.husio.api.weather.WeatherObservationDataSeriesSpecification;
 import org.husio.api.weather.WeatherUnits;
 import org.husio.weather.chart.WeatherChartSpecs;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
 
 public class WeatherHistoryRequestHandler extends HusioRequestHandler {
 
@@ -51,7 +54,10 @@ public class WeatherHistoryRequestHandler extends HusioRequestHandler {
     private void handleHistory(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response) throws ServletException {
 	HQUERY_TERM term = HQUERY_TERM.ALL;
 	try {
-	    List<WeatherObservation> observations = observationDao.queryForAll();
+	    DateTime dt=new DateTime();
+	    QueryBuilder <WeatherObservation,Date> qb=observationDao.queryBuilder();
+	    PreparedQuery<WeatherObservation> query=qb.where().ge("timeStamp",dt.minusHours(1).toDate()).prepare();
+	    List<WeatherObservation> observations = observationDao.query(query);
 	    response.setContentType("application/json");
 	    WeatherObservationDataSeries chart=WeatherObservationDataSeries.createFrom(observations, WeatherChartSpecs.outdorTemperature());
 	    mapper.writeValue(response.getWriter(), chart);

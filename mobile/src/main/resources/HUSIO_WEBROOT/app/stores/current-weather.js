@@ -1,7 +1,7 @@
 /**
  * The Indoor Current Weather Store
  */
-Husio.stores.IndoorCurrentWeatherStore=Ext.regStore('IndoorCurrentWeatherStore',{
+Ext.regStore('IndoorCurrentWeatherStore',{
     model: 'WeatherObservation',
     proxy: {
         type: 'rest',
@@ -23,7 +23,7 @@ Husio.stores.IndoorCurrentWeatherStore=Ext.regStore('IndoorCurrentWeatherStore',
 /**
  * The Indoor Current Weather Store
  */
-Husio.stores.OutdoorCurrentWeatherStore=Ext.regStore('OutdoorCurrentWeatherStore',{
+Ext.regStore('OutdoorCurrentWeatherStore',{
     model: 'WeatherObservation',
     proxy: {
         type: 'rest',

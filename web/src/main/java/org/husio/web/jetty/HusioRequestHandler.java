@@ -1,5 +1,7 @@
 package org.husio.web.jetty;
 
+import java.text.SimpleDateFormat;
+
 import org.codehaus.jackson.Version;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -23,6 +25,7 @@ public abstract class HusioRequestHandler extends AbstractHandler {
 	// Default Mapping Settings
 	mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 	mapper.configure(SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS, false);
+	mapper.getSerializationConfig().setDateFormat(new  SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ"));
 	SimpleModule husioModule = new SimpleModule("Husio", new Version(1, 0, 0, null));
 	husioModule.addSerializer(new ObservedWeatherMeasureSerializer());
 	husioModule.addSerializer(new WeatherObservationSerializer());
