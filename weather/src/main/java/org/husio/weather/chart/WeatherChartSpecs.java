@@ -22,7 +22,7 @@ public class WeatherChartSpecs {
      * Just one simple chart, outdoor temperature
      * @return
      */
-    public static List<WeatherObservationDataSeriesSpecification> outdorTemperature(){
+    public static List<WeatherObservationDataSeriesSpecification> outdorHistory(){
 	List<WeatherObservationDataSeriesSpecification> ret=new ArrayList<WeatherObservationDataSeriesSpecification>();
 	String key;
 	
@@ -30,6 +30,8 @@ public class WeatherChartSpecs {
 	key=ObservedWeatherMeasure.getKey(MEASUREMENT_TYPE.TEMPERATURE, ENVIRONMENT.OUTDOOR, VARIANT.DISCRETE);	
 	ret.add(new WeatherObservationDataSeriesSpecification("temp", key, WeatherUnits.CELSIUS));
 	
+	key=ObservedWeatherMeasure.getKey(MEASUREMENT_TYPE.PRESSURE, ENVIRONMENT.OUTDOOR, VARIANT.ABSOLUTE);	
+	ret.add(new WeatherObservationDataSeriesSpecification("press", key, WeatherUnits.HECTO_PASCAL));
 	
 	return ret;
     }

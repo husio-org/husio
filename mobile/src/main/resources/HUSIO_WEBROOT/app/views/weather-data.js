@@ -40,24 +40,55 @@ Husio.views.historyChart=new Ext.chart.Chart({
     animate: true,
     insetPadding: 25,
     store: Ext.StoreMgr.get("WeatherHistoryStore"),
+    legend: {
+        position: {
+            portrait: 'right',
+            landscape: 'top'
+        },
+        labelFont: '17px Arial'
+    },
     axes: [{
         type: 'Numeric',
         position: 'left',
-        title: 'Temperature',
+        title: 'Centigrades',
         fields: ['temp']
+    },{
+        type: 'Numeric',
+        position: 'right',
+        title: 'Hecto Pascal',
+        fields: ['press']
     }, {
         type: 'Category',
         position: 'bottom',
         fields: ['date'],
-        dateFormat: 'U'
+        dateFormat: 'U',
+        label : {
+            renderer : function(val) {
+                return val.format("G:i");
+            },
+            rotate: {
+                degrees: 45
+            }
+        },
     }],
     series: [{
+        title: 'Temperature',
         type: 'line',
         xField: 'date',
         yField: 'temp',
         showMarkers: false,
+        fill: true,
         lineWith: 1,
         axis: 'left',
+        smooth: true
+    },{
+    	title: 'Pressure',
+        type: 'line',
+        xField: 'date',
+        yField: 'press',
+        showMarkers: false,
+        lineWith: 1,
+        axis: 'right',
         smooth: true
     }],
     listeners:{
@@ -77,5 +108,5 @@ Husio.views.weatherCarousel = new Ext.Carousel({
     defaults: {
         cls: 'card'
     },
-    items: [Husio.views.weatherOutdoorData,Husio.views.weatherIndoorData,Husio.views.historyChart]
+    items: [Husio.views.historyChart,Husio.views.weatherOutdoorData,Husio.views.weatherIndoorData]
 });

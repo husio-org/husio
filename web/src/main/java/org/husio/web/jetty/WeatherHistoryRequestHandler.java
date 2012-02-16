@@ -59,7 +59,7 @@ public class WeatherHistoryRequestHandler extends HusioRequestHandler {
 	    PreparedQuery<WeatherObservation> query=qb.where().ge("timeStamp",dt.minusDays(1).toDate()).prepare();
 	    List<WeatherObservation> observations = observationDao.query(query);
 	    response.setContentType("application/json");
-	    WeatherObservationDataSeries chart=WeatherObservationDataSeries.createFrom(observations, WeatherChartSpecs.outdorTemperature());
+	    WeatherObservationDataSeries chart=WeatherObservationDataSeries.createFrom(observations, WeatherChartSpecs.outdorHistory());
 	    mapper.writeValue(response.getWriter(), chart);
 	    response.setStatus(HttpServletResponse.SC_OK);
 	} catch (Exception e) {
