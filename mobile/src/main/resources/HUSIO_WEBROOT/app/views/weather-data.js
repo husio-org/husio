@@ -7,6 +7,7 @@ Husio.views.weatherOutdoorData=new Ext.DataView({
     tpl: Husio.views.observationTpl,
     autoHeight:true,
     multiSelect: false,
+    scroll:false,
     itemSelector:'div.thumb-wrap',
     emptyText: 'No data to display',
     listeners:{
@@ -24,6 +25,7 @@ Husio.views.weatherIndoorData=new Ext.DataView({
     tpl: Husio.views.observationTpl,
     autoHeight:true,
     multiSelect: false,
+    scroll:false,
     itemSelector:'div.thumb-wrap',
     emptyText: 'No data to display',
     listeners:{
