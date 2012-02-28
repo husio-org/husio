@@ -152,10 +152,10 @@ Husio.views.windHC=new Ext.chart.Chart({
         },
         xField: 'date',
         yField: 'windGust',
-        //showMarkers: false,
+        showMarkers: false,
         lineWith: 0,
         axis: 'right',
-        smooth: false
+        smooth: true
     }],
     listeners:{
         activate: function(){
