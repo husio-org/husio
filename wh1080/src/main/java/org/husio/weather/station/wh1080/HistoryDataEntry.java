@@ -73,18 +73,26 @@ public class HistoryDataEntry extends WH1080Types {
      * The station this entry belongs to
      */
     private WH1080Driver station;
-
+    
+    /**
+     * The previous history entry
+     */
+    private HistoryDataEntry previousEntry;
+    
     /**
      * Reads a new history data entry at the given address. it checks that the
      * address is within range and aligned according to the specification.
+     * The previous entry is used to workout the actual rain measured during this time interval, as the 
+     * WH1080 records accumulated rain.
      * 
      * @param a
      */
-    HistoryDataEntry(int a, WH1080Driver s) throws Exception {
+    HistoryDataEntry(int a, WH1080Driver s, HistoryDataEntry previousEntry) throws Exception {
 	assert 0x100 <= a & a <= 0x01FFFF : "Histroy data entry address out of range";
 	assert a % 0x10 == 0 : "History data entry is invalid, not aligned. You may need to restart your WH1080 station.";
 	this.address = a;
 	this.station = s;
+	this.previousEntry=previousEntry;
 	this.data = new byte[32]; // the station can't read less that 32, we
 				  // ignore the other 32
 
@@ -103,7 +111,7 @@ public class HistoryDataEntry extends WH1080Types {
 	    measures.add(this.getAverageWind());
 	    measures.add(this.getWindGust());
 	    measures.add(this.getWindDirection());
-	    measures.add(this.getTotalRainfall());
+	    if(previousEntry!=null) measures.add(this.getTotalRainfall());
 	}
 
 	// create the observation object
@@ -261,7 +269,9 @@ public class HistoryDataEntry extends WH1080Types {
 	if (this.isBitSet(STATUS_ADDRESS, 7))
 	    log.warn("The rain counter did overflow! set a smaller polling time"); //TODO: is that right? would that help?
 	else {
-	    int value = this.readUnsignedShort(TOTAL_RAIN_ADDRESS_ADDRESS);
+	    int previousValue=this.previousEntry.readUnsignedShort(TOTAL_RAIN_ADDRESS_ADDRESS);
+	    int currentValue = this.readUnsignedShort(TOTAL_RAIN_ADDRESS_ADDRESS);
+	    int value=currentValue-previousValue;
 	    ret.setMeasure(Measure.valueOf(value, RAINFALL_UNIT));
 	}
 	return ret;

@@ -67,6 +67,7 @@ public class WH1080Driver implements WeatherStation {
     private Timer timer;
     private WeatherStation station;
     private int lastReadAddress=0;
+    private HistoryDataEntry lastHistoryEntry;
 
     /**
      * Will find the station in the USB bus.
@@ -237,7 +238,9 @@ public class WH1080Driver implements WeatherStation {
 	log.debug("Reading history data entry at address: " + UsbUtil.toHexString(address));
 	if (this.lastReadAddress==address) log.warn("Reading the same block twice, synchronization issue?");
 	else this.lastReadAddress=address;
-	return new HistoryDataEntry(address, this);
+	HistoryDataEntry ret= new HistoryDataEntry(address, this, this.lastHistoryEntry);
+	this.lastHistoryEntry=ret;
+	return ret;
     }
 
     public synchronized FixedMemoryBlock readFixedMemoryBlock() throws Exception {
