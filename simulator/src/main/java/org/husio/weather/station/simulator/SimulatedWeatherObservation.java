@@ -63,6 +63,7 @@ class SimulatedWeatherObservation{
 	wol.add(this.getSimulatedMeasure(MEASUREMENT_TYPE.WIND_SPEED, ENVIRONMENT.OUTDOOR, VARIANT.AVERAGE, WeatherUnits.KNOT, 0, 35, 0.1));
 	wol.add(this.getSimulatedMeasure(MEASUREMENT_TYPE.WIND_SPEED, ENVIRONMENT.OUTDOOR, VARIANT.GUST, WeatherUnits.KNOT, 0, 50, 0.1));
 	wol.add(this.getSimulatedMeasure(MEASUREMENT_TYPE.WIND_DIRECTION, ENVIRONMENT.OUTDOOR, VARIANT.DISCRETE, WeatherUnits.DEGREES_FROM_NORTH, 0, 360, 0.15));
+	wol.add(this.getSimulatedMeasure(MEASUREMENT_TYPE.RAINFALL, ENVIRONMENT.OUTDOOR, VARIANT.AGREGATED, WeatherUnits.MM_RAINFALL, 0, 10, 0.15));
 	return wol;
     }
 

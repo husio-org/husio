@@ -7,6 +7,9 @@ Husio.models.WeatherHistoryEntry=Ext.regModel('WeatherHistoryEntry', {
         {name: 'date', type: 'date', dateFormat:'c'},
         {name: 'duration', type: 'float'},
         {name: 'temp', type: 'float'},
-        {name: 'press', type: 'float'}
+        {name: 'press', type: 'float'},
+        {name: 'rain', type: 'float'},
+        {name: 'wind', type: 'float'},
+        {name: 'windGust', type: 'float'}
     ]
 });

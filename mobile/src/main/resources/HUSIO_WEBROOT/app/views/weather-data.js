@@ -35,8 +35,7 @@ Husio.views.weatherIndoorData=new Ext.DataView({
      }
 });
 
-
-Husio.views.historyChart=new Ext.chart.Chart({
+Husio.views.pressureTempHC=new Ext.chart.Chart({
     cls: 'line1',
     theme: 'Demo',
     animate: true,
@@ -100,6 +99,122 @@ Husio.views.historyChart=new Ext.chart.Chart({
      }
 });
 
+Husio.views.windHC=new Ext.chart.Chart({
+    cls: 'line1',
+    theme: 'Demo',
+    animate: true,
+    insetPadding: 25,
+    store: Ext.StoreMgr.get("WeatherHistoryStore"),
+    legend: {
+        position: {
+            portrait: 'right',
+            landscape: 'top'
+        },
+        labelFont: '17px Arial'
+    },
+    axes: [{
+        type: 'Numeric',
+        position: 'right',
+        title: 'Knots',
+        fields: ['wind','windGust']
+    }, {
+        type: 'Category',
+        position: 'bottom',
+        fields: ['date'],
+        dateFormat: 'U',
+        label : {
+            renderer : function(val) {
+                return val.format("G:i");
+            },
+            rotate: {
+                degrees: 45
+            }
+        },
+    }],
+    series: [{
+        title: 'Wind',
+        type: 'line',
+        xField: 'date',
+        yField: 'wind',
+        showMarkers: false,
+        fill: true,
+        lineWith: 1,
+        axis: 'right',
+        smooth: true
+    },{
+    	title: 'Gust',
+        //type: 'scatter',
+        type: 'line',
+        markerConfig: {
+        	type:"cross",
+            radius: 5,
+            size: 5
+        },
+        xField: 'date',
+        yField: 'windGust',
+        //showMarkers: false,
+        lineWith: 0,
+        axis: 'right',
+        smooth: false
+    }],
+    listeners:{
+        activate: function(){
+	    	Ext.dispatch({controller: 'Weather', action: 'history'});
+		}		
+     }
+});
+
+Husio.views.rainHC=new Ext.chart.Chart({
+    cls: 'line1',
+    theme: 'Demo',
+    animate: true,
+    insetPadding: 25,
+    store: Ext.StoreMgr.get("WeatherHistoryStore"),
+    legend: {
+        position: {
+            portrait: 'right',
+            landscape: 'top'
+        },
+        labelFont: '17px Arial'
+    },
+    axes: [{
+        type: 'Numeric',
+        position: 'right',
+        title: 'Millimiters',
+        fields: ['rain']
+    }, {
+        type: 'Category',
+        position: 'bottom',
+        fields: ['date'],
+        dateFormat: 'U',
+        label : {
+            renderer : function(val) {
+                return val.format("G:i");
+            },
+            rotate: {
+                degrees: 45
+            }
+        },
+    }],
+    series: [{
+        title: 'Rainfall',
+        type: 'column',
+        xField: 'date',
+        yField: 'rain',
+        showMarkers: false,
+        fill: true,
+        lineWith: 1,
+        axis: 'left',
+        smooth: true
+    }],
+    listeners:{
+        activate: function(){
+	    	Ext.dispatch({controller: 'Weather', action: 'history'});
+		}		
+     }
+});
+
+
 
 /**
  * The weather views carousel
@@ -110,5 +225,5 @@ Husio.views.weatherCarousel = new Ext.Carousel({
     defaults: {
         cls: 'card'
     },
-    items: [Husio.views.historyChart,Husio.views.weatherOutdoorData,Husio.views.weatherIndoorData]
+    items: [Husio.views.weatherOutdoorData,Husio.views.weatherIndoorData,Husio.views.pressureTempHC,Husio.views.rainHC,Husio.views.windHC]
 });
